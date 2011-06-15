@@ -6,7 +6,7 @@ module Microformats2
   VERSION = "1.0.0"
 
   def self.parse(html)
-    raise LoadError unless html.is_a?(String)
+    raise LoadError unless [String, File].include?(html.class)
     doc = Nokogiri::HTML(html)
     microformats = Hash.new{|hash, key| hash[key] = Array.new}
     doc.css("*[class^=h-]").each do |microformat|

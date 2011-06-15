@@ -7,6 +7,12 @@ class TestMicroformats2 < Test::Unit::TestCase
       Microformats2.parse("A String")
     end
   end
+  
+  def test_acceptence_of_file
+    assert_nothing_raised Microformats2::LoadError do
+      Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "hcard.html")))
+    end
+  end
 
   def test_throw_exception_on_non_string_params
     assert_raise Microformats2::LoadError do
@@ -14,9 +20,9 @@ class TestMicroformats2 < Test::Unit::TestCase
     end
   end
 
-  def test_returns_array_of_microformat_objects
+  def test_returns_hash_of_microformat_objects
     result = Microformats2.parse("A String")
-    assert_equal Array, result.class
+    assert_equal Hash, result.class
   end
 
   def test_only_parse_microformats
@@ -43,7 +49,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </html>
     END
     result = Microformats2.parse(hcard)
-    assert_equal HCard, result.first.class
+    assert_equal HCard, result[:hcard].first.class
   end
 
   def test_constructs_properties_from_hcard
@@ -65,7 +71,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </html>
     END
     result = Microformats2.parse(hcard)
-    mycard = result.first
+    mycard = result[:hcard].first
 
     assert_equal "Chris", mycard.given_name
     assert_equal "R.", mycard.additional_name
@@ -95,7 +101,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </html>
     END
     result = Microformats2.parse(hcard)
-    mycard = result.first
+    mycard = result[:hcard].first
 
     assert_equal DateTime.parse("1979-09-18"), mycard.bday
     assert_equal DateTime.parse("1970-01-01"), mycard.epoch
@@ -123,7 +129,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </html>
     END
     result = Microformats2.parse(hcard)
-    mycard = result.first
+    mycard = result[:hcard].first
 
     assert_equal Time.parse("09:30"), mycard.start
     assert_equal Time.parse("06:00"), mycard.end
@@ -144,7 +150,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </html>
     END
     result = Microformats2.parse(hcard)
-    mycard = result.first
+    mycard = result[:hcard].first
 
     assert_equal "Chris", mycard.n_x
     assert mycard.n_x.is_a?(String)
@@ -169,7 +175,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </html>
     END
     result = Microformats2.parse(hcard)
-    mycard = result.first
+    mycard = result[:hcard].first
     assert_equal "http://factoryjoe.com/", mycard.url
   end
 end
