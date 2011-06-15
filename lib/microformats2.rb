@@ -41,7 +41,7 @@ module Microformats2
           if css_class =~ /^[pnei]/
             css_class   = css_class[2..-1].gsub("-","_")
             method_name = css_class.gsub("-","_")
-            value       = property.text.strip_whitespace
+            value       = property.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
 
             obj.class.class_eval { attr_accessor method_name }
 
@@ -153,11 +153,5 @@ module Microformats2
     else
       lower_case_and_underscored_word.to_s[0].chr.downcase + camelize(lower_case_and_underscored_word)[1..-1]
     end
-  end
-end
-
-class String
-  def strip_whitespace
-    self.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
   end
 end
