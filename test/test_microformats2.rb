@@ -38,13 +38,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </head>
 
     <body>
-      <h1 class="h-card">
-        <a class="p-fn u-url" href="http://factoryjoe.com/">
-          <span class="p-given-name">Chris</span>
-          <abbr class="p-additional-name">R.</abbr>
-          <span class="p-family-name">Messina</span>
-        </a>
-      </h1>
+      <h1 class="h-card">Chris</h1>
     </body>
     </html>
     END
@@ -88,12 +82,6 @@ class TestMicroformats2 < Test::Unit::TestCase
 
     <body>
       <h1 class="h-card">
-        <a class="p-fn u-url" href="http://factoryjoe.com/">
-          <span class="p-given-name">Chris</span>
-          <abbr class="p-additional-name">R.</abbr>
-          <span class="p-family-name">Messina</span>
-        </a>
-
         <span class="d-bday">1979-09-18</span>
         <span class="d-epoch" title="1970-01-01">EPOCH!</span>
       </h1>
@@ -116,12 +104,6 @@ class TestMicroformats2 < Test::Unit::TestCase
 
     <body>
       <h1 class="h-card">
-        <a class="p-fn u-url" href="http://factoryjoe.com/">
-          <span class="p-given-name">Chris</span>
-          <abbr class="p-additional-name">R.</abbr>
-          <span class="p-family-name">Messina</span>
-        </a>
-
         <span class="t-start">09:30</span>
         <span class="t-end" title="6:00">Leaving time</span>
       </h1>
@@ -165,11 +147,7 @@ class TestMicroformats2 < Test::Unit::TestCase
 
     <body>
       <h1 class="h-card">
-        <a class="p-fn u-url" href="http://factoryjoe.com/">
-          <span class="p-given-name">Chris</span>
-          <abbr class="p-additional-name">R.</abbr>
-          <span class="p-family-name">Messina</span>
-        </a>
+        <a class="p-fn u-url" href="http://factoryjoe.com/">Chris</a>
       </h1>
     </body>
     </html>
