@@ -25,16 +25,23 @@ module Microformats2
       obj = klass.new
 
       # Add any properties to the object
-      self.add_properties(microformat, obj)
-      self.add_urls(microformat, obj)
-      self.add_dates(microformat, obj)
-      self.add_times(microformat, obj)
-      #letters = %w(p u d n e i t)
+      add_properties(microformat, obj)
+      add_urls(microformat, obj)
+      add_dates(microformat, obj)
+      add_times(microformat, obj)
 
       microformats[constant_name.downcase.to_sym] << obj
     end
 
     return microformats
+  end
+
+  def self.add_method(obj, method_name)
+    unless obj.respond_to?(method_name)
+      obj.class.class_eval { attr_accessor method_name }
+    end
+
+    obj
   end
 
   def self.add_properties(mf, obj)
@@ -46,7 +53,7 @@ module Microformats2
             method_name = css_class.gsub("-","_")
             value       = property.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
 
-            obj.class.class_eval { attr_accessor method_name }
+            add_method(obj, method_name)
 
             if cur = obj.send(method_name)
               if cur.kind_of? Array
@@ -71,7 +78,7 @@ module Microformats2
           method_name = css_class.gsub("-","_")
           value       = property.attribute("href").to_s
 
-          obj.class.class_eval { attr_accessor method_name }
+          add_method(obj, method_name)
 
           if cur = obj.send(method_name)
             if cur.kind_of? Array
@@ -95,7 +102,7 @@ module Microformats2
           method_name = css_class.gsub("-","_")
           value       = DateTime.parse((property.attribute("title") || property.text).to_s)
 
-          obj.class.class_eval { attr_accessor method_name }
+          add_method(obj, method_name)
 
           if cur = obj.send(method_name)
             if cur.kind_of? Array
@@ -119,7 +126,7 @@ module Microformats2
           method_name = css_class.gsub("-","_")
           value       = Time.parse((property.attribute("title") || property.text).to_s)
 
-          obj.class.class_eval { attr_accessor method_name }
+          add_method(obj, method_name)
 
           if cur = obj.send(method_name)
             if cur.kind_of? Array
