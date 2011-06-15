@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/microformats2
+lib/microformats2.rb
+test/test_microformats2.rb
