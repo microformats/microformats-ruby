@@ -5,8 +5,11 @@ require 'date'
 module Microformats2
   VERSION = "1.0.0"
 
+  class LoadError < StandardError; end
+
   def self.parse(html)
-    raise LoadError unless [String, File].include?(html.class)
+    raise LoadError, "argument must be a String or File" unless [String, File].include?(html.class)
+
     doc = Nokogiri::HTML(html)
     microformats = Hash.new{|hash, key| hash[key] = Array.new}
     doc.css("*[class^=h-]").each do |microformat|
@@ -131,8 +134,6 @@ module Microformats2
       end
     end
   end
-
-  class LoadError < StandardError; end
 
   # Thank you Rails Developers for your unitentional contribution to this project
   # File activesupport/lib/active_support/inflector/inflections.rb, line 206

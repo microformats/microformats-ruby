@@ -2,18 +2,6 @@ require "test/unit"
 require "microformats2"
 
 class TestMicroformats2 < Test::Unit::TestCase
-  def test_acceptence_of_string
-    assert_nothing_raised Microformats2::LoadError do
-      Microformats2.parse("A String")
-    end
-  end
-  
-  def test_acceptence_of_file
-    assert_nothing_raised Microformats2::LoadError do
-      Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "hcard.html")))
-    end
-  end
-
   def test_throw_exception_on_non_string_params
     assert_raise Microformats2::LoadError do
       Microformats2.parse(nil)
@@ -28,6 +16,22 @@ class TestMicroformats2 < Test::Unit::TestCase
   def test_only_parse_microformats
     result = Microformats2.parse("<html><body><p>Something</p></body></html>")
     assert_equal 0, result.size
+  end
+
+  def test_extracts_hcard_from_an_html_file
+    hcard = <<-END
+    <html>
+    <head>
+      <title>Simple hCard</title>
+    </head>
+
+    <body>
+      <h1 class="h-card">Chris</h1>
+    </body>
+    </html>
+    END
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "hcard.html")))
+    assert_equal HCard, result[:hcard].first.class
   end
 
   def test_extracts_hcard_from_html
