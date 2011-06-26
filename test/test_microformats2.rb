@@ -30,7 +30,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     </body>
     </html>
     END
-    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "hcard.html")))
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "simple.html")))
     assert_equal HCard, result[:hcard].first.class
   end
 
