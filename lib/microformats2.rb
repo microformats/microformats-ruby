@@ -66,7 +66,7 @@ module Microformats2
 
   class URL
     def transform(property)
-      property.attribute("href").to_s
+      (property.attribute("href") || property.text).to_s
     end
   end
 
