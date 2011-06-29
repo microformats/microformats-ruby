@@ -14,7 +14,7 @@ Generic Microformats 2 Extractor
 
 ## SYNOPSIS
 
-  Microformats2.parse(File.open("http://iamshane.html"))
+    Microformats2.parse(File.open("example.html"))
 
 ## REQUIREMENTS
 
@@ -36,6 +36,6 @@ run the tests/specs, and generate the RDoc.
 
 ## LICENSE
 
-PUBLIC DOMAIN.
+**PUBLIC DOMAIN.**
 Your heart is as free as the air you breathe.
 The ground you stand on is liberated territory.

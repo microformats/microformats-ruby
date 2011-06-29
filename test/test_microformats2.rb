@@ -7,12 +7,12 @@ class TestMicroformats2 < Test::Unit::TestCase
       Microformats2.parse(nil)
     end
   end
-  
+
   def test_returns_hash_of_microformat_objects
     result = Microformats2.parse("A String")
     assert_equal Hash, result.class
   end
-  
+
   def test_only_parse_microformats
     result = Microformats2.parse("<html><body><p>Something</p></body></html>")
     assert_equal 0, result.size
@@ -23,10 +23,16 @@ class TestMicroformats2 < Test::Unit::TestCase
     assert_equal HCard, result[:hcard].first.class
     assert_equal 2, result[:hcard].length
   end
-  
+
   def test_extracts_name_from_tag_with_multiple_classes
     result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "simple.html")))
     assert_equal "Chris", result[:hcard].first.given_name
+  end
+
+  def test_extracts_hcalendar_from_an_html_file
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "IndieWebCamp.html")))
+    assert_equal 1, result[:hevent].length
+    assert result[:hcard].map { |h| h.name }.include?("Urban Airship")
   end
 
   def test_extracts_hcard_from_html
@@ -35,7 +41,7 @@ class TestMicroformats2 < Test::Unit::TestCase
     <head>
       <title>Simple hCard</title>
     </head>
-  
+
     <body>
       <h1 class="h-card">Chris</h1>
     </body>
@@ -44,14 +50,14 @@ class TestMicroformats2 < Test::Unit::TestCase
     result = Microformats2.parse(hcard)
     assert_equal HCard, result[:hcard].first.class
   end
-  
+
   def test_constructs_properties_from_hcard
     hcard = <<-END
     <html>
     <head>
       <title>Simple hCard</title>
     </head>
-  
+
     <body>
       <h1 class="h-card">
         <a class="p-fn u-url" href="http://factoryjoe.com/">
@@ -65,20 +71,20 @@ class TestMicroformats2 < Test::Unit::TestCase
     END
     result = Microformats2.parse(hcard)
     mycard = result[:hcard].first
-  
+
     assert_equal "Chris", mycard.given_name
     assert_equal "R.", mycard.additional_name
     assert_equal "Messina", mycard.family_name
     assert_equal "Chris R. Messina", mycard.fn
   end
-  
+
   def test_constructs_dates
     hcard = <<-END
     <html>
     <head>
       <title>Simple hCard</title>
     </head>
-  
+
     <body>
       <h1 class="h-card">
         <span class="d-bday">1979-09-18</span>
@@ -89,18 +95,18 @@ class TestMicroformats2 < Test::Unit::TestCase
     END
     result = Microformats2.parse(hcard)
     mycard = result[:hcard].first
-  
+
     assert_equal DateTime.parse("1979-09-18"), mycard.bday
     assert_equal DateTime.parse("1970-01-01"), mycard.epoch
   end
-  
+
   def test_constructs_times
     hcard = <<-END
     <html>
     <head>
       <title>Simple hCard</title>
     </head>
-  
+
     <body>
       <h1 class="h-card">
         <span class="t-start">09:30</span>
@@ -111,18 +117,18 @@ class TestMicroformats2 < Test::Unit::TestCase
     END
     result = Microformats2.parse(hcard)
     mycard = result[:hcard].first
-  
+
     assert_equal Time.parse("09:30"), mycard.start
     assert_equal Time.parse("06:00"), mycard.end
   end
-  
+
   def test_ignores_pattern_matches_not_at_the_beginning_of_class
     hcard = <<-END
     <html>
     <head>
       <title>Simple hCard</title>
     </head>
-  
+
     <body>
       <h1 class="h-card">
         <span class="p-n-x">Chris</span>
@@ -132,18 +138,18 @@ class TestMicroformats2 < Test::Unit::TestCase
     END
     result = Microformats2.parse(hcard)
     mycard = result[:hcard].first
-  
+
     assert_equal "Chris", mycard.n_x
     assert mycard.n_x.is_a?(String)
   end
-  
+
   def test_constructs_urls_from_hcard
     hcard = <<-END
     <html>
     <head>
       <title>Simple hCard</title>
     </head>
-  
+
     <body>
       <h1 class="h-card">
         <a class="p-fn u-url" href="http://factoryjoe.com/">Chris</a>

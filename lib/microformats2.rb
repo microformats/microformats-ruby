@@ -3,7 +3,7 @@ require 'time'
 require 'date'
 
 module Microformats2
-  VERSION = "1.0.0"
+  VERSION = "1.0.1"
 
   class LoadError < StandardError; end
 
