@@ -28,11 +28,7 @@ module Microformats2
 
           obj = klass.new
 
-          # Add any properties to the object
           add_properties(microformat, obj)
-          add_urls(microformat, obj)
-          add_dates(microformat, obj)
-          add_times(microformat, obj)
 
           microformats[constant_name.downcase.to_sym] << obj
         end
@@ -62,63 +58,52 @@ module Microformats2
     end
   end
 
+  class Stripper
+    def transform(property)
+      property.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+    end
+  end
+
+  class URL
+    def transform(property)
+      property.attribute("href").to_s
+    end
+  end
+
+  class Date
+    def transform(property)
+      DateTime.parse((property.attribute("title") || property.text).to_s)
+    end
+  end
+
+  class TimeThingy
+    def transform(property)
+      Time.parse((property.attribute("title") || property.text).to_s)
+    end
+  end
+
+  FormatClass = {
+    "p" => Stripper.new,
+    "n" => Stripper.new,
+    "e" => Stripper.new,
+    "i" => Stripper.new,
+    "u" => URL.new,
+    "d" => Date.new,
+    "t" => TimeThingy.new
+  }
+
   def self.add_properties(mf, obj)
-    %w(p n e i).each do |letter|
+    FormatClass.each do |letter, trans|
       mf.css("*[class*=#{letter}-]").each do |property|
         property.attribute("class").to_s.split.each do |css_class|
           if css_class[0..1] == "#{letter}-"
             css_class   = css_class[2..-1].gsub("-","_")
             method_name = css_class.gsub("-","_")
-            value       = property.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+            value       = trans.transform(property)
 
             add_method(obj, method_name)
             populate_method(obj, method_name, value)
           end
-        end
-      end
-    end
-  end
-
-  def self.add_urls(mf, obj)
-    mf.css("*[class*=u-]").each do |property|
-      property.attribute("class").to_s.split.each do |css_class|
-        if css_class =~ /^u/
-          css_class   = css_class[2..-1].gsub("-","_")
-          method_name = css_class.gsub("-","_")
-          value       = property.attribute("href").to_s
-
-          add_method(obj, method_name)
-          populate_method(obj, method_name, value)
-        end
-      end
-    end
-  end
-
-  def self.add_dates(mf, obj)
-    mf.css("*[class*=d-]").each do |property|
-      property.attribute("class").to_s.split.each do |css_class|
-        if css_class =~ /^d/
-          css_class   = css_class[2..-1].gsub("-","_")
-          method_name = css_class.gsub("-","_")
-          value       = DateTime.parse((property.attribute("title") || property.text).to_s)
-
-          add_method(obj, method_name)
-          populate_method(obj, method_name, value)
-        end
-      end
-    end
-  end
-
-  def self.add_times(mf, obj)
-    mf.css("*[class*=t-]").each do |property|
-      property.attribute("class").to_s.split.each do |css_class|
-        if css_class =~ /^t/
-          css_class   = css_class[2..-1].gsub("-","_")
-          method_name = css_class.gsub("-","_")
-          value       = Time.parse((property.attribute("title") || property.text).to_s)
-
-          add_method(obj, method_name)
-          populate_method(obj, method_name, value)
         end
       end
     end
