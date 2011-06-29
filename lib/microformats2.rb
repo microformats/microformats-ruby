@@ -50,6 +50,18 @@ module Microformats2
     obj
   end
 
+  def self.populate_method(obj, method_name, value)
+    if cur = obj.send(method_name)
+      if cur.kind_of? Array
+        cur << value
+      else
+        obj.send("#{method_name}=", [cur, value])
+      end
+    else
+      obj.send("#{method_name}=", value)
+    end
+  end
+
   def self.add_properties(mf, obj)
     %w(p n e i).each do |letter|
       mf.css("*[class*=#{letter}-]").each do |property|
@@ -60,16 +72,7 @@ module Microformats2
             value       = property.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
 
             add_method(obj, method_name)
-
-            if cur = obj.send(method_name)
-              if cur.kind_of? Array
-                cur << value
-              else
-                obj.send("#{method_name}=", [cur, value])
-              end
-            else
-              obj.send("#{method_name}=", value)
-            end
+            populate_method(obj, method_name, value)
           end
         end
       end
@@ -85,16 +88,7 @@ module Microformats2
           value       = property.attribute("href").to_s
 
           add_method(obj, method_name)
-
-          if cur = obj.send(method_name)
-            if cur.kind_of? Array
-              cur << value
-            else
-              obj.send("#{method_name}=", [cur, value])
-            end
-          else
-            obj.send("#{method_name}=", value)
-          end
+          populate_method(obj, method_name, value)
         end
       end
     end
@@ -109,16 +103,7 @@ module Microformats2
           value       = DateTime.parse((property.attribute("title") || property.text).to_s)
 
           add_method(obj, method_name)
-
-          if cur = obj.send(method_name)
-            if cur.kind_of? Array
-              cur << value
-            else
-              obj.send("#{method_name}=", [cur, value])
-            end
-          else
-            obj.send("#{method_name}=", value)
-          end
+          populate_method(obj, method_name, value)
         end
       end
     end
@@ -133,16 +118,7 @@ module Microformats2
           value       = Time.parse((property.attribute("title") || property.text).to_s)
 
           add_method(obj, method_name)
-
-          if cur = obj.send(method_name)
-            if cur.kind_of? Array
-              cur << value
-            else
-              obj.send("#{method_name}=", [cur, value])
-            end
-          else
-            obj.send("#{method_name}=", value)
-          end
+          populate_method(obj, method_name, value)
         end
       end
     end
