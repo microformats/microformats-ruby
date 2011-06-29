@@ -1,3 +1,16 @@
+=== 1.0.2 / 2011-06-28
+
+* 2 bug fix
+
+  * parse d-duration as a string not a date
+  * change "class" to "klass" on elements with "class='p-class'"
+
+=== 1.0.1 / 2011-06-28
+
+* 1 bug fix
+
+  * fixed duplicate microformat problem
+
 === 1.0.0 / 2011-06-14
 
 * 1 major enhancement
