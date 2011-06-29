@@ -17,7 +17,7 @@ module Microformats2
     doc.css("*[class*=h-]").each do |microformat|
       microformat.attribute("class").to_s.split.each do |mf_class|
         if mf_class =~ /^h-/
-          constant_name = classify(mf_class.gsub("-","_"))
+          constant_name = mf_class.gsub("-","_").gsub(/^([a-z])/){$1.upcase}.gsub(/_(.)/) { $1.upcase }
 
           if Object.const_defined?(constant_name)
             klass = Object.const_get(constant_name)
@@ -106,27 +106,6 @@ module Microformats2
           end
         end
       end
-    end
-  end
-
-  # Thank you Rails Developers for your unitentional contribution to this project
-  # File activesupport/lib/active_support/inflector/inflections.rb, line 206
-  def self.classify(str)
-    # strip out any leading schema name
-    camelize(singularize(str.to_s.sub(/.*\./, '')))
-  end
-
-  # File activesupport/lib/active_support/inflector/inflections.rb, line 148
-  def self.singularize(word)
-    result = word.to_s.dup
-  end
-
-  # File activesupport/lib/active_support/inflector/methods.rb, line 28
-  def self.camelize(lower_case_and_underscored_word, first_letter_in_uppercase = true)
-    if first_letter_in_uppercase
-      lower_case_and_underscored_word.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
-    else
-      lower_case_and_underscored_word.to_s[0].chr.downcase + camelize(lower_case_and_underscored_word)[1..-1]
     end
   end
 end
