@@ -10,6 +10,8 @@ module Microformats2
   def self.parse(html)
     raise LoadError, "argument must be a String or File" unless [String, File].include?(html.class)
 
+    html = html.read if IO === html
+
     doc = Nokogiri::HTML(html)
     microformats = Hash.new{|hash, key| hash[key] = Array.new}
     doc.css("*[class*=h-]").each do |microformat|
@@ -37,7 +39,7 @@ module Microformats2
       end
     end
 
-    return microformats
+    microformats
   end
 
   def self.add_method(obj, method_name)
