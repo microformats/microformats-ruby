@@ -1,8 +1,10 @@
 .autotest
 History.txt
 Manifest.txt
-README.txt
+README.md
 Rakefile
 bin/microformats2
 lib/microformats2.rb
 test/test_microformats2.rb
+test/simple.html
+test/IndieWebCamp.html
