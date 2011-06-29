@@ -19,19 +19,9 @@ class TestMicroformats2 < Test::Unit::TestCase
   end
 
   def test_extracts_hcard_from_an_html_file
-    hcard = <<-END
-    <html>
-    <head>
-      <title>Simple hCard</title>
-    </head>
-
-    <body>
-      <h1 class="h-card">Chris</h1>
-    </body>
-    </html>
-    END
     result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "simple.html")))
     assert_equal HCard, result[:hcard].first.class
+    assert_equal 2, result[:hcard].length
   end
 
   def test_extracts_hcard_from_html

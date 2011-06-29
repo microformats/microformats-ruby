@@ -12,25 +12,29 @@ module Microformats2
 
     doc = Nokogiri::HTML(html)
     microformats = Hash.new{|hash, key| hash[key] = Array.new}
-    doc.css("*[class^=h-]").each do |microformat|
-      constant_name = classify(microformat.attribute("class").to_s.gsub("-","_"))
+    doc.css("*[class*=h-]").each do |microformat|
+      microformat.attribute("class").to_s.split.each do |mf_class|
+        if mf_class =~ /^h-/
+          constant_name = classify(mf_class.gsub("-","_"))
 
-      if Object.const_defined?(constant_name)
-        klass = Object.const_get(constant_name)
-      else
-        klass = Class.new
-        Object.const_set constant_name, klass
+          if Object.const_defined?(constant_name)
+            klass = Object.const_get(constant_name)
+          else
+            klass = Class.new
+            Object.const_set constant_name, klass
+          end
+
+          obj = klass.new
+
+          # Add any properties to the object
+          add_properties(microformat, obj)
+          add_urls(microformat, obj)
+          add_dates(microformat, obj)
+          add_times(microformat, obj)
+
+          microformats[constant_name.downcase.to_sym] << obj
+        end
       end
-
-      obj = klass.new
-
-      # Add any properties to the object
-      add_properties(microformat, obj)
-      add_urls(microformat, obj)
-      add_dates(microformat, obj)
-      add_times(microformat, obj)
-
-      microformats[constant_name.downcase.to_sym] << obj
     end
 
     return microformats
