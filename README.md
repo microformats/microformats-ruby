@@ -11,6 +11,8 @@ Generic Microformats 2 Extractor
 * parses and extracts [Microformats 2](http://microformats.org/wiki/microformats-2) syntax
 * needs more test cases
 * needs better docs
+* needs to deal with nested microformats
+* needs to deal with class-value pattern
 
 ## SYNOPSIS
 

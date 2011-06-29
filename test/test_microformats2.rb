@@ -29,6 +29,27 @@ class TestMicroformats2 < Test::Unit::TestCase
     assert_equal "Chris", result[:hcard].first.given_name
   end
 
+  def test_extracts_hcalendar_from_an_indiewebcamp_html_file
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "IndieWebCamp.html")))
+    assert_equal 1, result[:hevent].length
+    assert result[:hcard].map { |h| h.name }.include?("Urban Airship")
+  end
+
+  def test_extracts_dates_in_an_hcalendar_from_an_html_file
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "hcalendar.html")))
+    assert_equal result[:hevent].first.dtstart, DateTime.parse("2007-09-08")
+  end
+
+  def test_extracts_date_durations_as_a_string_from_an_html_file
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "hcalendar.html")))
+    assert_equal result[:hevent].first.duration, "P2D"
+  end
+
+  def test_turns_class_values_of_class_to_klass_from_an_html_file
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "hcalendar.html")))
+    assert_equal result[:hevent].first.klass, "public"
+  end
+
   def test_extracts_hcalendar_from_an_html_file
     result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "IndieWebCamp.html")))
     assert_equal 1, result[:hevent].length

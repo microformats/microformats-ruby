@@ -72,7 +72,13 @@ module Microformats2
 
   class Date
     def transform(property)
-      DateTime.parse((property.attribute("title") || property.text).to_s)
+      value = (property.attribute("title") || property.text).to_s
+
+      if value[0..0] =~ /[a-zA-Z]/
+        value
+      else
+        DateTime.parse(value)
+      end
     end
   end
 
@@ -100,6 +106,10 @@ module Microformats2
             css_class   = css_class[2..-1].gsub("-","_")
             method_name = css_class.gsub("-","_")
             value       = trans.transform(property)
+            
+            if method_name == "class"
+              method_name = "klass"
+            end
 
             add_method(obj, method_name)
             populate_method(obj, method_name, value)
