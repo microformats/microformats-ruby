@@ -52,9 +52,9 @@ module Microformats2
 
   def self.add_properties(mf, obj)
     %w(p n e i).each do |letter|
-      mf.css("*[class|=#{letter}]").each do |property|
+      mf.css("*[class*=#{letter}-]").each do |property|
         property.attribute("class").to_s.split.each do |css_class|
-          if css_class =~ /^[pnei]/
+          if css_class[0..1] == "#{letter}-"
             css_class   = css_class[2..-1].gsub("-","_")
             method_name = css_class.gsub("-","_")
             value       = property.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip

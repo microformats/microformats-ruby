@@ -23,6 +23,11 @@ class TestMicroformats2 < Test::Unit::TestCase
     assert_equal HCard, result[:hcard].first.class
     assert_equal 2, result[:hcard].length
   end
+  
+  def test_extracts_name_from_tag_with_multiple_classes
+    result = Microformats2.parse(File.open(File.join(File.dirname(__FILE__), "simple.html")))
+    assert_equal "Chris", result[:hcard].first.given_name
+  end
 
   def test_extracts_hcard_from_html
     hcard = <<-END
