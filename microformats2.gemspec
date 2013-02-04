@@ -16,4 +16,13 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+
+  gem.add_runtime_dependency "nokogiri", "~> 1.5.6"
+  gem.add_runtime_dependency "json", "~> 1.7.6"
+
+  gem.add_development_dependency "rspec", "~> 2.11.0"
+  gem.add_development_dependency "guard-rspec", "~> 2.1.0"
+  gem.add_development_dependency "rb-fsevent", "~> 0.9.1"
+  gem.add_development_dependency "simplecov", "~> 0.7.1"
+  gem.add_development_dependency "debugger", "~> 1.2.1"
 end
