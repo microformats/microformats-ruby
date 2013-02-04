@@ -2,6 +2,12 @@ require "spec_helper"
 require "microformats2"
 
 describe Microformats2 do
+  describe "::parse" do
+    it "returns an array of found microformats" do
+      html = "spec/support/simple.html"
+      Microformats2.parse(html).should == ["YAY MICROFORMAT"]
+    end
+  end
   describe "::read_html" do
     before do
       @html = <<-HTML.strip
