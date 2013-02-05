@@ -8,7 +8,7 @@ module Microformats2
     def to_hash
       hash = { type: [type], properties: {} }
       @added_methods.each do |method_name|
-        hash[:properties][method_name.to_sym] = send(method_name)
+        hash[:properties][method_name.to_sym] = send(method_name).to_s
       end
       hash
     end

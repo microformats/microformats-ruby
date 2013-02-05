@@ -12,11 +12,13 @@ module Microformats2
   class DateTimeProperty
     def parse(element)
       DateTime.parse(element.attribute("datetime") || property.text)
+    rescue ArgumentError => e
+      element.attribute("datetime") || property.text
     end
   end
   class EmbeddedProperty
     def parse(element)
-      element.text
+      element.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
     end
   end
 

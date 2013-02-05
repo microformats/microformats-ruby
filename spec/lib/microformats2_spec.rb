@@ -9,17 +9,8 @@ describe Microformats2 do
   end
 
   describe "::parse" do
-    before do
-      @microformats2 = Microformats2.parse(@html)
-    end
     it "returns a collection" do
-      @microformats2.should be_kind_of Microformats2::Collection
-    end
-    it "assigns root formats to collection" do
-      @microformats2.h_card.should be_kind_of HCard
-    end
-    it "assigns properties to found root microformats" do
-      @microformats2.h_card.name.should == "Jessica Lynn Suttles"
+      Microformats2.parse(@html).should be_kind_of Microformats2::Collection
     end
   end
 
@@ -28,8 +19,8 @@ describe Microformats2 do
       Microformats2.read_html(@html).should include @html
     end
     it "can be a file path to html" do
-      html = "spec/support/simple.html"
-      Microformats2.read_html(html).should include @html
+      html = "spec/support/simple_hcard.html"
+      Microformats2.read_html(html).should include "<div class=\"h-card\">"
     end
     it "can be a url to html" do
       html = "http://google.com"
