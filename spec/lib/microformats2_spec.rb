@@ -2,18 +2,27 @@ require "spec_helper"
 require "microformats2"
 
 describe Microformats2 do
+  before do
+    @html = <<-HTML.strip
+      <div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>
+    HTML
+  end
+
   describe "::parse" do
-    it "returns an array of found microformats" do
+    before do
       html = "spec/support/simple.html"
-      Microformats2.parse(html).should == ["YAY MICROFORMAT"]
+      @microformats2 = Microformats2.parse(@html)
+    end
+    it "returns an array of found root microformats" do
+      @microformats2.first.should be_kind_of HCard
+    end
+    it "assigns properties to found root microformats" do
+      puts @microformats2.first.to_hash
+      @microformats2.first.name.should == "Jessica Lynn Suttles"
     end
   end
+
   describe "::read_html" do
-    before do
-      @html = <<-HTML.strip
-        <div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>
-      HTML
-    end
     it "can be a string of html" do
       Microformats2.read_html(@html).should include @html
     end
