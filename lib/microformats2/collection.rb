@@ -1,15 +1,10 @@
 module Microformats2
-  class Collection
-    attr_accessor :added_methods, :formats
+  class Collection < Parser
+    attr_accessor :formats
 
     def initialize
-      @added_methods = []
       @formats = []
-    end
-
-    def parse(document)
-      parse_nodeset(document.children)
-      self
+      super
     end
 
     def to_hash
@@ -24,33 +19,11 @@ module Microformats2
       to_hash.to_json
     end
 
+    def html_class_regex
+     /^h-/
+    end
+
     private
-
-    def parse_nodeset(nodeset)
-      nodeset.map { |node| parse_node(node) }
-    end
-
-    def parse_node(node)
-      case
-      when node.is_a?(Nokogiri::XML::NodeSet) then parse_nodeset(node)
-      when node.is_a?(Nokogiri::XML::Element) then parse_element(node)
-      end
-    end
-
-    def parse_element(element)
-      # look for root microformat class
-      html_classes = element.attribute("class").to_s.split
-      html_classes.keep_if { |html_class| html_class =~ /^h-/ }
-
-      # if found root microformat, yay parse it
-      if html_classes.length >= 1
-        parse_microformat(element, html_classes)
-
-      # if no root microformat found, look at children
-      else
-        parse_nodeset(element.children)
-      end
-    end
 
     def parse_microformat(microformat, html_classes)
       # only worry about the first format for now
@@ -69,38 +42,14 @@ module Microformats2
         Object.const_set constant_name, klass
       end
 
-      # get a new instance of the ruby class
-      format = klass.new.parse(microformat)
+      # parse microformat
+      value = klass.new.parse(microformat)
 
-      @formats << format
+      # save microformat in array in order
+      @formats << value
 
-      save_method_name(method_name)
-      add_method(method_name)
-      populate_method(method_name, format)
-    end
-
-    def save_method_name(method_name)
-      unless @added_methods.include?(method_name)
-        @added_methods << method_name
-      end
-    end
-
-    def add_method(method_name)
-      unless respond_to?(method_name)
-        self.class.class_eval { attr_accessor method_name }
-      end
-    end
-
-    def populate_method(method_name, value)
-      if current = send(method_name)
-        if current.kind_of? Array
-          current << value
-        else
-          send("#{method_name}=", [current, value])
-        end
-      else
-        send("#{method_name}=", value)
-      end
+      # save microformat under custom method
+      define_method_and_set_value(method_name, value)
     end
   end
 end
