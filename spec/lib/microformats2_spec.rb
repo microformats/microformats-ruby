@@ -10,15 +10,16 @@ describe Microformats2 do
 
   describe "::parse" do
     before do
-      html = "spec/support/simple.html"
       @microformats2 = Microformats2.parse(@html)
     end
-    it "returns an array of found root microformats" do
-      @microformats2.first.should be_kind_of HCard
+    it "returns a collection" do
+      @microformats2.should be_kind_of Microformats2::Collection
+    end
+    it "assigns root formats to collection" do
+      @microformats2.h_card.should be_kind_of HCard
     end
     it "assigns properties to found root microformats" do
-      puts @microformats2.first.to_hash
-      @microformats2.first.name.should == "Jessica Lynn Suttles"
+      @microformats2.h_card.name.should == "Jessica Lynn Suttles"
     end
   end
 
