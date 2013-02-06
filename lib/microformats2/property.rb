@@ -1,32 +1,64 @@
 module Microformats2
-  class TextProperty
-    def parse(element)
-      element.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
-    end
-  end
-  class UrlProperty
-    def parse(element)
-      (element.attribute("href") || property.text).to_s
-    end
-  end
-  class DateTimeProperty
-    def parse(element)
-      DateTime.parse(element.attribute("datetime") || property.text)
-    rescue ArgumentError => e
-      element.attribute("datetime") || property.text
-    end
-  end
-  class EmbeddedProperty
-    def parse(element)
-      element.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
-    end
-  end
+  module Property
+    class Parser < Microformats2::Parser
+      attr_accessor :value
 
-  PropertyPrefixes = {
-    "p" => TextProperty.new,
-    "u" => UrlProperty.new,
-    "dt" => DateTimeProperty.new,
-    "e" => EmbeddedProperty.new
-  }
-  PropertyPrefixesRegEx = /^(p-|u-|dt-|e-)/
+      def parse(element, format_classes=[])
+        if format_classes.length >= 1
+          parse_microformat(element, format_classes)
+        end
+        @value = parse_flat_element(element)
+        self
+      end
+
+      def to_hash
+        if @formats.empty?
+          hash_safe_value
+        else
+          { value: hash_safe_value }.merge @formats.first.to_hash
+        end
+      end
+
+      def hash_safe_value
+        @value
+      end
+    end
+
+    class Text < Property::Parser
+      def parse_flat_element(element)
+        element.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+      end
+    end
+
+    class Url < Property::Parser
+      def parse_flat_element(element)
+        (element.attribute("href") || property.text).to_s
+      end
+    end
+
+    class DateTime < Property::Parser
+      def parse_flat_element(element)
+        ::DateTime.parse(element.attribute("datetime") || property.text)
+      rescue ArgumentError => e
+        element.attribute("datetime") || property.text
+      end
+      def hash_safe_value
+        @value.to_s
+      end
+    end
+
+    class Embedded < Property::Parser
+      def parse_flat_element(element)
+        element.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+      end
+    end
+
+    Parsers = {
+      "p" => Text,
+      "u" => Url,
+      "dt" => DateTime,
+      "e" => Embedded
+    }
+    PrefixesRegEx = /^(p-|u-|dt-|e-)/
+  end
 end
