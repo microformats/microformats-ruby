@@ -1,0 +1,20 @@
+// http://microformat2-node.jit.su/h-review.html
+
+{
+    "items": [{
+        "type": ["h-review"],
+        "properties": {
+
+            "item": [{
+                "value": "Crepes on Cole",
+                "type": ["h-item"],
+                "properties": {
+                    "photo": ["http://example.com/images/photo.gif"], 
+                    "name": ["Crepes on Cole"],
+                    "url": ["http://example.com/crepeoncole"]
+                }
+            }],
+            "rating": ["5"]
+        }
+    }]
+}
