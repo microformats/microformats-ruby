@@ -27,4 +27,19 @@ describe Microformats2 do
       Microformats2.read_html(html).should include "google"
     end
   end
+
+  describe "programatic case" do
+    cases_dir = "spec/support/cases"
+    html_files = Dir.entries(cases_dir).keep_if { |f| f =~ /([.]html$)/ }
+
+    html_files.each do |html_file|
+      it "#{html_file}" do
+        json_file = html_file.gsub(/([.]html$)/, ".js")
+        html = open(File.join(cases_dir, html_file)).read
+        json = open(File.join(cases_dir, json_file)).read
+
+        JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+      end
+    end
+  end
 end
