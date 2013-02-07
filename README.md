@@ -1,8 +1,8 @@
 # Microformats2
 
 A Ruby gem to parse HTML containing one or more
-[microformats2](http://microformats.org/wiki/microformats-2),
-returning an a collection of Ruby objects.
+[microformats2](http://microformats.org/wiki/microformats-2)
+and return a collection of Ruby objects.
 
 ## Current Version
 
