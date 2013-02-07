@@ -1,0 +1,23 @@
+// http://microformat2-node.jit.su/h-review-aggregate.html
+
+{
+    "items": [{
+        "type": ["h-review-aggregate"],
+        "properties": {
+            "item": [{
+                "value": "Fullfrontal A one day JavaScript Conference held in Brighton 9th November 2012",
+                "type": ["h-event"],
+                "properties": {
+                    "name": ["Fullfrontal"],
+                    "description": ["A one day JavaScript Conference held in Brighton"],
+                    "start": ["2012-11-09"]
+                }
+            }],
+            "rating": ["9.9"],
+            "average": ["9.9"],
+            "best": ["10"],
+            "count": ["62"],
+            "name": ["Fullfrontal A one day JavaScript Conference held in Brighton 9th November 2012 9.9 out of 10 based on 62 reviews"]
+        }
+    }]
+}

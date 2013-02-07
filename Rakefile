@@ -10,7 +10,22 @@ task :update_spec_cases do
       json_selector: ".source-javascript",
       html_method: "inner_text"
     },
-    { urls: ["http://microformat2-node.jit.su/h-adr.html"],
+    { urls: [
+        "http://microformat2-node.jit.su/h-adr.html",
+        "http://microformat2-node.jit.su/h-card.html",
+        "http://microformat2-node.jit.su/h-entry.html",
+        "http://microformat2-node.jit.su/h-event.html",
+        "http://microformat2-node.jit.su/h-geo.html",
+        "http://microformat2-node.jit.su/h-news.html",
+        "http://microformat2-node.jit.su/h-org.html",
+        "http://microformat2-node.jit.su/h-product.html",
+        "http://microformat2-node.jit.su/h-recipe.html",
+        "http://microformat2-node.jit.su/h-resume.html",
+        "http://microformat2-node.jit.su/h-review-aggregate.html",
+        "http://microformat2-node.jit.su/h-review.html",
+        "http://microformat2-node.jit.su/rel.html",
+        "http://microformat2-node.jit.su/includes.html",
+      ],
       html_selector: ".e-x-microformat",
       json_selector: ".language-json",
       html_method: "inner_html"
