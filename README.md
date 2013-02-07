@@ -37,7 +37,7 @@ require "microformats2"
 
 html = '<div class="h-org"><p class="p-name">G5</p></div'
 formats = Microformats.parse(html)
-puts format.h_org.name.value # => "G5"
+puts formats.h_org.name.value # => "G5"
 ```
 
 
