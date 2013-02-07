@@ -60,6 +60,25 @@ If you find bugs, have feature requests or questions, please
 [file an issue](https://github.com/G5/microformats2/issues).
 
 
+## Specs
+
+To update spec cases that are scraped from other sites.
+**Warning:** This could break specs.
+```bash
+rake update_spec_cases
+```
+
+To run specs
+```bash
+rspec spec
+```
+
+To keep specs running
+```bash
+guard
+```
+
+
 ## License
 
 Copyright (c) 2013 G5
