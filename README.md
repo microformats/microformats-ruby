@@ -70,7 +70,7 @@ If you find bugs, have feature requests or questions, please
 To update spec cases that are scraped from other sites.
 **Warning:** This could break specs.
 ```bash
-rake update_spec_cases
+rake specs:update
 ```
 
 To run specs
