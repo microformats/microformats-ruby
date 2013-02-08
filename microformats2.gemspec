@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "nokogiri", "~> 1.5.6"
   gem.add_runtime_dependency "json", "~> 1.7.6"
 
+  gem.add_development_dependency "rake", "~> 10.0.0"
   gem.add_development_dependency "rspec", "~> 2.11.0"
   gem.add_development_dependency "guard-rspec", "~> 2.1.0"
   gem.add_development_dependency "rb-fsevent", "~> 0.9.1"
