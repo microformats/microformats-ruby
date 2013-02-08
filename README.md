@@ -1,8 +1,11 @@
 # Microformats2
 
+[![Code Climate](https://codeclimate.com/github/G5/microformats2.png)](https://codeclimate.com/github/G5/microformats2)
+
 A Ruby gem to parse HTML containing one or more
 [microformats2](http://microformats.org/wiki/microformats-2)
 and return a collection of Ruby objects.
+
 
 ## Current Version
 
