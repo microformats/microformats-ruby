@@ -8,7 +8,6 @@ A Ruby gem to parse HTML containing one or more
 and return a collection of Ruby objects.
 
 
-
 ## Current Version
 
 0.0.1
@@ -40,9 +39,9 @@ Or install it yourself as:
 ```ruby
 require "microformats2"
 
-html = '<div class="h-org"><p class="p-name">G5</p></div'
+html = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
 formats = Microformats.parse(html)
-puts formats.h_org.name.value # => "G5"
+formats.h_card.name.value #=> "Jessica Lynn Suttles"
 ```
 
 
@@ -75,7 +74,7 @@ rake specs:update
 
 To run specs
 ```bash
-rspec spec
+rake spec
 ```
 
 To keep specs running
