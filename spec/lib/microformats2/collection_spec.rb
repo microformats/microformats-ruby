@@ -2,9 +2,24 @@ require "spec_helper"
 require "microformats2"
 
 describe Microformats2::Collection do
-  describe "with simple .h-card" do
+  describe "programatic case" do
+    cases_dir = "spec/support/cases/microformats.org/microformats-2"
+    html_files = Dir.entries(cases_dir).keep_if { |f| f =~ /([.]html$)/ }
+
+    html_files.each do |html_file|
+      it "#{html_file}" do
+        json_file = html_file.gsub(/([.]html$)/, ".js")
+        html = open(File.join(cases_dir, html_file)).read
+        json = open(File.join(cases_dir, json_file)).read
+
+        JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+      end
+    end
+  end
+
+  describe ".h-card simple" do
     before do
-      html = "spec/support/simple_hcard.html"
+      html = "spec/support/hcard-simple.html"
       @collection = Microformats2.parse(html)
     end
 
@@ -46,9 +61,9 @@ describe Microformats2::Collection do
     end
   end
 
-  describe "with .h-entry .p-author.h-card nested" do
+  describe ".h-entry .p-author.h-card nested" do
     before do
-      html = "spec/support/nested_hentry.html"
+      html = "spec/support/hentry-pauthor-hcard-nested.html"
       @collection = Microformats2.parse(html)
     end
 
