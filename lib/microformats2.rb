@@ -17,7 +17,7 @@ module Microformats2
 
     def read_html(html)
       open(html).read
-    rescue Errno::ENOENT => e
+    rescue Errno::ENOENT, Errno::ENAMETOOLONG => e
       html
     end
   end # class << self

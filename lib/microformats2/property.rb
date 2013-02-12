@@ -32,15 +32,15 @@ module Microformats2
 
     class Url < Property::Parser
       def parse_flat_element(element)
-        (element.attribute("href") || property.text).to_s
+        (element.attribute("href") || element.attribute("src") || element.text).to_s
       end
     end
 
     class DateTime < Property::Parser
       def parse_flat_element(element)
-        ::DateTime.parse(element.attribute("datetime") || property.text)
+        ::DateTime.parse(element.attribute("datetime") || element.text)
       rescue ArgumentError => e
-        element.attribute("datetime") || property.text
+        (element.attribute("datetime") || element.text).to_s
       end
       def hash_safe_value
         @value.to_s
@@ -49,7 +49,7 @@ module Microformats2
 
     class Embedded < Property::Parser
       def parse_flat_element(element)
-        element.text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+        element.inner_html.strip
       end
     end
 
