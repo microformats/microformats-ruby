@@ -29,7 +29,7 @@ describe Microformats2 do
   end
 
   describe "programatic case" do
-    cases_dir = "spec/support/cases"
+    cases_dir = "spec/support/cases/microformats.org/microformats-2"
     html_files = Dir.entries(cases_dir).keep_if { |f| f =~ /([.]html$)/ }
 
     html_files.each do |html_file|

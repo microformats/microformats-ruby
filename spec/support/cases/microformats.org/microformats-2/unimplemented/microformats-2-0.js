@@ -1,9 +1,9 @@
 // http://microformats.org/wiki/microformats-2
 {
-  "items": [{ 
+  "items": [{
     "type": ["h-card"],
     "properties": {
-      "name": ["Frances Berriman"] 
+      "name": ["Frances Berriman"]
     }
   }]
 }

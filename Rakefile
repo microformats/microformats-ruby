@@ -10,12 +10,14 @@ task :default => [:spec]
 namespace :specs do
   task :update do
     sources = [
-      { urls: ["http://microformats.org/wiki/microformats-2"],
+      { dir: "microformats.org",
+        urls: ["http://microformats.org/wiki/microformats-2"],
         html_selector: ".source-html4strict",
         json_selector: ".source-javascript",
         html_method: "inner_text"
       },
-      { urls: [
+      { dir: "microformat2-node.jit.su",
+        urls: [
           "http://microformat2-node.jit.su/h-adr.html",
           "http://microformat2-node.jit.su/h-card.html",
           "http://microformat2-node.jit.su/h-entry.html",
@@ -43,17 +45,19 @@ namespace :specs do
         html = document.css(source[:html_selector]).map { |e| e.send(source[:html_method]) }
         json = document.css(source[:json_selector]).map { |e| e.inner_text }
 
-        filename = url.split("/").last.gsub(/[.]\w+/, "")
-        filepath = "spec/support/cases/"
+        name = url.split("/").last.gsub(/[.]\w+/, "")
+        path = File.join "spec/support/cases", source[:dir], name
+
+        FileUtils.mkdir_p(path)
 
         ([html.length, json.length].min).times do |index|
 
-          File.open("#{filepath}#{filename}-#{index}.html", "w") do |f|
+          File.open(File.join(path, "#{name}-#{index}.html"), "w") do |f|
             f.write "<!-- #{url} -->\n"
             f.write html[index]
           end
 
-          File.open("#{filepath}#{filename}-#{index}.js", "w") do |f|
+          File.open(File.join(path, "#{name}-#{index}.js"), "w") do |f|
             f.write "// #{url}\n"
             f.write json[index]
           end
