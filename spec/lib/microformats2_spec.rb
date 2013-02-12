@@ -19,27 +19,12 @@ describe Microformats2 do
       Microformats2.read_html(@html).should include @html
     end
     it "can be a file path to html" do
-      html = "spec/support/simple_hcard.html"
+      html = "spec/support/hcard-simple.html"
       Microformats2.read_html(html).should include "<div class=\"h-card\">"
     end
     it "can be a url to html" do
       html = "http://google.com"
       Microformats2.read_html(html).should include "google"
-    end
-  end
-
-  describe "programatic case" do
-    cases_dir = "spec/support/cases/microformats.org/microformats-2"
-    html_files = Dir.entries(cases_dir).keep_if { |f| f =~ /([.]html$)/ }
-
-    html_files.each do |html_file|
-      it "#{html_file}" do
-        json_file = html_file.gsub(/([.]html$)/, ".js")
-        html = open(File.join(cases_dir, html_file)).read
-        json = open(File.join(cases_dir, json_file)).read
-
-        JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
-      end
     end
   end
 end
