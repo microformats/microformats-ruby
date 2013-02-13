@@ -1,6 +1,6 @@
 module Microformats2
 	module Property
-    class Embedded < Property::Parser
+    class Embedded < Foundation
       def value
         @value ||= @element.inner_html.strip
       end

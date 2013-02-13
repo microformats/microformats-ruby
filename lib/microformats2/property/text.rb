@@ -1,6 +1,6 @@
 module Microformats2
 	module Property
-    class Text < Property::Parser
+    class Text < Foundation
 			def attr_map
 				@attr_map = {
 					"abbr" => "title",

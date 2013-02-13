@@ -1,6 +1,6 @@
 module Microformats2
 	module Property
-    class Url < Property::Parser
+    class Url < Foundation
 			def attr_map
 				@attr_map = {
 					"a" => "href",
