@@ -5,6 +5,11 @@ require "microformats2/version"
 require "microformats2/parser"
 require "microformats2/collection"
 require "microformats2/format"
+require "microformats2/property/parser"
+require "microformats2/property/text"
+require "microformats2/property/url"
+require "microformats2/property/date_time"
+require "microformats2/property/embedded"
 require "microformats2/property"
 
 module Microformats2
