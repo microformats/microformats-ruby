@@ -30,7 +30,6 @@ module Microformats2
     end
 
     def parse_microformat(element, html_classes)
-      format_classes = html_classes.select { |html_class| html_class =~ /^(h-)/ }
       property_classes = html_classes.select { |html_class| html_class =~ Microformats2::Property::PrefixesRegEx }
 
       property_classes.each do |property_class|
@@ -42,7 +41,7 @@ module Microformats2
         method_name = "klass" if method_name == "class"
 
         # parse property
-        value = Microformats2::Property::Parsers[prefix].new.parse(element, format_classes)
+        value = Microformats2::Property::Parsers[prefix].new(element).parse
 
         # save property under custom method
         define_method_and_set_value(method_name, value)

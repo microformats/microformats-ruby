@@ -42,7 +42,7 @@ module Microformats2
       value = klass.new.parse(microformat)
 
       # save microformat in array in order
-      @formats << value
+      formats << value
 
       # save microformat under custom method
       define_method_and_set_value(method_name, value)
@@ -77,8 +77,8 @@ module Microformats2
     end
 
     def save_method_name(method_name)
-      unless @added_methods.include?(method_name)
-        @added_methods << method_name
+      unless added_methods.include?(method_name)
+        added_methods << method_name
       end
     end
 
