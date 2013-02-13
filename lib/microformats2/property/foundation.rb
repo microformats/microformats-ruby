@@ -1,21 +1,24 @@
 module Microformats2
   module Property
-    class Parser < Microformats2::Parser
-      attr_accessor :value, :element
+    class Foundation
+      attr_accessor :element, :value, :formats
 
 			def initialize(element)
 				@element = element
-				super()
+				@formats = []
 			end
 
       def parse
-				html_classes = element.attribute("class").to_s.split
-				format_classes = html_classes.select { |html_class| html_class =~ /^(h-)/ }
-        if format_classes.length >= 1
-          parse_microformat(element, format_classes)
-        end
-        self
+				formats << FormatParser.parse(element) if format_classes.length >=1
+				value
+				self
       end
+
+			def format_classes
+				element.attribute("class").to_s.split.select do |html_class|
+					html_class =~ Format::CLASS_REG_EXP
+				end
+			end
 
 			def value
 				@value ||= value_class_pattern || element_value || text_value
@@ -45,7 +48,7 @@ module Microformats2
         if formats.empty?
           value.to_s
         else
-          { value: value.to_s }.merge formats.first.to_hash
+          { value: value.to_s }.merge(formats.first.to_hash)
         end
       end
     end

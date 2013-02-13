@@ -1,6 +1,6 @@
 module Microformats2
 	module Property
-    class DateTime < Property::Parser
+    class DateTime < Foundation
 			def value
 				::DateTime.parse(super)
 			rescue ArgumentError => e
