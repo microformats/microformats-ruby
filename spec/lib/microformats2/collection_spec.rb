@@ -2,17 +2,17 @@ require "spec_helper"
 require "microformats2"
 
 describe Microformats2::Collection do
-  describe "programatic case" do
-    cases_dir = "spec/support/cases/microformats.org/microformats-2"
-    html_files = Dir.entries(cases_dir).keep_if { |f| f =~ /([.]html$)/ }
+  describe "case" do
+    cases_dir = "spec/support/cases/*"
+    Dir[File.join(cases_dir, "*")].each do |page_dir|
+      Dir[File.join(page_dir, "*")].keep_if { |f| f =~ /([.]html$)/ }.each do |html_file|
+        it "#{html_file}" do
+          json_file = html_file.gsub(/([.]html$)/, ".js")
+          html = open(html_file).read
+          json = open(json_file).read
 
-    html_files.each do |html_file|
-      it "#{html_file}" do
-        json_file = html_file.gsub(/([.]html$)/, ".js")
-        html = open(File.join(cases_dir, html_file)).read
-        json = open(File.join(cases_dir, json_file)).read
-
-        JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+          JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+        end
       end
     end
   end
