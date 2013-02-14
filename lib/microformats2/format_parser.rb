@@ -2,13 +2,14 @@ module Microformats2
   class FormatParser
 		class << self
 			def parse(element)
-				parse_node(element)
+				parse_node(element).flatten.compact
 			end
 
 			def parse_node(node)
 				case
-				when node.is_a?(Nokogiri::XML::NodeSet) then parse_nodeset(node)
-				when node.is_a?(Nokogiri::XML::Element) then parse_for_microformats(node)
+        when node.is_a?(Nokogiri::HTML::Document) then parse_node(node.children)
+				when node.is_a?(Nokogiri::XML::NodeSet)   then parse_nodeset(node)
+				when node.is_a?(Nokogiri::XML::Element)   then [parse_for_microformats(node)]
 				end
 			end
 
@@ -25,22 +26,11 @@ module Microformats2
 			end
 
 			def parse_microformat(element)
-				# only worry about the first format for now
+				# only create ruby object for first format class
 				html_class = format_classes(element).first
-				# class-name -> class_name
-				method_name = html_class.downcase.gsub("-","_")
-				# class_name -> Class_name -> ClassName
-				constant_name = method_name.gsub(/^([a-z])/){$1.upcase}.gsub(/_(.)/){$1.upcase}
+        const_name = constant_name(html_class)
+        klass = find_or_create_ruby_class(const_name)
 
-				# find or create ruby class for microformat
-				if Object.const_defined?(constant_name)
-					klass = Object.const_get(constant_name)
-				else
-					klass = Class.new(Microformats2::Format)
-					Object.const_set constant_name, klass
-				end
-
-				# parse microformat
 				klass.new(element).parse
 			end
 
@@ -49,6 +39,21 @@ module Microformats2
 					html_class =~ Format::CLASS_REG_EXP
 				end
 			end
+
+      def constant_name(html_class)
+				# html-Class -> html-class -> html_class -> Html_class -> HtmlClass
+				html_class.downcase.gsub("-","_").gsub(/^([a-z])/){$1.upcase}.gsub(/_(.)/){$1.upcase}
+      end
+
+      def find_or_create_ruby_class(const_name)
+				if Object.const_defined?(const_name)
+					klass = Object.const_get(const_name)
+				else
+					klass = Class.new(Microformats2::Format)
+					Object.const_set const_name, klass
+				end
+        klass
+      end
 		end
   end
 end

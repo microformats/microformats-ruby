@@ -1,21 +1,33 @@
 module Microformats2
   module Property
     class Foundation
-      attr_accessor :element, :value, :formats
+      attr_accessor :element, :name, :value, :formats
 
-			def initialize(element)
+			def initialize(element, html_class)
 				@element = element
-				@formats = []
+        @name = to_method_name(html_class)
 			end
 
+      def to_method_name(html_class)
+        # p-class-name -> class_name
+        method_name = html_class.downcase.split("-")[1..-1].join("_")
+        # avoid overriding Object#class
+        method_name = "klass" if method_name == "class"
+        method_name
+      end
+
       def parse
-				formats << FormatParser.parse(element) if format_classes.length >=1
+        formats
 				value
 				self
       end
 
+      def formats
+				@formats ||= format_classes.length >=1 ? FormatParser.parse(element) : []
+      end
+
 			def format_classes
-				element.attribute("class").to_s.split.select do |html_class|
+				@format_classes = element.attribute("class").to_s.split.select do |html_class|
 					html_class =~ Format::CLASS_REG_EXP
 				end
 			end

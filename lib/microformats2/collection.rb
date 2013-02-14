@@ -3,7 +3,8 @@ module Microformats2
     attr_accessor :formats
 
     def parse(document)
-      formats = FormatParser.parse(document)
+      @formats = FormatParser.parse(document)
+      self
     end
 
     def to_hash
