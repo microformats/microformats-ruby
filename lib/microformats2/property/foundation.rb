@@ -41,7 +41,7 @@ module Microformats2
       end
 
       def element_value
-        @element.attribute(attribute).to_s if attribute
+        @element.attribute(attribute).to_s if attribute && @element.attribute(attribute)
       end
 
       def text_value
