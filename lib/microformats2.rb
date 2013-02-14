@@ -18,7 +18,7 @@ module Microformats2
     def parse(html)
       html = read_html(html)
       document = Nokogiri::HTML(html)
-      Collection.new.parse(document)
+      Collection.new(document).parse
     end
 
     def read_html(html)

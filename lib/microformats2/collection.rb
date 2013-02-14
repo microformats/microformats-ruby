@@ -1,15 +1,36 @@
 module Microformats2
   class Collection
-    attr_accessor :formats
+    attr_reader :all
 
-    def parse(document)
-      @formats = FormatParser.parse(document)
+    def initialize(element)
+      @element = element
+      @format_names = []
+    end
+
+    def parse
+      all
       self
+    end
+
+    def all
+      @all ||= FormatParser.parse(@element).each do |format|
+        save_format_name(format.method_name)
+        define_method(format.method_name)
+        set_value(format.method_name, format)
+      end
+    end
+
+    def first
+      all.first
+    end
+
+    def last
+      all.last
     end
 
     def to_hash
       hash = { items: [] }
-      formats.each do |format|
+      all.each do |format|
         hash[:items] << format.to_hash
       end
       hash
@@ -17,6 +38,28 @@ module Microformats2
 
     def to_json
       to_hash.to_json
+    end
+
+    private
+
+    def save_format_name(format_name)
+      unless @format_names.include?(format_name)
+        @format_names << format_name
+      end
+    end
+
+    def define_method(mn)
+      unless respond_to?(mn)
+        self.class.class_eval { attr_accessor mn }
+      end
+    end
+
+    def set_value(mn, value)
+      if current = send(mn)
+        current << value
+      else
+        send("#{mn}=", [value])
+      end
     end
   end
 end
