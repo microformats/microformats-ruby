@@ -8,10 +8,13 @@ module Microformats2
 
       protected
 
-      def attr_map
-        { "img[src]" => "src",
-          "object[data]" => "data",
-          ">img[src]:only-of-type" => "src",
+      def name_map
+        { "img" => "src",
+          "object" => "data" }
+      end
+
+      def selector_map
+        { ">img[src]:only-of-type" => "src",
           ">object[data]:only-of-type" => "data",
           ">:only-child>img[src]:only-of-type" => "src",
           ">:only-child>object[data]:only-of-type" => "data" }
