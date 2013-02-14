@@ -25,21 +25,21 @@ describe Microformats2::Collection do
 
     describe "#parse" do
       it "creates ruby class HCard" do
-        @collection.first.should be_kind_of HCard
+        @collection.formats.first.should be_kind_of HCard
       end
       it "assigns .h-card .p-name to HCard#name" do
-        @collection.first.name.value.should == "Jessica Lynn Suttles"
+        @collection.formats.first.name.first.value.should == "Jessica Lynn Suttles"
       end
       it "assigns both .h-card .u-url to HCard#url" do
         urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
-        @collection.first.url.map(&:value).should == urls
+        @collection.formats.first.url.map(&:value).should == urls
       end
       it "assings .h-card .dt-bday to HCard#bday" do
-        @collection.first.bday.value.should be_kind_of DateTime
-        @collection.first.bday.value.to_s.should == "1990-10-15T20:45:33-08:00"
+        @collection.formats.first.bday.first.value.should be_kind_of DateTime
+        @collection.formats.first.bday.first.value.to_s.should == "1990-10-15T20:45:33-08:00"
       end
       it "assigns .h-card .e-content to HCard#content" do
-        @collection.first.content.value.should == "Vegan. Cat lover. Coder."
+        @collection.formats.first.content.first.value.should == "Vegan. Cat lover. Coder."
       end
     end
 
@@ -69,10 +69,10 @@ describe Microformats2::Collection do
 
     describe "#parse" do
       it "creates ruby class HEntry" do
-        @collection.first.should be_kind_of HEntry
+        @collection.formats.first.should be_kind_of HEntry
       end
       it "assigns .h-entry .p-author to HEntry#author" do
-        @collection.first.author.value.should == "Jessica Lynn Suttles"
+        @collection.formats.first.author.value.should == "Jessica Lynn Suttles"
       end
     end
 

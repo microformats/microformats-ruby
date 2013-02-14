@@ -5,7 +5,6 @@ module Microformats2
       "p" => Text,
       "u" => Url,
       "dt" => DateTime,
-      "e" => Embedded
-    }
+      "e" => Embedded }
   end
 end

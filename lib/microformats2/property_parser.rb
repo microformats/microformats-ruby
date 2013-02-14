@@ -2,7 +2,7 @@ module Microformats2
   class PropertyParser
 		class << self
 			def parse(element)
-				parse_node(element)
+				parse_node(element).flatten.compact
 			end
 
 			def parse_node(node)
@@ -24,24 +24,18 @@ module Microformats2
 				end
 			end
 
-			def parse_property(element, html_classes)
-				property_classes(element).each do |property_class|
+			def parse_property(element)
+				property_classes(element).map do |property_class|
 					# p-class-name -> p
 					prefix = property_class.split("-").first
-					# p-class-name -> class_name
-					method_name = property_class.split("-")[1..-1].join("_")
-					# avoid overriding Object#class
-					method_name = "klass" if method_name == "class"
-
 					# find ruby class for kind of property
 					klass = Microformats2::Property::PREFIX_CLASS_MAP[prefix]
 
-					# parse property
-					klass.new(element).parse
+					klass.new(element, property_class).parse
 				end
 			end
 
-			def property_classes(element, regexp)
+			def property_classes(element)
 				element.attribute("class").to_s.split.select do |html_class|
 					html_class =~ Property::CLASS_REG_EXP
 				end
