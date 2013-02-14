@@ -3,23 +3,23 @@ module Microformats2
     class Foundation
       attr_reader :method_name
 
-			def initialize(element, html_class)
-				@element = element
+      def initialize(element, html_class)
+        @element = element
         @method_name = to_method_name(html_class)
-			end
-
-      def parse
-				value
-        formats
-				self
       end
 
-			def value
-				@value ||= value_class_pattern || element_value || text_value
-			end
+      def parse
+        value
+        formats
+        self
+      end
+
+      def value
+        @value ||= value_class_pattern || element_value || text_value
+      end
 
       def formats
-				@formats ||= format_classes.length >=1 ? FormatParser.parse(@element) : []
+        @formats ||= format_classes.length >=1 ? FormatParser.parse(@element) : []
       end
 
       def to_hash
@@ -36,25 +36,25 @@ module Microformats2
 
       protected
 
-			def value_class_pattern
-				# TODO
-			end
+      def value_class_pattern
+        # TODO
+      end
 
-			def element_value
-				@element.attribute(attribute).to_s if attribute
-			end
+      def element_value
+        @element.attribute(attribute).to_s if attribute
+      end
 
-			def text_value
-				@element.inner_text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
-			end
+      def text_value
+        @element.inner_text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+      end
 
-			def attribute
-				attr_map[@element.name]
-			end
+      def attribute
+        attr_map[@element.name]
+      end
 
-			def attr_map
-				{}
-			end
+      def attr_map
+        {}
+      end
 
       private
 
@@ -66,11 +66,11 @@ module Microformats2
         mn
       end
 
-			def format_classes
-				@format_classes = @element.attribute("class").to_s.split.select do |html_class|
-					html_class =~ Format::CLASS_REG_EXP
-				end
-			end
+      def format_classes
+        @format_classes = @element.attribute("class").to_s.split.select do |html_class|
+          html_class =~ Format::CLASS_REG_EXP
+        end
+      end
     end
   end
 end
