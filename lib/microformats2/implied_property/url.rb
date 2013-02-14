@@ -8,9 +8,12 @@ module Microformats2
 
       protected
 
-      def attr_map
-        { "a[href]" => "href",
-          ">a[href]:only-of-type" => "href" }
+      def name_map
+        { "a" => "href" }
+      end
+
+      def selector_map
+        { ">a[href]:only-of-type" => "href" }
       end
     end
   end

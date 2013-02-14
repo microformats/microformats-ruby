@@ -132,39 +132,4 @@ describe Microformats2::Collection do
       end
     end
   end
-
-  describe ".h-card implied properties simple" do
-    before do
-      html = "spec/support/hcard-implied-simple.html"
-      @collection = Microformats2.parse(html)
-    end
-
-    describe "#parse" do
-      it "assigns .h-card .p-name to HCard#name" do
-        @collection.first.name.first.value.should == "@jlsuttles"
-      end
-      it "assigns .h-card .p-photo to HCard#photo" do
-        @collection.first.photo.first.value.should == "http://gravatar.com/jlsuttles"
-      end
-      it "assigns .h-card .p-url to HCard#url" do
-        @collection.first.url.first.value.should == "http://twitter.com/jlsuttles"
-      end
-    end
-
-    describe "#to_hash" do
-      it "returns the correct Hash" do
-        hash = {
-          :items => [{
-            :type => ["h-card"],
-            :properties => {
-              :name => ["@jlsuttles"],
-              :photo => ["http://gravatar.com/jlsuttles"],
-              :url => ["http://twitter.com/jlsuttles"]
-            }
-          }]
-        }
-        @collection.to_hash.should == hash
-      end
-    end
-  end
 end
