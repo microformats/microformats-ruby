@@ -37,8 +37,8 @@ module Microformats2
     def parse_implied_properties
       ip = []
       ip << ImpliedProperty::Name.new(@element).parse unless property_present?(:name)
-      ip << ImpliedProperty::Photo.new(@element).parse unless property_present?(:photo)
       ip << ImpliedProperty::Url.new(@element).parse unless property_present?(:url)
+      ip << ImpliedProperty::Photo.new(@element).parse unless property_present?(:photo)
       ip.compact.each do |property|
         save_property_name(property.method_name)
         define_method(property.method_name)
