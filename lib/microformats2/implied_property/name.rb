@@ -21,13 +21,12 @@ module Microformats2
         { ">img[alt]:only-of-type" => "alt",
           ">abbr[title]:only-of-type" => "title",
           ">:only-of-type>img[alt]:only-of-type" => "alt",
-          ">:only-of-type>abbr[title]:only-of-type" => "title" } # only-of-type bit not working
+          ">:only-of-type>abbr[title]:only-of-type" => "title" }
       end
 
       private
 
       def text_value
-        @selector = "inner_text"
         @element.inner_text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
       end
     end

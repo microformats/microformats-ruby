@@ -93,7 +93,8 @@ describe Microformats2::Collection do
                   :url => ["http://twitter.com/jlsuttles"],
                   :name => ["Jessica Lynn Suttles"]
                 }
-              }]
+              }],
+              :name => ["Jessica Lynn Suttles"]
             }
           }]
         }

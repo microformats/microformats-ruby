@@ -1,7 +1,6 @@
 module Microformats2
   module ImpliedProperty
     class Foundation
-      attr_reader :selector
 
       def initialize(element)
         @element = element
@@ -30,33 +29,28 @@ module Microformats2
       protected
 
       def element_value
-        ev = nil
         name_map.each_pair do |elname, attr|
           if elname == @element.name && @element.attribute(attr)
-            ev ||= @element.attribute(attr).to_s
-            @selector ||= elname
+            return @element.attribute(attr).to_s
           end
         end
-        ev
+        nil
+      end
+
+      def name_map
+        {}
       end
 
       def selector_value
-        sv = nil
         selector_map.each_pair do |sel, attr|
-          selected_elements = @element.css(sel)
-          if selected_elements.first
-            sv ||= selected_elements.first.attribute(attr).to_s
-            @selector ||= sel
+          if selected_element = @element.css(sel).first
+            return selected_element.attribute(attr).to_s
           end
         end
-        sv
+        nil
       end
 
-      def attribute
-        attr_map[@element.name]
-      end
-
-      def attr_map
+      def selector_map
         {}
       end
     end
