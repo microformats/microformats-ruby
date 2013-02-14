@@ -7,6 +7,8 @@ module Microformats2
 			  super
 			end
 
+      protected
+
 			def attr_map
 				@attr_map ||= {
 					"time" => "datetime",

@@ -54,6 +54,6 @@ module Microformats2
 				end
         klass
       end
-		end
+		end # class << self
   end
 end

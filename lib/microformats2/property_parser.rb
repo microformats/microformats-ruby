@@ -8,7 +8,7 @@ module Microformats2
 			def parse_node(node)
 				case
 				when node.is_a?(Nokogiri::XML::NodeSet) then parse_nodeset(node)
-				when node.is_a?(Nokogiri::XML::Element) then parse_for_properties(node)
+				when node.is_a?(Nokogiri::XML::Element) then [parse_for_properties(node)]
 				end
 			end
 
@@ -40,6 +40,6 @@ module Microformats2
 					html_class =~ Property::CLASS_REG_EXP
 				end
 			end
-    end
+    end # class << self
   end
 end
