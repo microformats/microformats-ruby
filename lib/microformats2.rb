@@ -12,6 +12,10 @@ require "microformats2/property/url"
 require "microformats2/property/date_time"
 require "microformats2/property/embedded"
 require "microformats2/property"
+require "microformats2/implied_property/foundation"
+require "microformats2/implied_property/name"
+require "microformats2/implied_property/photo"
+require "microformats2/implied_property/url"
 
 module Microformats2
   class << self

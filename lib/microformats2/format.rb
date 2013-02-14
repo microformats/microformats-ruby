@@ -23,11 +23,31 @@ module Microformats2
     end
 
     def properties
-      @properties ||= PropertyParser.parse(@element.children).each do |property|
+      @properties ||= parse_properties.concat parse_implied_properties
+    end
+
+    def parse_properties
+      PropertyParser.parse(@element.children).each do |property|
         save_property_name(property.method_name)
         define_method(property.method_name)
         set_value(property.method_name, property)
       end
+    end
+
+    def parse_implied_properties
+      ip = []
+      ip << ImpliedProperty::Name.new(@element).parse unless property_present?(:name)
+      ip << ImpliedProperty::Photo.new(@element).parse unless property_present?(:photo)
+      ip << ImpliedProperty::Url.new(@element).parse unless property_present?(:url)
+      ip.compact.each do |property|
+        save_property_name(property.method_name)
+        define_method(property.method_name)
+        set_value(property.method_name, property)
+      end
+    end
+
+    def property_present?(property)
+      !! respond_to?(property) && send(property)
     end
 
     def to_hash
