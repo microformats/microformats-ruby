@@ -10,7 +10,7 @@ describe Microformats2::Collection do
         @collection = Microformats2.parse(html)
       end
       describe "#to_json" do
-        it "returns the correct JSON" do
+        it "should match simple.js" do
           json = "spec/support/lib/microformats2/simple.js"
           json = open(json).read
           JSON.parse(@collection.to_json).should == JSON.parse(json)
@@ -43,10 +43,11 @@ describe Microformats2::Collection do
           @collection.first.bday.first.should be_kind_of Microformats2::Property::DateTime
         end
         it "assigns datetime attribute to Property#string_value" do
-          @collection.first.bday.first.value.to_s.should == "1990-10-15T20:45:33-08:00"
+          @collection.first.bday.first.string_value.should == "1990-10-15"
         end
         it "assigns DateTime object to Property#value" do
           @collection.first.bday.first.value.should be_kind_of DateTime
+          @collection.first.bday.first.value.to_s.should == "1990-10-15T00:00:00+00:00"
         end
       end
       describe "HCard#content parsed from '.h-card .p-content'" do
@@ -54,7 +55,7 @@ describe Microformats2::Collection do
           @collection.first.content.first.should be_kind_of Microformats2::Property::Embedded
         end
         it "assigns inner_text to Property#value" do
-          @collection.first.content.first.value.should == "Vegan. Cat lover. Coder."
+          @collection.first.content.first.value.should == "<p>Vegan. Cat lover. Coder.</p>"
         end
       end
     end
@@ -65,7 +66,7 @@ describe Microformats2::Collection do
         @collection = Microformats2.parse(html)
       end
       describe "#to_json" do
-        it "returns the correct JSON" do
+        it "should match nested-property.js" do
           json = "spec/support/lib/microformats2/nested-property.js"
           json = open(json).read
           JSON.parse(@collection.to_json).should == JSON.parse(json)
@@ -84,7 +85,7 @@ describe Microformats2::Collection do
           @collection.first.name.first.value.should == "jlsuttles"
         end
       end
-      describe "HCard#nickname parsed from '.h-card .p-nickname'" do
+      describe "HCard#nickname parsed from '.h-card .p-name .p-nickname'" do
         it "assigns Property from '.h-card .p-nickname' to HCard#nickname[]" do
           @collection.first.nickname.first.should be_kind_of Microformats2::Property::Text
         end
@@ -100,7 +101,7 @@ describe Microformats2::Collection do
         @collection = Microformats2.parse(html)
       end
       describe "#to_json" do
-        it "returns the correct JSON" do
+        it "should match nested-format-with-property.js" do
           json = "spec/support/lib/microformats2/nested-format-with-property.js"
           json = open(json).read
           JSON.parse(@collection.to_json).should == JSON.parse(json)
