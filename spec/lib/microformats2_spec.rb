@@ -19,7 +19,7 @@ describe Microformats2 do
       Microformats2.read_html(@html).should include @html
     end
     it "can be a file path to html" do
-      html = "spec/support/hcard-simple.html"
+      html = "spec/support/lib/microformats2/simple.html"
       Microformats2.read_html(html).should include "<div class=\"h-card\">"
     end
     it "can be a url to html" do
