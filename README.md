@@ -3,9 +3,31 @@
 [![Build Status](https://travis-ci.org/G5/microformats2.png?branch=master)](https://travis-ci.org/G5/microformats2)
 [![Code Climate](https://codeclimate.com/github/G5/microformats2.png)](https://codeclimate.com/github/G5/microformats2)
 
-A Ruby gem to parse HTML containing one or more
-[microformats2](http://microformats.org/wiki/microformats-2)
-and return a collection of Ruby objects.
+A Ruby gem to parse HTML containing one or more [microformats2](http://microformats.org/wiki/microformats-2)
+and return a collection of dynamically defined Ruby objects.
+
+A work in progress.
+
+Implemented:
+
+* [parsing depth first, doc order](parse_a_document_for_microformats)
+* [parsing a p- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_p-_property)
+* [parsing a u- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_u-_property)
+* [parsing a dt- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_dt-_property)
+* [parsing a e- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_e-_property)
+* [parsing implied properties](http://microformats.org/wiki/microformats-2-parsing#parsing_for_implied_properties)
+* nested properties
+* nested microformat with associated property
+
+Not Implemented:
+
+* [normalize u-* property values](http://microformats.org/wiki/microformats2-parsing-faq#normalizing_u-.2A_property_values)
+* nested microformat without associated property
+* [rel](http://microformats.org/wiki/rel)
+* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
+* [include-pattern](http://microformats.org/wiki/include-pattern)
+* recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
+* backwards compatable support for microformats v1
 
 
 ## Current Version
@@ -40,8 +62,8 @@ Or install it yourself as:
 require "microformats2"
 
 html = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
-formats = Microformats.parse(html)
-formats.h_card.name.value #=> "Jessica Lynn Suttles"
+collection = Microformats.parse(html)
+collection.card.first.name.first.value #=> "Jessica Lynn Suttles"
 ```
 
 
