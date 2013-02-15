@@ -34,7 +34,7 @@ module Microformats2
           property = klass.new(element, property_class).parse
           properties = format_classes(element).empty? ? PropertyParser.parse(element.children) : []
 
-          properties << property
+          [property].concat properties
         end
       end
 

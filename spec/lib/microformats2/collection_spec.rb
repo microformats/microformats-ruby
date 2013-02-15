@@ -2,134 +2,145 @@ require "spec_helper"
 require "microformats2"
 
 describe Microformats2::Collection do
-  describe "case" do
-    cases_dir = "spec/support/cases/*"
-    Dir[File.join(cases_dir, "*")].each do |page_dir|
-      Dir[File.join(page_dir, "*")].keep_if { |f| f =~ /([.]html$)/ }.each do |html_file|
-        it "#{html_file}" do
-          json_file = html_file.gsub(/([.]html$)/, ".js")
-          html = open(html_file).read
-          json = open(json_file).read
+  describe "spec/support/lib/microformats2" do
 
-          JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+    describe "simple.html" do
+      before do
+        html = "spec/support/lib/microformats2/simple.html"
+        @collection = Microformats2.parse(html)
+      end
+      describe "#to_json" do
+        it "returns the correct JSON" do
+          json = "spec/support/lib/microformats2/simple.js"
+          json = open(json).read
+          JSON.parse(@collection.to_json).should == JSON.parse(json)
+        end
+      end
+      describe "#card" do
+        it "returns array of HCard objects" do
+          @collection.card.first.should be_kind_of HCard
+        end
+      end
+      describe "HCard#name parsed from '.h-card .p-name'" do
+        it "assigns Property from '.h-card .p-name' to HCard#name[]" do
+          @collection.first.name.first.should be_kind_of Microformats2::Property::Text
+        end
+        it "assigns inner_text to Property#value" do
+          @collection.first.name.first.value.should == "Jessica Lynn Suttles"
+        end
+      end
+      describe "HCard#url parsed from '.h-card .p-url'" do
+        it "assigns Property from '.h-card .p-url' to HCard#url[]" do
+          @collection.first.url.first.should be_kind_of Microformats2::Property::Url
+        end
+        it "assigns inner_text to Property#value" do
+          urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
+          @collection.first.url.map(&:value).should == urls
+        end
+      end
+      describe "HCard#bday parsed from '.h-card .p-bday'" do
+        it "assigns Property from '.h-card .p-bday' to HCard#bday[]" do
+          @collection.first.bday.first.should be_kind_of Microformats2::Property::DateTime
+        end
+        it "assigns datetime attribute to Property#string_value" do
+          @collection.first.bday.first.value.to_s.should == "1990-10-15T20:45:33-08:00"
+        end
+        it "assigns DateTime object to Property#value" do
+          @collection.first.bday.first.value.should be_kind_of DateTime
+        end
+      end
+      describe "HCard#content parsed from '.h-card .p-content'" do
+        it "assigns Property from '.h-card .p-content' to HCard#content[]" do
+          @collection.first.content.first.should be_kind_of Microformats2::Property::Embedded
+        end
+        it "assigns inner_text to Property#value" do
+          @collection.first.content.first.value.should == "Vegan. Cat lover. Coder."
+        end
+      end
+    end
+
+    describe "nested-property.html" do
+      before do
+        html = "spec/support/lib/microformats2/nested-property.html"
+        @collection = Microformats2.parse(html)
+      end
+      describe "#to_json" do
+        it "returns the correct JSON" do
+          json = "spec/support/lib/microformats2/nested-property.js"
+          json = open(json).read
+          JSON.parse(@collection.to_json).should == JSON.parse(json)
+        end
+      end
+      describe "#card" do
+        it "returns array of HCard objects" do
+          @collection.card.first.should be_kind_of HCard
+        end
+      end
+      describe "HCard#name parsed from '.h-card .p-name'" do
+        it "assigns Property from '.h-card .p-name' to HCard#name[]" do
+          @collection.first.name.first.should be_kind_of Microformats2::Property::Text
+        end
+        it "assigns inner_text to Property#value" do
+          @collection.first.name.first.value.should == "jlsuttles"
+        end
+      end
+      describe "HCard#nickname parsed from '.h-card .p-nickname'" do
+        it "assigns Property from '.h-card .p-nickname' to HCard#nickname[]" do
+          @collection.first.nickname.first.should be_kind_of Microformats2::Property::Text
+        end
+        it "assigns inner_text to Property#value" do
+          @collection.first.nickname.first.value.should == "jlsuttles"
+        end
+      end
+    end
+
+    describe "nested-format-with-property.html" do
+      before do
+        html = "spec/support/lib/microformats2/nested-format-with-property.html"
+        @collection = Microformats2.parse(html)
+      end
+      describe "#to_json" do
+        it "returns the correct JSON" do
+          json = "spec/support/lib/microformats2/nested-format-with-property.js"
+          json = open(json).read
+          JSON.parse(@collection.to_json).should == JSON.parse(json)
+        end
+      end
+      describe "#entry" do
+        it "returns array of HEntry objects" do
+          @collection.entry.first.should be_kind_of HEntry
+        end
+      end
+      describe "HEntry#author parsed from '.h-entry .p-author.h-card'" do
+        it "assigns Property to HEntry#author[]" do
+          @collection.first.author.first.should be_kind_of Microformats2::Property::Text
+        end
+        it "assigns inner_text to Property#value" do
+          @collection.first.author.first.value.should == "Jessica Lynn Suttles"
+        end
+        it "assigns HCard to Property#formats[]" do
+          @collection.first.author.first.formats.first.should be_kind_of HCard
         end
       end
     end
   end
 
-  describe ".h-card simple" do
-    before do
-      html = "spec/support/hcard-simple.html"
-      @collection = Microformats2.parse(html)
-    end
+  #
+  # these cases were scraped from the internet using `rake specs:update`
+  #
+  describe "spec/support/cases" do
+    cases_dir = "spec/support/cases/*"
+    Dir[File.join(cases_dir, "*")].each do |page_dir|
+    describe page_dir.split("/")[-2..-1].join("/") do
+        Dir[File.join(page_dir, "*")].keep_if { |f| f =~ /([.]html$)/ }.each do |html_file|
+          it "#{html_file.split("/").last}" do
+            json_file = html_file.gsub(/([.]html$)/, ".js")
+            html = open(html_file).read
+            json = open(json_file).read
 
-    describe "#parse" do
-      it "creates ruby class HCard" do
-        @collection.all.first.should be_kind_of HCard
-        @collection.first.should be_kind_of HCard
-        @collection.card.first.should be_kind_of HCard
-      end
-      it "assigns .h-card .p-name to HCard#name" do
-        @collection.first.name.first.value.should == "Jessica Lynn Suttles"
-      end
-      it "assigns both .h-card .u-url to HCard#url" do
-        urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
-        @collection.first.url.map(&:value).should == urls
-      end
-      it "assings .h-card .dt-bday to HCard#bday" do
-        @collection.first.bday.first.value.should be_kind_of DateTime
-        @collection.first.bday.first.value.to_s.should == "1990-10-15T20:45:33-08:00"
-      end
-      it "assigns .h-card .e-content to HCard#content" do
-        @collection.first.content.first.value.should == "Vegan. Cat lover. Coder."
-      end
-    end
-
-    describe "#to_hash" do
-      it "returns the correct Hash" do
-        hash = {
-          :items => [{
-            :type => ["h-card"],
-            :properties => {
-              :url => ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"],
-              :name => ["Jessica Lynn Suttles"],
-              :bday => ["1990-10-15T20:45:33-08:00"],
-              :content => ["Vegan. Cat lover. Coder."]
-            }
-          }]
-        }
-        @collection.to_hash.should == hash
-      end
-    end
-  end
-
-  describe ".h-entry .p-author.h-card nested" do
-    before do
-      html = "spec/support/hentry-pauthor-hcard-nested.html"
-      @collection = Microformats2.parse(html)
-    end
-
-    describe "#parse" do
-      it "creates ruby class HEntry" do
-        @collection.all.first.should be_kind_of HEntry
-        @collection.first.should be_kind_of HEntry
-        @collection.entry.first.should be_kind_of HEntry
-      end
-      it "assigns .h-entry .p-author to HEntry#author" do
-        @collection.first.author.first.value.should == "Jessica Lynn Suttles"
-      end
-    end
-
-    describe "#to_hash" do
-      it "returns the correct Hash" do
-        hash = {
-          :items => [{
-            :type => ["h-entry"],
-            :properties => {
-              :author => [{
-                :value => "Jessica Lynn Suttles",
-                :type => ["h-card", "h-org"],
-                :properties => {
-                  :url => ["http://twitter.com/jlsuttles"],
-                  :name => ["Jessica Lynn Suttles"]
-                }
-              }],
-              :name => ["Jessica Lynn Suttles"]
-            }
-          }]
-        }
-        @collection.to_hash.should == hash
-      end
-    end
-  end
-
-  describe ".h-card .p-name .p-nickname nested" do
-    before do
-      html = "spec/support/hcard-pname-pnickname-nested.html"
-      @collection = Microformats2.parse(html)
-    end
-
-    describe "#parse" do
-      it "assigns .h-card .p-name to HCard#name" do
-        @collection.first.name.first.value.should == "jlsuttles"
-      end
-      it "assigns .h-card .p-nickname to HCard#nickname" do
-        @collection.first.nickname.first.value.should == "jlsuttles"
-      end
-    end
-
-    describe "#to_hash" do
-      it "returns the correct Hash" do
-        hash = {
-          :items => [{
-            :type => ["h-card"],
-            :properties => {
-              :name => ["jlsuttles"],
-              :nickname => ["jlsuttles"]
-            }
-          }]
-        }
-        @collection.to_hash.should == hash
+            JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+          end
+        end
       end
     end
   end
