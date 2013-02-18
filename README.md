@@ -39,6 +39,7 @@ Not Implemented:
 
 * "nokogiri", "~> 1.5.6"
 * "json", "~> 1.7.6"
+* "activesupport", "~> 3.2.12"
 
 
 ## Installation
