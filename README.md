@@ -62,11 +62,13 @@ Or install it yourself as:
 ```ruby
 require "microformats2"
 
-html = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
-collection = Microformats.parse(html)
-collection.card.first.name.first.value #=> "Jessica Lynn Suttles"
+source = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
+collection = Microformats.parse(source)
+collection.cards.first.names.first.to_s #=> "Jessica Lynn Suttles"
+collection.card.name.to_s #=> "Jessica Lynn Suttles"
 ```
 
+* `source` can be a URL, filepath, or HTML
 
 ## Authors
 
