@@ -6,8 +6,8 @@ module Microformats2
         "name"
       end
 
-      def value
-        @value ||= element_value || selector_value || text_value
+      def to_s
+        @to_s ||= element_value || selector_value || text_value
       end
 
       protected
