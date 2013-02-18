@@ -149,8 +149,11 @@ describe Microformats2::Collection do
         it "HCard#author is a Property::Text" do
           @collection.entry.author.should be_kind_of Microformats2::Property::Text
         end
-        it "assigns HCard to Property::Text#formats" do
+        it "assigns all HCard to Property::Text#formats" do
           @collection.entry.author.formats.first.should be_kind_of HCard
+        end
+        it "assigns the first HCard to Property::Text#format" do
+          @collection.entry.author.format.should be_kind_of HCard
         end
       end
     end

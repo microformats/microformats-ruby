@@ -18,6 +18,10 @@ module Microformats2
         @to_s ||= value_class_pattern || element_value || text_value
       end
 
+      def format
+        formats.first
+      end
+
       def formats
         @formats ||= format_classes.length >=1 ? FormatParser.parse(@element) : []
       end
