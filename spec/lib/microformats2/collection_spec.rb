@@ -16,58 +16,61 @@ describe Microformats2::Collection do
           JSON.parse(@collection.to_json).should == JSON.parse(json)
         end
       end
-      describe "#card" do
-        it "returns array of HCard objects" do
-          @collection.card.first.should be_kind_of HCard
+      describe "'.h-card'" do
+        it "assigns all cards to Collection#cards" do
+          @collection.cards.first.should be_kind_of HCard
+        end
+        it "assigns the first card to Collection#card" do
+          @collection.card.should be_kind_of HCard
         end
       end
       describe "'.h-card .p-name'" do
         it "assigns all names to HCard#names" do
-          @collection.first.names.map(&:to_s).should == ["Jessica Lynn Suttles"]
+          @collection.card.names.map(&:to_s).should == ["Jessica Lynn Suttles"]
         end
         it "assigns the first name to HCard#name" do
-          @collection.first.name.to_s.should == "Jessica Lynn Suttles"
+          @collection.card.name.to_s.should == "Jessica Lynn Suttles"
         end
         it "HCard#name is a Property::Text" do
-          @collection.first.name.should be_kind_of Microformats2::Property::Text
+          @collection.card.name.should be_kind_of Microformats2::Property::Text
         end
       end
       describe "'.h-card .p-url'" do
         it "assigns all urls to HCard#urls" do
           urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
-          @collection.first.urls.map(&:to_s).should == urls
+          @collection.card.urls.map(&:to_s).should == urls
         end
         it "assigns then first url to HCard#url" do
-          @collection.first.url.to_s.should == "http://flickr.com/jlsuttles"
+          @collection.card.url.to_s.should == "http://flickr.com/jlsuttles"
         end
         it "HCard#url is a Property::Url" do
-          @collection.first.url.should be_kind_of Microformats2::Property::Url
+          @collection.card.url.should be_kind_of Microformats2::Property::Url
         end
       end
       describe "'.h-card .p-bday'" do
         it "assigns all bdays to HCard#bdays" do
-          @collection.first.bdays.map(&:to_s).should == ["1990-10-15"]
+          @collection.card.bdays.map(&:to_s).should == ["1990-10-15"]
         end
         it "assigns the first bday to HCard#bday" do
-          @collection.first.bday.to_s.should == "1990-10-15"
+          @collection.card.bday.to_s.should == "1990-10-15"
         end
         it "HCard#bday is a Property::DateTime" do
-          @collection.first.bday.should be_kind_of Microformats2::Property::DateTime
+          @collection.card.bday.should be_kind_of Microformats2::Property::DateTime
         end
         it "assigns DateTime object to Property::DateTime#value" do
-          @collection.first.bday.value.should be_kind_of DateTime
-          @collection.first.bday.value.to_s.should == "1990-10-15T00:00:00+00:00"
+          @collection.card.bday.value.should be_kind_of DateTime
+          @collection.card.bday.value.to_s.should == "1990-10-15T00:00:00+00:00"
         end
       end
       describe "'.h-card .p-content'" do
         it "assigns all contents to HCard#contents" do
-          @collection.first.contents.map(&:to_s).should == ["<p>Vegan. Cat lover. Coder.</p>"]
+          @collection.card.contents.map(&:to_s).should == ["<p>Vegan. Cat lover. Coder.</p>"]
         end
         it "assigns the first content to HCard#content" do
-          @collection.first.content.to_s.should == "<p>Vegan. Cat lover. Coder.</p>"
+          @collection.card.content.to_s.should == "<p>Vegan. Cat lover. Coder.</p>"
         end
         it "HCard#content is a Property::Embedded" do
-          @collection.first.contents.first.should be_kind_of Microformats2::Property::Embedded
+          @collection.card.contents.first.should be_kind_of Microformats2::Property::Embedded
         end
       end
     end
@@ -84,31 +87,34 @@ describe Microformats2::Collection do
           JSON.parse(@collection.to_json).should == JSON.parse(json)
         end
       end
-      describe "#card" do
-        it "returns array of HCard objects" do
-          @collection.card.first.should be_kind_of HCard
+      describe "'.h-card'" do
+        it "assigns all cards to Collection#cards" do
+          @collection.cards.first.should be_kind_of HCard
+        end
+        it "assigns the first card to Collection#card" do
+          @collection.card.should be_kind_of HCard
         end
       end
       describe "'.h-card .p-name'" do
         it "assigns all names to HCard#names" do
-          @collection.first.names.map(&:to_s).should == ["jlsuttles"]
+          @collection.card.names.map(&:to_s).should == ["jlsuttles"]
         end
         it "assigns the first name to HCard#name" do
-          @collection.first.name.to_s.should == "jlsuttles"
+          @collection.card.name.to_s.should == "jlsuttles"
         end
         it "HCard#name is a Property::Text" do
-          @collection.first.name.should be_kind_of Microformats2::Property::Text
+          @collection.card.name.should be_kind_of Microformats2::Property::Text
         end
       end
       describe "'.h-card .p-name .p-nickname'" do
         it "assigns all nicknames to HCard#nicknames" do
-          @collection.first.nicknames.map(&:to_s).should == ["jlsuttles"]
+          @collection.card.nicknames.map(&:to_s).should == ["jlsuttles"]
         end
         it "assigns the first nickname to HCard#nickname" do
-          @collection.first.nickname.to_s.should == "jlsuttles"
+          @collection.card.nickname.to_s.should == "jlsuttles"
         end
         it "HCard#nickname is a Property::Text" do
-          @collection.first.nickname.should be_kind_of Microformats2::Property::Text
+          @collection.card.nickname.should be_kind_of Microformats2::Property::Text
         end
       end
     end
@@ -125,23 +131,26 @@ describe Microformats2::Collection do
           JSON.parse(@collection.to_json).should == JSON.parse(json)
         end
       end
-      describe "#entry" do
-        it "returns array of HEntry objects" do
-          @collection.entry.first.should be_kind_of HEntry
+      describe "'.h-entry'" do
+        it "assigns all entrys to Collection#entrys" do
+          @collection.entries.first.should be_kind_of HEntry
+        end
+        it "assigns the first entry to Collection#entry" do
+          @collection.entry.should be_kind_of HEntry
         end
       end
       describe "'.h-card .p-author.h-card'" do
         it "assigns all authors to HCard#authors" do
-          @collection.first.authors.map(&:to_s).should == ["Jessica Lynn Suttles"]
+          @collection.entry.authors.map(&:to_s).should == ["Jessica Lynn Suttles"]
         end
         it "assigns the first author to HCard#author" do
-          @collection.first.author.to_s.should == "Jessica Lynn Suttles"
+          @collection.entry.author.to_s.should == "Jessica Lynn Suttles"
         end
         it "HCard#author is a Property::Text" do
-          @collection.first.author.should be_kind_of Microformats2::Property::Text
+          @collection.entry.author.should be_kind_of Microformats2::Property::Text
         end
         it "assigns HCard to Property::Text#formats" do
-          @collection.first.author.formats.first.should be_kind_of HCard
+          @collection.entry.author.formats.first.should be_kind_of HCard
         end
       end
     end
