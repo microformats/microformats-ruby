@@ -1,6 +1,8 @@
 require "nokogiri"
 require "open-uri"
 require "json"
+require "active_support/inflector"
+
 require "microformats2/version"
 require "microformats2/format_parser"
 require "microformats2/property_parser"
