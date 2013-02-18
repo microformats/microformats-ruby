@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Microformats2::VERSION
   gem.authors       = ["Jessica Lynn Suttles"]
   gem.email         = ["jlsuttles@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{parses HTML for microformats and return a collection of dynamically defined Ruby objects}
+  gem.summary       = %q{microformats2 parser}
+  gem.homepage      = "https://github.com/G5/microformats2"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
