@@ -22,28 +22,37 @@ describe Microformats2::Collection do
         end
       end
       describe "HCard#names parsed from '.h-card .p-name'" do
-        it "assigns Property from '.h-card .p-name' to HCard#name[]" do
+        it "assigns Property from '.h-card .p-name' to HCard#names" do
           @collection.first.names.first.should be_kind_of Microformats2::Property::Text
         end
         it "assigns inner_text to Property#to_s" do
           @collection.first.names.first.to_s.should == "Jessica Lynn Suttles"
         end
+        it "assigns the first name to HCard#name" do
+          @collection.first.name.to_s.should == "Jessica Lynn Suttles"
+        end
       end
       describe "HCard#urls parsed from '.h-card .p-url'" do
-        it "assigns Property from '.h-card .p-url' to HCard#url[]" do
+        it "assigns Property from '.h-card .p-url' to HCard#urls" do
           @collection.first.urls.first.should be_kind_of Microformats2::Property::Url
         end
         it "assigns inner_text to Property#to_s" do
           urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
           @collection.first.urls.map(&:to_s).should == urls
         end
+        it "assigns first url to HCard#url" do
+          @collection.first.url.to_s.should == "http://flickr.com/jlsuttles"
+        end
       end
       describe "HCard#bdays parsed from '.h-card .p-bday'" do
-        it "assigns Property from '.h-card .p-bday' to HCard#bday[]" do
+        it "assigns Property from '.h-card .p-bday' to HCard#bdays" do
           @collection.first.bdays.first.should be_kind_of Microformats2::Property::DateTime
         end
-        it "assigns datetime attribute to Property#string_to_s" do
+        it "assigns datetime attribute to Property#to_s" do
           @collection.first.bdays.first.to_s.should == "1990-10-15"
+        end
+        it "assigns first bday to HCard#bday" do
+          @collection.first.bday.to_s.should == "1990-10-15"
         end
         it "assigns DateTime object to Property#to_s" do
           @collection.first.bdays.first.value.should be_kind_of DateTime
@@ -51,11 +60,14 @@ describe Microformats2::Collection do
         end
       end
       describe "HCard#contents parsed from '.h-card .p-content'" do
-        it "assigns Property from '.h-card .p-content' to HCard#content[]" do
-          @collection.first.content.first.should be_kind_of Microformats2::Property::Embedded
+        it "assigns Property from '.h-card .p-content' to HCard#contents" do
+          @collection.first.contents.first.should be_kind_of Microformats2::Property::Embedded
         end
         it "assigns inner_text to Property#to_s" do
-          @collection.first.content.first.to_s.should == "<p>Vegan. Cat lover. Coder.</p>"
+          @collection.first.contents.first.to_s.should == "<p>Vegan. Cat lover. Coder.</p>"
+        end
+        it "assigns first content to HCard#content" do
+          @collection.first.content.to_s.should == "<p>Vegan. Cat lover. Coder.</p>"
         end
       end
     end
@@ -78,7 +90,7 @@ describe Microformats2::Collection do
         end
       end
       describe "HCard#name parsed from '.h-card .p-name'" do
-        it "assigns Property from '.h-card .p-name' to HCard#name[]" do
+        it "assigns Property from '.h-card .p-name' to HCard#names" do
           @collection.first.name.first.should be_kind_of Microformats2::Property::Text
         end
         it "assigns inner_text to Property#to_s" do
@@ -86,7 +98,7 @@ describe Microformats2::Collection do
         end
       end
       describe "HCard#nickname parsed from '.h-card .p-name .p-nickname'" do
-        it "assigns Property from '.h-card .p-nickname' to HCard#nickname[]" do
+        it "assigns Property from '.h-card .p-nickname' to HCard#nicknames" do
           @collection.first.nickname.first.should be_kind_of Microformats2::Property::Text
         end
         it "assigns inner_text to Property#to_s" do
@@ -113,13 +125,13 @@ describe Microformats2::Collection do
         end
       end
       describe "HEntry#author parsed from '.h-entry .p-author.h-card'" do
-        it "assigns Property to HEntry#author[]" do
+        it "assigns Property to HEntry#authors" do
           @collection.first.author.first.should be_kind_of Microformats2::Property::Text
         end
         it "assigns inner_text to Property#to_s" do
           @collection.first.author.first.to_s.should == "Jessica Lynn Suttles"
         end
-        it "assigns HCard to Property#formats[]" do
+        it "assigns HCard to Property#formats" do
           @collection.first.author.first.formats.first.should be_kind_of HCard
         end
       end

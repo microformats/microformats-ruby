@@ -53,7 +53,7 @@ module Microformats2
     def to_hash
       hash = { type: format_types, properties: {} }
       @property_names.each do |method_name|
-        hash[:properties][method_name.to_sym] = send(method_name).map(&:to_hash)
+        hash[:properties][method_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
       end
       hash
     end
