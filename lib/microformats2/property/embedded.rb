@@ -1,8 +1,8 @@
 module Microformats2
   module Property
     class Embedded < Foundation
-      def value
-        @value ||= @element.inner_html.strip
+      def to_s
+        @to_s ||= @element.inner_html.strip
       end
     end
   end

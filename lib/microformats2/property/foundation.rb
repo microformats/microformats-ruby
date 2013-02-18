@@ -9,13 +9,13 @@ module Microformats2
       end
 
       def parse
-        value
+        to_s
         formats
         self
       end
 
-      def value
-        @value ||= value_class_pattern || element_value || text_value
+      def to_s
+        @to_s ||= value_class_pattern || element_value || text_value
       end
 
       def formats
@@ -24,9 +24,9 @@ module Microformats2
 
       def to_hash
         if formats.empty?
-          value.to_s
+          to_s
         else
-          { value: value.to_s }.merge(formats.first.to_hash)
+          { value: to_s }.merge(formats.first.to_hash)
         end
       end
 
