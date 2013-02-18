@@ -52,13 +52,19 @@ module Microformats2
       unless respond_to?(mn)
         self.class.class_eval { attr_accessor mn }
       end
+      unless respond_to?(mn.pluralize)
+        self.class.class_eval { attr_accessor mn.pluralize }
+      end
     end
 
     def set_value(mn, value)
-      if current = send(mn)
+      unless current = send(mn)
+        send("#{mn}=", value)
+      end
+      if current = send(mn.pluralize)
         current << value
       else
-        send("#{mn}=", [value])
+        send("#{mn.pluralize}=", [value])
       end
     end
   end
