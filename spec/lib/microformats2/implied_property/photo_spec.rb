@@ -11,7 +11,7 @@ describe Microformats2::ImpliedProperty::Photo do
       end
       collection.all.each_with_index do |format, index|
         it "implies photo to be 'http://gravatar.com/jlsuttles' in case #{index+1}" do
-          format.photo.first.value.should == "http://gravatar.com/jlsuttles"
+          format.photo.to_s.should == "http://gravatar.com/jlsuttles"
         end
       end
     end
@@ -22,8 +22,8 @@ describe Microformats2::ImpliedProperty::Photo do
         collection.all.length.should == 8
       end
       collection.all.each_with_index do |format, index|
-        it "implies photo to be nil in case #{index+1}" do
-          format.photo.should be_nil
+        it "implies photo to be '' in case #{index+1}" do
+          format.photo.to_s.should == ""
         end
       end
     end
