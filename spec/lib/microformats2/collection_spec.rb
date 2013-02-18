@@ -21,36 +21,36 @@ describe Microformats2::Collection do
           @collection.card.first.should be_kind_of HCard
         end
       end
-      describe "HCard#name parsed from '.h-card .p-name'" do
+      describe "HCard#names parsed from '.h-card .p-name'" do
         it "assigns Property from '.h-card .p-name' to HCard#name[]" do
-          @collection.first.name.first.should be_kind_of Microformats2::Property::Text
+          @collection.first.names.first.should be_kind_of Microformats2::Property::Text
         end
         it "assigns inner_text to Property#to_s" do
-          @collection.first.name.first.to_s.should == "Jessica Lynn Suttles"
+          @collection.first.names.first.to_s.should == "Jessica Lynn Suttles"
         end
       end
-      describe "HCard#url parsed from '.h-card .p-url'" do
+      describe "HCard#urls parsed from '.h-card .p-url'" do
         it "assigns Property from '.h-card .p-url' to HCard#url[]" do
-          @collection.first.url.first.should be_kind_of Microformats2::Property::Url
+          @collection.first.urls.first.should be_kind_of Microformats2::Property::Url
         end
         it "assigns inner_text to Property#to_s" do
           urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
-          @collection.first.url.map(&:to_s).should == urls
+          @collection.first.urls.map(&:to_s).should == urls
         end
       end
-      describe "HCard#bday parsed from '.h-card .p-bday'" do
+      describe "HCard#bdays parsed from '.h-card .p-bday'" do
         it "assigns Property from '.h-card .p-bday' to HCard#bday[]" do
-          @collection.first.bday.first.should be_kind_of Microformats2::Property::DateTime
+          @collection.first.bdays.first.should be_kind_of Microformats2::Property::DateTime
         end
         it "assigns datetime attribute to Property#string_to_s" do
-          @collection.first.bday.first.to_s.should == "1990-10-15"
+          @collection.first.bdays.first.to_s.should == "1990-10-15"
         end
         it "assigns DateTime object to Property#to_s" do
-          @collection.first.bday.first.value.should be_kind_of DateTime
-          @collection.first.bday.first.value.to_s.should == "1990-10-15T00:00:00+00:00"
+          @collection.first.bdays.first.value.should be_kind_of DateTime
+          @collection.first.bdays.first.value.to_s.should == "1990-10-15T00:00:00+00:00"
         end
       end
-      describe "HCard#content parsed from '.h-card .p-content'" do
+      describe "HCard#contents parsed from '.h-card .p-content'" do
         it "assigns Property from '.h-card .p-content' to HCard#content[]" do
           @collection.first.content.first.should be_kind_of Microformats2::Property::Embedded
         end
