@@ -1,21 +1,19 @@
 module Microformats2
   module Property
     class DateTime < Foundation
-      def value
-        ::DateTime.parse(string_value)
-      rescue ArgumentError => e
-        string_value
+      def to_s
+        @to_s ||= value_class_pattern || element_value || text_value
       end
 
-      def string_value
-        @string_value ||= value_class_pattern || element_value || text_value
+      def value
+        ::DateTime.parse(to_s)
       end
 
       def to_hash
         if formats.empty?
-          string_value.to_s
+          to_s
         else
-          { value: string_value.to_s }.merge(formats.first.to_hash)
+          { value: to_s }.merge(formats.first.to_hash)
         end
       end
 

@@ -25,27 +25,27 @@ describe Microformats2::Collection do
         it "assigns Property from '.h-card .p-name' to HCard#name[]" do
           @collection.first.name.first.should be_kind_of Microformats2::Property::Text
         end
-        it "assigns inner_text to Property#value" do
-          @collection.first.name.first.value.should == "Jessica Lynn Suttles"
+        it "assigns inner_text to Property#to_s" do
+          @collection.first.name.first.to_s.should == "Jessica Lynn Suttles"
         end
       end
       describe "HCard#url parsed from '.h-card .p-url'" do
         it "assigns Property from '.h-card .p-url' to HCard#url[]" do
           @collection.first.url.first.should be_kind_of Microformats2::Property::Url
         end
-        it "assigns inner_text to Property#value" do
+        it "assigns inner_text to Property#to_s" do
           urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
-          @collection.first.url.map(&:value).should == urls
+          @collection.first.url.map(&:to_s).should == urls
         end
       end
       describe "HCard#bday parsed from '.h-card .p-bday'" do
         it "assigns Property from '.h-card .p-bday' to HCard#bday[]" do
           @collection.first.bday.first.should be_kind_of Microformats2::Property::DateTime
         end
-        it "assigns datetime attribute to Property#string_value" do
-          @collection.first.bday.first.string_value.should == "1990-10-15"
+        it "assigns datetime attribute to Property#string_to_s" do
+          @collection.first.bday.first.to_s.should == "1990-10-15"
         end
-        it "assigns DateTime object to Property#value" do
+        it "assigns DateTime object to Property#to_s" do
           @collection.first.bday.first.value.should be_kind_of DateTime
           @collection.first.bday.first.value.to_s.should == "1990-10-15T00:00:00+00:00"
         end
@@ -54,8 +54,8 @@ describe Microformats2::Collection do
         it "assigns Property from '.h-card .p-content' to HCard#content[]" do
           @collection.first.content.first.should be_kind_of Microformats2::Property::Embedded
         end
-        it "assigns inner_text to Property#value" do
-          @collection.first.content.first.value.should == "<p>Vegan. Cat lover. Coder.</p>"
+        it "assigns inner_text to Property#to_s" do
+          @collection.first.content.first.to_s.should == "<p>Vegan. Cat lover. Coder.</p>"
         end
       end
     end
@@ -81,16 +81,16 @@ describe Microformats2::Collection do
         it "assigns Property from '.h-card .p-name' to HCard#name[]" do
           @collection.first.name.first.should be_kind_of Microformats2::Property::Text
         end
-        it "assigns inner_text to Property#value" do
-          @collection.first.name.first.value.should == "jlsuttles"
+        it "assigns inner_text to Property#to_s" do
+          @collection.first.name.first.to_s.should == "jlsuttles"
         end
       end
       describe "HCard#nickname parsed from '.h-card .p-name .p-nickname'" do
         it "assigns Property from '.h-card .p-nickname' to HCard#nickname[]" do
           @collection.first.nickname.first.should be_kind_of Microformats2::Property::Text
         end
-        it "assigns inner_text to Property#value" do
-          @collection.first.nickname.first.value.should == "jlsuttles"
+        it "assigns inner_text to Property#to_s" do
+          @collection.first.nickname.first.to_s.should == "jlsuttles"
         end
       end
     end
@@ -116,8 +116,8 @@ describe Microformats2::Collection do
         it "assigns Property to HEntry#author[]" do
           @collection.first.author.first.should be_kind_of Microformats2::Property::Text
         end
-        it "assigns inner_text to Property#value" do
-          @collection.first.author.first.value.should == "Jessica Lynn Suttles"
+        it "assigns inner_text to Property#to_s" do
+          @collection.first.author.first.to_s.should == "Jessica Lynn Suttles"
         end
         it "assigns HCard to Property#formats[]" do
           @collection.first.author.first.formats.first.should be_kind_of HCard
