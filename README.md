@@ -1,6 +1,6 @@
 # MOVED!
 
-For all future version, go to:
+For all future versions, go to:
 **https://github.com/G5/microformats2**
 
 
