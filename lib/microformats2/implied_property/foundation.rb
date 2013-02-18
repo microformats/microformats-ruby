@@ -7,19 +7,19 @@ module Microformats2
       end
 
       def parse
-        self if value
+        self if to_s
       end
 
       def method_name
         "foundation"
       end
 
-      def value
-        @value ||= element_value || selector_value
+      def to_s
+        @to_s ||= element_value || selector_value
       end
 
       def to_hash
-        value.to_s
+        to_s
       end
 
       def to_json
