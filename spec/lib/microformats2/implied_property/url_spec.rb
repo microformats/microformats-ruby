@@ -11,7 +11,7 @@ describe Microformats2::ImpliedProperty::Url do
       end
       collection.all.each_with_index do |format, index|
         it "implies url to be 'http://github.com/jlsuttles' in case #{index+1}" do
-          format.url.first.value.should == "http://github.com/jlsuttles"
+          format.url.to_s.should == "http://github.com/jlsuttles"
         end
       end
     end
@@ -22,8 +22,8 @@ describe Microformats2::ImpliedProperty::Url do
         collection.all.length.should == 2
       end
       collection.all.each_with_index do |format, index|
-        it "implies url to be nil in case #{index+1}" do
-          format.url.should be_nil
+        it "implies url to be '' in case #{index+1}" do
+          format.url.to_s.should == ""
         end
       end
     end

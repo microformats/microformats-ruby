@@ -11,7 +11,7 @@ describe Microformats2::ImpliedProperty::Name do
       end
       collection.all.each_with_index do |format, index|
         it "implies name to be 'Jessica' in case #{index+1}" do
-          format.name.first.value.should == "Jessica"
+          format.name.to_s.should == "Jessica"
         end
       end
     end
@@ -23,7 +23,7 @@ describe Microformats2::ImpliedProperty::Name do
       end
       collection.all.each_with_index do |format, index|
         it "implies name to be '' in case #{index+1}" do
-          format.name.first.value.should == ""
+          format.name.to_s.should == ""
         end
       end
     end
