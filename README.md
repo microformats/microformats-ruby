@@ -64,8 +64,10 @@ require "microformats2"
 
 source = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
 collection = Microformats.parse(source)
-collection.cards.first.names.first.to_s #=> "Jessica Lynn Suttles"
+# using singular accessors
 collection.card.name.to_s #=> "Jessica Lynn Suttles"
+# using plural accessors
+collection.cards.first.names.first.to_s #=> "Jessica Lynn Suttles"
 ```
 
 * `source` can be a URL, filepath, or HTML
