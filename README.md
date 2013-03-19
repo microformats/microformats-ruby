@@ -10,7 +10,7 @@ A work in progress.
 
 Implemented:
 
-* [parsing depth first, doc order](parse_a_document_for_microformats)
+* [parsing depth first, doc order](http://microformats.org/wiki/microformats2-parsing#parse_a_document_for_microformats)
 * [parsing a p- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_p-_property)
 * [parsing a u- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_u-_property)
 * [parsing a dt- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_dt-_property)
