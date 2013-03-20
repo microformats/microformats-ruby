@@ -28,10 +28,14 @@ module Microformats2
 
     def parse_properties
       PropertyParser.parse(@element.children).each do |property|
-        save_property_name(property.method_name)
-        define_method(property.method_name)
-        set_value(property.method_name, property)
+        add_property(property)
       end
+    end
+
+    def add_property(property)
+      save_property_name(property.method_name)
+      define_method(property.method_name)
+      set_value(property.method_name, property)
     end
 
     def parse_implied_properties
