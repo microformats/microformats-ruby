@@ -33,13 +33,7 @@ module Microformats2
     end
 
     def add_property(property_class, value)
-      # NOTE: Might want to DRY this up with what is in PropertyParser
-      prefix = property_class.split("-").first
-      # find ruby class for kind of property
-      klass = Microformats2::Property::PREFIX_CLASS_MAP[prefix]
-      raise InvalidPropertyPrefix unless klass
-      # We don't have a nokogiri element so pass in nil
-      property = klass.new(nil, property_class, value)
+      property = Property.new(nil, property_class, value)
       assign_property(property)
     end
 
