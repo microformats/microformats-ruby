@@ -75,11 +75,17 @@ describe Microformats2::Collection do
       end
 
       describe "Format.add_property" do
+        let(:value) { "bar" }
+        before do
+          @collection.first.add_property("p-foo", value)
+        end
+
         it "creates the attr" do
-          fake_element = OpenStruct.new(inner_text: "dork")
-          fake_text_object = Microformats2::Property::Text.new(fake_element, "p-foo")
-          @collection.first.add_property(fake_text_object)
-          @collection.first.foo.to_s.should == "dork"
+          @collection.first.foo.to_s.should == value
+        end
+
+        it "allows json output of the attribute" do
+          @collection.first.to_json.should include(value)
         end
       end
     end
