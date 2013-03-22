@@ -26,12 +26,7 @@ module Microformats2
 
       def parse_property(element)
         property_classes(element).map do |property_class|
-          # p-class-name -> p
-          prefix = property_class.split("-").first
-          # find ruby class for kind of property
-          klass = Microformats2::Property::PREFIX_CLASS_MAP[prefix]
-
-          property = klass.new(element, property_class).parse
+          property   = Property.new(element, property_class).parse
           properties = format_classes(element).empty? ? PropertyParser.parse(element.children) : []
 
           [property].concat properties
