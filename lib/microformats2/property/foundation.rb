@@ -3,9 +3,10 @@ module Microformats2
     class Foundation
       attr_reader :method_name
 
-      def initialize(element, html_class)
+      def initialize(element, html_class, string_value=nil)
         @element = element
         @method_name = to_method_name(html_class)
+        @string_value = string_value
       end
 
       def parse
@@ -15,7 +16,7 @@ module Microformats2
       end
 
       def to_s
-        @to_s ||= value_class_pattern || element_value || text_value
+        @to_s ||= string_value || value_class_pattern || element_value || text_value
       end
 
       def format
@@ -52,6 +53,10 @@ module Microformats2
         @element.inner_text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
       end
 
+      def string_value
+        @string_value
+      end
+
       def attribute
         attr_map[@element.name]
       end
@@ -71,6 +76,7 @@ module Microformats2
       end
 
       def format_classes
+        return [] unless @element
         @format_classes = @element.attribute("class").to_s.split.select do |html_class|
           html_class =~ Format::CLASS_REG_EXP
         end

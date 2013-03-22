@@ -33,4 +33,6 @@ module Microformats2
       html
     end
   end # class << self
+
+  class InvalidPropertyPrefix < StandardError; end
 end
