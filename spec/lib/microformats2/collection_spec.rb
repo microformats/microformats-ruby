@@ -76,16 +76,21 @@ describe Microformats2::Collection do
 
       describe "Format.add_property" do
         let(:value) { "bar" }
-        before do
-          @collection.first.add_property("p-foo", value)
-        end
 
         it "creates the attr" do
+          @collection.first.add_property("p-foo", value)
           @collection.first.foo.to_s.should == value
         end
 
         it "allows json output of the attribute" do
+          @collection.first.add_property("p-foo", value)
           @collection.first.to_json.should include(value)
+        end
+
+        it "raises a InvalidPropertyPrefix error if the prefix is invalid" do
+          expect {
+            @collection.first.add_property("xxx-foo", value)
+          }.to raise_error Microformats2::InvalidPropertyPrefix
         end
       end
     end
