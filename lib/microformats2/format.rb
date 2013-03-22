@@ -28,10 +28,13 @@ module Microformats2
 
     def parse_properties
       PropertyParser.parse(@element.children).each do |property|
-        save_property_name(property.method_name)
-        define_method(property.method_name)
-        set_value(property.method_name, property)
+        assign_property(property)
       end
+    end
+
+    def add_property(property_class, value)
+      property = Property.new(nil, property_class, value)
+      assign_property(property)
     end
 
     def parse_implied_properties
@@ -63,6 +66,12 @@ module Microformats2
     end
 
     private
+
+    def assign_property(property)
+      save_property_name(property.method_name)
+      define_method(property.method_name)
+      set_value(property.method_name, property)
+    end
 
     def to_method_name(html_class)
       # p-class-name -> class_name
