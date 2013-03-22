@@ -8,7 +8,6 @@ module Microformats2
       "e" => Embedded }
 
     class << self
-
 	    def new(element, property_class, value=nil)
 	      # p-class-name -> p
 	      prefix = property_class.split("-").first
@@ -18,6 +17,5 @@ module Microformats2
 	      klass.new(element, property_class, value)
 	    end
 	  end
-
   end
 end
