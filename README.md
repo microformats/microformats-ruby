@@ -32,7 +32,7 @@ Not Implemented:
 
 ## Current Version
 
-2.0.0.pre1
+2.0.0.pre2
 
 
 ## Requirements
