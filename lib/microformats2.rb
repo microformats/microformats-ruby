@@ -35,5 +35,4 @@ module Microformats2
   end # class << self
 
   class InvalidPropertyPrefix < StandardError; end
-
 end
