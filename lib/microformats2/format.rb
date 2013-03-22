@@ -28,14 +28,18 @@ module Microformats2
 
     def parse_properties
       PropertyParser.parse(@element.children).each do |property|
-        add_property(property)
+        assign_property(property)
       end
     end
 
-    def add_property(property)
-      save_property_name(property.method_name)
-      define_method(property.method_name)
-      set_value(property.method_name, property)
+    def add_property(property_class, value)
+      # NOTE: Might want to DRY this up with what is in PropertyParser
+      prefix = property_class.split("-").first
+      # find ruby class for kind of property
+      klass = Microformats2::Property::PREFIX_CLASS_MAP[prefix]
+      # We don't have a nokogiri element so pass in nil
+      property = klass.new(nil, property_class, value)
+      assign_property(property)
     end
 
     def parse_implied_properties
@@ -67,6 +71,12 @@ module Microformats2
     end
 
     private
+
+    def assign_property(property)
+      save_property_name(property.method_name)
+      define_method(property.method_name)
+      set_value(property.method_name, property)
+    end
 
     def to_method_name(html_class)
       # p-class-name -> class_name
