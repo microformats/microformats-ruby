@@ -23,7 +23,7 @@ describe Microformats2::ImpliedProperty::Photo do
       end
       collection.all.each_with_index do |format, index|
         it "implies photo to be '' in case #{index+1}" do
-          format.photo.to_s.should == ""
+          expect {format.photo}.to raise_error(NoMethodError)
         end
       end
     end
