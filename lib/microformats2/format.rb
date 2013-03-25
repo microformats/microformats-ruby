@@ -89,10 +89,10 @@ module Microformats2
 
     def define_method(mn)
       unless respond_to?(mn)
-        self.class.class_eval { attr_accessor mn }
+        self.singleton_class.class_eval { attr_accessor mn }
       end
       unless respond_to?(mn.pluralize)
-        self.class.class_eval { attr_accessor mn.pluralize }
+        self.singleton_class.class_eval { attr_accessor mn.pluralize }
       end
     end
 
