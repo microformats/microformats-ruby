@@ -23,7 +23,7 @@ describe Microformats2::ImpliedProperty::Url do
       end
       collection.all.each_with_index do |format, index|
         it "implies url to be '' in case #{index+1}" do
-          format.url.to_s.should == ""
+          expect {format.url.to_s.should == ""}.to raise_error(NoMethodError)
         end
       end
     end
