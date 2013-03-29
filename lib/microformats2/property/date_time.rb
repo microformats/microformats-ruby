@@ -1,9 +1,6 @@
 module Microformats2
   module Property
     class DateTime < Foundation
-      def to_s
-        @to_s ||= value_class_pattern || element_value || text_value
-      end
 
       def value
         ::DateTime.parse(to_s)
