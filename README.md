@@ -18,6 +18,7 @@ Implemented:
 * [parsing implied properties](http://microformats.org/wiki/microformats-2-parsing#parsing_for_implied_properties)
 * nested properties
 * nested microformat with associated property
+* dynamic creation of properties
 
 Not Implemented:
 
@@ -32,7 +33,7 @@ Not Implemented:
 
 ## Current Version
 
-2.0.0.pre2
+2.0.0.pre4
 
 
 ## Requirements
@@ -75,7 +76,9 @@ collection.cards.first.names.first.to_s #=> "Jessica Lynn Suttles"
 ## Authors
 
 * Jessica Lynn Suttles / [@jlsuttles](https://github.com/jlsuttles)
-
+* Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
+* Chris Stringer / [@jcstringer](https://github.com/jcstringer)
+* Michael Mitchell / [@variousred](https://github.com/variousred)
 
 ## Contributions
 
