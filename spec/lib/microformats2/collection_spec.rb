@@ -83,6 +83,10 @@ describe Microformats2::Collection do
           @collection.first.add_property("p-foo", value)
           @collection.first.to_json.should include(value)
         end
+        it "supports Embedded" do
+          @collection.first.add_property("e-foo", value)
+          @collection.first.foo.to_s.should == value
+        end
         it "raises a InvalidPropertyPrefix error if the prefix is invalid" do
           expect {
             @collection.first.add_property("xxx-foo", value)
