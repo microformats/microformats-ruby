@@ -27,4 +27,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rb-fsevent", "~> 0.9.1"
   gem.add_development_dependency "simplecov", "~> 0.7.1"
   gem.add_development_dependency "debugger", "~> 1.2.1"
+  gem.add_development_dependency "webmock", "~> 1.12.3"
 end
