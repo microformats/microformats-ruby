@@ -6,13 +6,13 @@ module Microformats2
       @http_headers = {}
     end
 
-    def parse(html, headers=@http_headers)
+    def parse(html, headers={})
       html = read_html(html, headers)
       document = Nokogiri::HTML(html)
       Collection.new(document).parse
     end
 
-    def read_html(html, headers=@http_headers)
+    def read_html(html, headers={})
       open(html, headers) do |response|
         @http_headers = response.meta if response.respond_to?(:meta)
         @http_body = response.read
