@@ -19,7 +19,7 @@ module Microformats2
       end
       @http_body
     rescue Errno::ENOENT, Errno::ENAMETOOLONG => e
-      html
+      @http_body = html
     end
   end
 end
