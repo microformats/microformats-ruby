@@ -23,6 +23,9 @@ describe Microformats2 do
       Microformats2.read_html(html).should include "<div class=\"h-card\">"
     end
     it "can be a url to html" do
+      stub_request(:get, "http://google.com/").
+               with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+               to_return(:status => 200, :body => "google", :headers => {})
       html = "http://google.com"
       Microformats2.read_html(html).should include "google"
     end
