@@ -4,6 +4,7 @@ require "json"
 require "active_support/inflector"
 
 require "microformats2/version"
+require "microformats2/parser"
 require "microformats2/format_parser"
 require "microformats2/property_parser"
 require "microformats2/collection"
@@ -22,15 +23,11 @@ require "microformats2/implied_property/url"
 module Microformats2
   class << self
     def parse(html)
-      html = read_html(html)
-      document = Nokogiri::HTML(html)
-      Collection.new(document).parse
+      Parser.new.parse(html)
     end
 
     def read_html(html)
-      open(html).read
-    rescue Errno::ENOENT, Errno::ENAMETOOLONG => e
-      html
+      Parser.new.read_html(html)
     end
   end # class << self
 
