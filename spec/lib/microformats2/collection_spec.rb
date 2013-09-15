@@ -180,7 +180,7 @@ describe Microformats2::Collection do
     describe "rels.html" do
       before do
         html = "spec/support/lib/microformats2/rels.html"
-        @collection = Microformats2.parse(html)
+        @collection = Microformats2.parse(html, nil)
       end
       describe "#to_json" do
         it "should match rels.js" do
