@@ -14,7 +14,7 @@ Implemented:
 * [parsing a p- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_p-_property)
 * [parsing a u- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_u-_property)
 * [parsing a dt- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_dt-_property)
-* [parsing a e- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_e-_property)
+* [parsing a e- property](http://microformats.org/wiki/microformats2-parsing#parsing_an_e-_property)
 * [parsing implied properties](http://microformats.org/wiki/microformats-2-parsing#parsing_for_implied_properties)
 * nested properties
 * nested microformat with associated property
@@ -64,7 +64,7 @@ Or install it yourself as:
 require "microformats2"
 
 source = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
-collection = Microformats.parse(source)
+collection = Microformats2.parse(source)
 # using singular accessors
 collection.card.name.to_s #=> "Jessica Lynn Suttles"
 # using plural accessors
