@@ -6,5 +6,6 @@
       "bday": ["1990-10-15"],
       "content": ["<p>Vegan. Cat lover. Coder.</p>"]
     }
-  }]
+  }],
+  "rels": {}
 }
