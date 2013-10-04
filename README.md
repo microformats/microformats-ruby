@@ -19,12 +19,12 @@ Implemented:
 * nested properties
 * nested microformat with associated property
 * dynamic creation of properties
+* [rel](http://microformats.org/wiki/rel)
 
 Not Implemented:
 
 * [normalize u-* property values](http://microformats.org/wiki/microformats2-parsing-faq#normalizing_u-.2A_property_values)
 * nested microformat without associated property
-* [rel](http://microformats.org/wiki/rel)
 * [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 * [include-pattern](http://microformats.org/wiki/include-pattern)
 * recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)

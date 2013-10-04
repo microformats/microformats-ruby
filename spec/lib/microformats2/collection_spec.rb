@@ -176,6 +176,20 @@ describe Microformats2::Collection do
         end
       end
     end
+    
+    describe "rels.html" do
+      before do
+        html = "spec/support/lib/microformats2/rels.html"
+        @collection = Microformats2.parse(html)
+      end
+      describe "#to_json" do
+        it "should match rels.js" do
+          json = "spec/support/lib/microformats2/rels.js"
+          json = open(json).read
+          JSON.parse(@collection.to_json).should == JSON.parse(json)
+        end
+      end
+    end
   end
 
 
