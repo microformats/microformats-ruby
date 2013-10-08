@@ -190,6 +190,17 @@ describe Microformats2::Collection do
         end
       end
     end
+
+    describe "rels-that-drop-the-base.html" do
+      before do
+        html = "spec/support/lib/microformats2/rels-that-drop-the-base.html"
+        @collection = Microformats2.parse(html)
+      end
+
+      it "keeps the relative path" do
+        @collection.to_hash[:rels]["stylesheet"].should eq([ "/path/to/stylesheet.css" ])
+      end
+    end
   end
 
 
