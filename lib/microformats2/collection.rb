@@ -4,7 +4,7 @@ module Microformats2
 
     def initialize(element, url = nil)
       @element = element
-      
+
       @base = nil
       if url != nil
         @base = url
@@ -12,7 +12,7 @@ module Microformats2
       if @element.search("base").size > 0
         @base = @element.search("base")[0].attribute("href")
       end
-      
+
       @format_names = []
       @rels = {}
       @alternates = []
@@ -46,7 +46,7 @@ module Microformats2
         hash[:items] << format.to_hash
       end
       hash[:alternates] = @alternates unless @alternates.nil? || @alternates.empty?
-      
+
       hash
     end
 
@@ -81,11 +81,11 @@ module Microformats2
         send("#{mn.pluralize}=", [value])
       end
     end
-    
+
     def parse_rels
       @element.search("*[@rel]").each do |rel|
         rel_values = rel.attribute("rel").text.split(" ")
-        
+
         if rel_values.member?("alternate")
           alternate_inst = {}
           alternate_inst["url"] = absolutize(rel.attribute("href").text)
@@ -108,16 +108,15 @@ module Microformats2
         end
       end
     end
-    
+
     def absolutize(href)
       uri = URI.parse(href)
 
-      if uri.scheme || @base.nil?
-        uri = uri.normalize
-      else
+      if @base && !uri.absolute?
         uri = URI.join(@base, href)
       end
 
+      uri.normalize!
       uri.to_s
     end
   end
