@@ -184,6 +184,7 @@ describe Microformats2::Collection do
       end
       describe "#to_json" do
         it "should match rels.js" do
+          # this also tests the case of having rel="alternates"
           json = "spec/support/lib/microformats2/rels.js"
           json = open(json).read
           JSON.parse(@collection.to_json).should == JSON.parse(json)
@@ -205,7 +206,6 @@ describe Microformats2::Collection do
 
 
   # these cases were scraped from the internet using `rake specs:update`
-  #
 
   describe "spec/support/cases" do
     cases_dir = "spec/support/cases/*"
