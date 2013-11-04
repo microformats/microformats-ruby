@@ -110,11 +110,15 @@ module Microformats2
     end
     
     def absolutize(href)
-      if URI.parse(href).absolute? || @base.nil?
-        href
+      uri = URI.parse(href)
+
+      if uri.scheme || @base.nil?
+        uri = uri.normalize
       else
-        URI.join(@base, href).to_s
+        uri = URI.join(@base, href)
       end
+
+      uri.to_s
     end
   end
 end

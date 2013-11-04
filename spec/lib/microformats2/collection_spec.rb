@@ -191,6 +191,17 @@ describe Microformats2::Collection do
       end
     end
 
+    describe "rels-with-unnormalized-urls.html" do
+      before do
+        html = "spec/support/lib/microformats2/rels-with-unnormalized-urls.html"
+        @collection = Microformats2.parse(html)
+      end
+
+      it "should normalize the url" do
+        @collection.to_hash[:rels]["me"].should eq([ "http://jessicard.com/" ])
+      end
+    end
+
     describe "rels-that-drop-the-base.html" do
       before do
         html = "spec/support/lib/microformats2/rels-that-drop-the-base.html"
