@@ -25,7 +25,7 @@ module Microformats2
     end
 
     def all
-      @all ||= FormatParser.parse(@element).each do |format|
+      @all ||= FormatParser.parse(@element, @base).each do |format|
         save_format_name(format.method_name)
         define_method(format.method_name)
         set_value(format.method_name, format)

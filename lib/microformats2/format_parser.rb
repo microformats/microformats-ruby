@@ -1,7 +1,8 @@
 module Microformats2
   class FormatParser
     class << self
-      def parse(element)
+      def parse(element, base=nil)
+        @@base = base
         parse_node(element).flatten.compact
       end
 
@@ -31,7 +32,7 @@ module Microformats2
         const_name = constant_name(html_class)
         klass = find_or_create_ruby_class(const_name)
 
-        klass.new(element).parse
+        klass.new(element, @@base).parse
       end
 
       def format_classes(element)

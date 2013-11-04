@@ -3,10 +3,11 @@ module Microformats2
     class Foundation
       attr_reader :method_name
 
-      def initialize(element, html_class, string_value=nil)
+      def initialize(element, html_class, string_value=nil, base=nil)
         @element = element
         @method_name = to_method_name(html_class)
         @string_value = string_value
+        @base = base
       end
 
       def parse

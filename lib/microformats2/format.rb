@@ -4,8 +4,9 @@ module Microformats2
 
     attr_reader :method_name
 
-    def initialize(element)
+    def initialize(element, base)
       @element = element
+      @base = base
       @method_name = to_method_name(format_types.first)
       @property_names = []
     end
@@ -27,13 +28,13 @@ module Microformats2
     end
 
     def parse_properties
-      PropertyParser.parse(@element.children).each do |property|
+      PropertyParser.parse(@element.children, @base).each do |property|
         assign_property(property)
       end
     end
 
     def add_property(property_class, value)
-      property = Property.new(nil, property_class, value)
+      property = Property.new(nil, property_class, value, @base)
       assign_property(property)
     end
 
