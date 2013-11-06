@@ -35,13 +35,13 @@ describe Microformats2::Collection do
           @collection.card.name.should be_kind_of Microformats2::Property::Text
         end
       end
-      describe "'.h-card .p-url'" do
+      describe "'.h-card .u-url'" do
         it "assigns all urls to HCard#urls" do
-          urls = ["http://flickr.com/jlsuttles", "http://twitter.com/jlsuttles"]
+          urls = ["http://example.org/", "http://flickr.com/", "http://twitter.com/jlsuttles"]
           @collection.card.urls.map(&:to_s).should == urls
         end
         it "assigns then first url to HCard#url" do
-          @collection.card.url.to_s.should == "http://flickr.com/jlsuttles"
+          @collection.card.url.to_s.should == "http://example.org/"
         end
         it "HCard#url is a Property::Url" do
           @collection.card.url.should be_kind_of Microformats2::Property::Url
@@ -176,7 +176,7 @@ describe Microformats2::Collection do
         end
       end
     end
-    
+
     describe "rels.html" do
       before do
         html = "spec/support/lib/microformats2/rels.html"

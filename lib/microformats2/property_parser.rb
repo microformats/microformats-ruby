@@ -1,7 +1,8 @@
 module Microformats2
   class PropertyParser
     class << self
-      def parse(element)
+      def parse(element, base)
+        @@base = base
         parse_node(element).flatten.compact
       end
 
@@ -26,8 +27,8 @@ module Microformats2
 
       def parse_property(element)
         property_classes(element).map do |property_class|
-          property   = Property.new(element, property_class).parse
-          properties = format_classes(element).empty? ? PropertyParser.parse(element.children) : []
+          property   = Property.new(element, property_class, nil, @@base).parse
+          properties = format_classes(element).empty? ? PropertyParser.parse(element.children, @@base) : []
 
           [property].concat properties
         end

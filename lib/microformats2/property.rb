@@ -8,13 +8,13 @@ module Microformats2
       "e" => Embedded }
 
     class << self
-	    def new(element, property_class, value=nil)
+	    def new(element, property_class, value=nil, base=nil)
 	      # p-class-name -> p
 	      prefix = property_class.split("-").first
 	      # find ruby class for kind of property
 	      klass = PREFIX_CLASS_MAP[prefix]
 	      raise InvalidPropertyPrefix unless klass
-	      klass.new(element, property_class, value)
+	      klass.new(element, property_class, value, base)
 	    end
 	  end
   end

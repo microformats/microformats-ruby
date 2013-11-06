@@ -2,8 +2,9 @@ module Microformats2
   module ImpliedProperty
     class Foundation
 
-      def initialize(element)
+      def initialize(element, base=nil)
         @element = element
+        @base = base
       end
 
       def parse
