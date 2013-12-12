@@ -138,6 +138,20 @@ describe Microformats2::Collection do
       end
     end
 
+    describe "nested-format-with-property-of-same-name.html" do
+      before do
+        html = "spec/support/lib/microformats2/nested-format-with-property-of-same-name.html"
+        @collection = Microformats2.parse(html)
+      end
+      describe "#to_json" do
+        it "should match nested-format-with-property-of-same-name.js" do
+          json = "spec/support/lib/microformats2/nested-format-with-property-of-same-name.js"
+          json = open(json).read
+          JSON.parse(@collection.to_json).should == JSON.parse(json)
+        end
+      end
+    end
+
     describe "nested-format-with-property.html" do
       before do
         html = "spec/support/lib/microformats2/nested-format-with-property.html"
