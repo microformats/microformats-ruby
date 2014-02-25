@@ -33,14 +33,14 @@ Not Implemented:
 
 ## Current Version
 
-2.0.0.pre5
+2.0.0
 
 
 ## Requirements
 
-* "nokogiri", "~> 1.5.6"
-* "json", "~> 1.7.6"
-* "activesupport", "~> 3.2.12"
+* "nokogiri"
+* "json"
+* "activesupport"
 
 
 ## Installation
