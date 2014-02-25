@@ -69,6 +69,15 @@ collection = Microformats2.parse(source)
 collection.card.name.to_s #=> "Jessica Lynn Suttles"
 # using plural accessors
 collection.cards.first.names.first.to_s #=> "Jessica Lynn Suttles"
+
+source = '<article class="h-entry">
+  <h1 class="p-name">Microformats 2</h1>
+  <div class="h-card p-author"><p class="p-name">Jessica Lynn Suttles</p></div>
+</article>'
+collection = Microformats2.parse(source)
+collection.entry.name.to_s #=> "Microformats 2"
+# accessing nested microformats
+collection.entry.author.format.name.to_s #=> "Jessica Lynn Suttles"
 ```
 
 * `source` can be a URL, filepath, or HTML
