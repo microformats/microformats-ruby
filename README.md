@@ -88,6 +88,7 @@ collection.entry.author.format.name.to_s #=> "Jessica Lynn Suttles"
 * Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
 * Chris Stringer / [@jcstringer](https://github.com/jcstringer)
 * Michael Mitchell / [@variousred](https://github.com/variousred)
+* Jessica Dillon / [@jessicard](https://github.com/jessicard)
 
 ## Contributions
 
