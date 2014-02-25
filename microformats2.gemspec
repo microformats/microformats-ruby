@@ -17,14 +17,14 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency "nokogiri", ">= 1.5.6"
-  gem.add_runtime_dependency "json", ">= 1.7.6"
-  gem.add_runtime_dependency "activesupport", ">= 3.2.13"
+  gem.add_runtime_dependency "nokogiri"
+  gem.add_runtime_dependency "json"
+  gem.add_runtime_dependency "activesupport"
 
-  gem.add_development_dependency "rake", "~> 10.0.0"
-  gem.add_development_dependency "rspec", "~> 2.11.0"
-  gem.add_development_dependency "guard-rspec", "~> 2.1.0"
-  gem.add_development_dependency "rb-fsevent", "~> 0.9.1"
-  gem.add_development_dependency "simplecov", "~> 0.7.1"
-  gem.add_development_dependency "webmock", "~> 1.12.3"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "guard-rspec"
+  gem.add_development_dependency "rb-fsevent"
+  gem.add_development_dependency "simplecov"
+  gem.add_development_dependency "webmock"
 end
