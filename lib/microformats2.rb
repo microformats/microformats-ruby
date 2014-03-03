@@ -4,6 +4,7 @@ require "json"
 require "active_support/inflector"
 
 require "microformats2/version"
+require "microformats2/absolute_uri"
 require "microformats2/parser"
 require "microformats2/format_parser"
 require "microformats2/property_parser"

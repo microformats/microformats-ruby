@@ -88,7 +88,7 @@ module Microformats2
 
         if rel_values.member?("alternate")
           alternate_inst = {}
-          alternate_inst["url"] = absolutize(rel.attribute("href").text)
+          alternate_inst["url"] = Microformats2::AbsoluteUri.new(@base, rel.attribute("href").text).absolutize
           alternate_inst["rel"] = (rel_values - ["alternate"]).join(" ")
           unless rel.attribute("media").nil?
             alternate_inst["media"] = rel.attribute("media").text
@@ -103,21 +103,10 @@ module Microformats2
         else
           rel_values.each do |rel_value|
             @rels[rel_value] = [] unless @rels.has_key?(rel_value)
-            @rels[rel_value] << absolutize(rel.attribute("href").text)
+            @rels[rel_value] << Microformats2::AbsoluteUri.new(@base, rel.attribute("href").text).absolutize
           end
         end
       end
-    end
-
-    def absolutize(href)
-      uri = URI.parse(href)
-
-      if @base && !uri.absolute?
-        uri = URI.join(@base, href)
-      end
-
-      uri.normalize!
-      uri.to_s
     end
   end
 end
