@@ -18,15 +18,9 @@ module Microformats2
 
       uri.normalize!
       uri.to_s
-    rescue URI::InvalidURIError => e
-      logger.warn e.message
-      relative.to_s
-    end
 
-    def logger
-     @logger ||= Logger.new(STDOUT)
-     @logger.level = Logger::WARN
-     @logger
+    rescue URI::InvalidURIError => e
+      relative.to_s
     end
   end
 end
