@@ -7,19 +7,7 @@ module Microformats2
       end
 
       def to_s
-        @to_s = absolutize(super.to_s) if super.to_s != ""
-      end
-
-      # TODO: make dry, repeated in Collection
-      def absolutize(href)
-        uri = URI.parse(href)
-
-        if @base && !uri.absolute?
-          uri = URI.join(@base, href)
-        end
-
-        uri.normalize!
-        uri.to_s
+        @to_s = Microformats2::AbsoluteUri.new(@base, super.to_s).absolutize
       end
 
       protected
