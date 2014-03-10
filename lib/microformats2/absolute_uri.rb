@@ -19,7 +19,7 @@ module Microformats2
       uri.normalize!
       uri.to_s
 
-    rescue URI::InvalidURIError => e
+    rescue URI::BadURIError, URI::InvalidURIError => e
       relative.to_s
     end
   end
