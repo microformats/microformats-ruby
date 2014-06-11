@@ -78,6 +78,12 @@ collection = Microformats2.parse(source)
 collection.entry.name.to_s #=> "Microformats 2"
 # accessing nested microformats
 collection.entry.author.format.name.to_s #=> "Jessica Lynn Suttles"
+
+# getting a copy of the canonical microformats2 hash structure
+collection.to_hash
+
+# the above, as JSON in a string
+collection.to_json
 ```
 
 * `source` can be a URL, filepath, or HTML
