@@ -1,5 +1,5 @@
 # Microformats2
-
+# NO LONGER MAINTAINED
 [![Build Status](https://travis-ci.org/G5/microformats2.png?branch=master)](https://travis-ci.org/G5/microformats2)
 [![Code Climate](https://codeclimate.com/github/G5/microformats2.png)](https://codeclimate.com/github/G5/microformats2)
 
