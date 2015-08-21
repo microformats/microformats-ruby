@@ -15,7 +15,8 @@ module Microformats2
           "img" => "src",
           "object" => "data",
           "abbr" => "title",
-          "data" => "value" }
+          "data" => "value",
+          "input" => "value" }
       end
     end
   end

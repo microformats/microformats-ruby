@@ -25,7 +25,7 @@ module Microformats2
       end
 
       def formats
-        @formats ||= format_classes.length >=1 ? FormatParser.parse(@element) : []
+        @formats ||= format_classes.length >=1 ? FormatParser.parse(@element, @base) : []
       end
 
       def to_hash
