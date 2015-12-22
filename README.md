@@ -1,7 +1,7 @@
 # Microformats2
 # NO LONGER MAINTAINED
 [![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.png?branch=master)](https://travis-ci.org/indieweb/microformats2-ruby)
-[![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby.png)](https://codeclimate.com/github/G5indieweb/microformats2-ruby)
+[![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats2-ruby)
 
 A Ruby gem to parse HTML containing one or more [microformats2](http://microformats.org/wiki/microformats-2)
 and return a collection of dynamically defined Ruby objects.
