@@ -6,8 +6,8 @@ require 'microformats2/version'
 Gem::Specification.new do |gem|
   gem.name          = "microformats2"
   gem.version       = Microformats2::VERSION
-  gem.authors       = ["Jessica Lynn Suttles", "Jessica Dillon"]
-  gem.email         = ["jlsuttles@gmail.com", "jessicard@mac.com"]
+  gem.authors       = ["Shane Becker", "Jessica Lynn Suttles", "Jessica Dillon"]
+  gem.email         = ["veganstraightedge@gmail.com", "jlsuttles@gmail.com", "jessicard@mac.com"]
   gem.description   = %q{parses HTML for microformats and return a collection of dynamically defined Ruby objects}
   gem.summary       = %q{microformats2 parser}
   gem.homepage      = "https://github.com/G5/microformats2"
