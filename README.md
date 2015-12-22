@@ -1,7 +1,7 @@
 # Microformats2
 # NO LONGER MAINTAINED
-[![Build Status](https://travis-ci.org/G5/microformats2.png?branch=master)](https://travis-ci.org/G5/microformats2)
-[![Code Climate](https://codeclimate.com/github/G5/microformats2.png)](https://codeclimate.com/github/G5/microformats2)
+[![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.png?branch=master)](https://travis-ci.org/indieweb/microformats2-ruby)
+[![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby.png)](https://codeclimate.com/github/G5indieweb/microformats2-ruby)
 
 A Ruby gem to parse HTML containing one or more [microformats2](http://microformats.org/wiki/microformats-2)
 and return a collection of dynamically defined Ruby objects.
@@ -107,7 +107,7 @@ collection.to_json
 7. Create new Pull Request
 
 If you find bugs, have feature requests or questions, please
-[file an issue](https://github.com/G5/microformats2/issues).
+[file an issue](https://github.com/indieweb/microformats2-ruby/issues).
 
 
 ## Specs
