@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["veganstraightedge@gmail.com", "jlsuttles@gmail.com", "jessicard@mac.com"]
   gem.description   = %q{Parses HTML for microformats and return a collection of dynamically defined Ruby objects}
   gem.summary       = %q{microformats2 parser}
-  gem.homepage      = "https://github.com/G5/microformats2"
+  gem.homepage      = "https://github.com/indieweb/microformats2-ruby"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
