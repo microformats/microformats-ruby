@@ -1,14 +1,15 @@
 # Microformats2
 
-# Development Status
-
-This gem sat unmaintained for quite a long time. It's now under new management. Work will begin shortly on getting it on par with the other Microformats2 parsers and the current state of the spec. (2015-12-23) 
-
 [![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.png?branch=master)](https://travis-ci.org/indieweb/microformats2-ruby)
 [![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats2-ruby)
 
 A Ruby gem to parse HTML containing one or more [microformats2](http://microformats.org/wiki/microformats-2)
 and return a collection of dynamically defined Ruby objects.
+
+
+## Development Status
+
+This gem sat unmaintained for quite a long time. It's now under new management. Work will begin shortly on getting it on par with the other Microformats2 parsers and the current state of the spec. (2015-12-23) 
 
 A work in progress.
 
@@ -122,6 +123,8 @@ If you find bugs, have feature requests or questions, please
 
 
 ## Specs
+
+*TODO* remove this and use the [microformats tests repo](https://github.com/microformats/tests) instead. 
 
 To update spec cases that are scraped from other sites.
 **Warning:** This could break specs.
