@@ -42,24 +42,30 @@ Not Implemented:
 
 ## Requirements
 
-* "nokogiri"
-* "json"
-* "activesupport"
+* [nokogiri](https://github.com/sparklemotion/nokogiri)
+* [json](https://github.com/flori/json)
+* [activesupport](https://github.com/rails/rails/tree/master/activesupport)
 
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'microformats2'
+```ruby
+gem "microformats2"
+```
 
 And then execute:
 
-    $ bundle
+```
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install microformats2
+```
+gem install microformats2
+```
 
 
 ## Usage
@@ -67,17 +73,17 @@ Or install it yourself as:
 ```ruby
 require "microformats2"
 
-source = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
+source = "<div class='h-card'><p class='p-name'>Jessica Lynn Suttles</p></div>"
 collection = Microformats2.parse(source)
 # using singular accessors
 collection.card.name.to_s #=> "Jessica Lynn Suttles"
 # using plural accessors
 collection.cards.first.names.first.to_s #=> "Jessica Lynn Suttles"
 
-source = '<article class="h-entry">
-  <h1 class="p-name">Microformats 2</h1>
-  <div class="h-card p-author"><p class="p-name">Jessica Lynn Suttles</p></div>
-</article>'
+source = "<article class='h-entry'>
+  <h1 class='p-name'>Microformats 2</h1>
+  <div class='h-card p-author'><p class='p-name'>Jessica Lynn Suttles</p></div>
+</article>"
 collection = Microformats2.parse(source)
 collection.entry.name.to_s #=> "Microformats 2"
 # accessing nested microformats
@@ -100,6 +106,7 @@ collection.to_json
 * Michael Mitchell / [@variousred](https://github.com/variousred)
 * Jessica Dillon / [@jessicard](https://github.com/jessicard)
 
+
 ## Contributions
 
 1. Fork it
@@ -118,18 +125,13 @@ If you find bugs, have feature requests or questions, please
 
 To update spec cases that are scraped from other sites.
 **Warning:** This could break specs.
-```bash
+```
 rake specs:update
 ```
 
 To run specs
-```bash
-rake spec
 ```
-
-To keep specs running
-```bash
-guard
+rake spec
 ```
 
 
