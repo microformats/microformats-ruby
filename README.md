@@ -1,4 +1,4 @@
-# Microformats2
+# Microformats2 (ruby)
 
 [![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.png?branch=master)](https://travis-ci.org/indieweb/microformats2-ruby)
 [![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats2-ruby)
@@ -140,6 +140,6 @@ rake spec
 
 ## License
 
-Microformats2 is dedicated to the public domain using Creative Commons -- CC0 1.0 Universal.
+Microformats2 (ruby) is dedicated to the public domain using Creative Commons -- CC0 1.0 Universal.
 
 http://creativecommons.org/publicdomain/zero/1.0
