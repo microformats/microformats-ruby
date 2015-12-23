@@ -1,5 +1,9 @@
 # Microformats2
-# NO LONGER MAINTAINED
+
+# Development Status
+
+This gem sat unmaintained for quite a long time. It's now under new management. Work will begin shortly on getting it on par with the other Microformats2 parsers and the current state of the spec. (2015-12-23) 
+
 [![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.png?branch=master)](https://travis-ci.org/indieweb/microformats2-ruby)
 [![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats2-ruby)
 
