@@ -124,7 +124,7 @@ If you find bugs, have feature requests or questions, please
 
 ## Specs
 
-*TODO* remove this and use the [microformats tests repo](https://github.com/microformats/tests) instead. 
+**TODO** remove this and use the [microformats tests repo](https://github.com/microformats/tests) instead. 
 
 To update spec cases that are scraped from other sites.
 **Warning:** This could break specs.
