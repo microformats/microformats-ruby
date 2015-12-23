@@ -41,8 +41,8 @@ describe Microformats2::AbsoluteUri do
     end
 
     context "when relative is an invalid URI" do
-      let(:relative) { "git@github.com:G5/microformats2.git" }
-      it { should eq("git@github.com:G5/microformats2.git") }
+      let(:relative) { "git@github.com:indieweb/microformats2-ruby.git" }
+      it { should eq("git@github.com:indieweb/microformats2-ruby.git") }
     end
   end
 end
