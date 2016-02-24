@@ -33,7 +33,7 @@ Not Implemented:
 * [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 * [include-pattern](http://microformats.org/wiki/include-pattern)
 * recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
-* backwards compatable support for microformats v1
+* backwards compatible support for microformats v1
 
 
 ## Current Version
