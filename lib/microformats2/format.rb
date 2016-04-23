@@ -102,7 +102,7 @@ module Microformats2
         send("#{mn}=", value)
       end
       if current = send(mn.pluralize)
-        current << value
+        current << value if current.respond_to? :<<
       else
         send("#{mn.pluralize}=", [value])
       end
