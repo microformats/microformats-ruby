@@ -9,7 +9,7 @@ and return a collection of dynamically defined Ruby objects.
 
 ## Development Status
 
-This gem sat unmaintained for quite a long time. It's now under new management. Work will begin shortly on getting it on par with the other Microformats2 parsers and the current state of the spec. (2015-12-23) 
+This gem sat unmaintained for quite a long time. It's now under new management. Work will begin shortly on getting it on par with the other Microformats2 parsers and the current state of the spec. (2015-12-23)
 
 A work in progress.
 
@@ -38,7 +38,9 @@ Not Implemented:
 
 ## Current Version
 
-2.0.1
+2.0.2
+
+![Version 2.0.2](https://img.shields.io/badge/VERSION-2.0.2-green.svg)
 
 
 ## Requirements
@@ -124,7 +126,7 @@ If you find bugs, have feature requests or questions, please
 
 ## Specs
 
-**TODO** remove this and use the [microformats tests repo](https://github.com/microformats/tests) instead. 
+**TODO** remove this and use the [microformats tests repo](https://github.com/microformats/tests) instead.
 
 To update spec cases that are scraped from other sites.
 **Warning:** This could break specs.
