@@ -103,7 +103,9 @@ module Microformats2
         else
           rel_values.each do |rel_value|
             @rels[rel_value] = [] unless @rels.has_key?(rel_value)
-            @rels[rel_value] << Microformats2::AbsoluteUri.new(@base, rel.attribute("href").text).absolutize
+            unless rel.attribute("href").nil?
+              @rels[rel_value] << Microformats2::AbsoluteUri.new(@base, rel.attribute("href").text).absolutize
+            end
           end
         end
       end
