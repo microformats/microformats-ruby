@@ -12,6 +12,7 @@ module Microformats2
         @attr_map = {
           "a" => "href",
           "area" => "href",
+          "audio" => "src",
           "img" => "src",
           "object" => "data",
           "abbr" => "title",
