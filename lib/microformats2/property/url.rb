@@ -15,6 +15,8 @@ module Microformats2
           "audio" => "src",
           "img" => "src",
           "object" => "data",
+          "source" => "src",
+          "video" => "src",
           "abbr" => "title",
           "data" => "value",
           "input" => "value" }
