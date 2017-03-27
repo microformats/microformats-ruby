@@ -38,9 +38,9 @@ Not Implemented:
 
 ## Current Version
 
-2.0.3
+2.1.0
 
-![Version 2.0.3](https://img.shields.io/badge/VERSION-2.0.3-green.svg)
+![Version 2.1.0](https://img.shields.io/badge/VERSION-2.1.0-green.svg)
 
 
 ## Requirements
@@ -103,12 +103,13 @@ collection.to_json
 
 ## Authors
 
-* Jessica Lynn Suttles / [@jlsuttles](https://github.com/jlsuttles)
-* Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
-* Chris Stringer / [@jcstringer](https://github.com/jcstringer)
-* Michael Mitchell / [@variousred](https://github.com/variousred)
-* Jessica Dillon / [@jessicard](https://github.com/jessicard)
-
+- Jessica Lynn Suttles / [@jlsuttles](https://github.com/jlsuttles)
+- Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
+- Chris Stringer / [@jcstringer](https://github.com/jcstringer)
+- Michael Mitchell / [@variousred](https://github.com/variousred)
+- Jessica Dillon / [@jessicard](https://github.com/jessicard)
+- Jeena Paradies / [@jeena](https://github.com/jeena)
+- Marty McGuire / [@martymcguire](https://github.com/martymcguire)
 
 ## Contributions
 
