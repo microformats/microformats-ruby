@@ -241,12 +241,31 @@ describe Microformats2::Collection do
             pending "These are dynamic tests that are not yet passing so commenting out for now"
             # json_file = html_file.gsub(/([.]html$)/, ".js")
             # html = open(html_file).read
-            # json = open(json_file).read
+             # json = open(json_file).read
 
-            # JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+             # JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
           end
         end
       end
     end
   end
+
+  describe "node_modules/microformat-tests/tests" do
+    cases_dir = "node_modules/microformat-tests/tests/*"
+    Dir[File.join(cases_dir, "*")].each do |page_dir|
+    describe page_dir.split("/")[-2..-1].join("/") do
+        Dir[File.join(page_dir, "*")].keep_if { |f| f =~ /([.]json$)/ }.each do |json_file|
+          it "#{json_file.split("/").last}" do
+            pending "These are dynamic tests that are not yet passing so commenting out for now"
+            #html_file = json_file.gsub(/([.]json$)/, ".html")
+            #html = open(html_file).read
+            #json = open(json_file).read
+            #
+            #JSON.parse(Microformats2.parse(html).to_json).should == JSON.parse(json)
+          end
+        end
+      end
+    end
+  end
+
 end
