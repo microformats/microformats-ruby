@@ -41,7 +41,10 @@ module Microformats2
     end
 
     def to_hash
-      hash = { items: [], rels: @rels }
+      hash = { items: []}
+      #unless @rels.empty? 
+          hash[:rels] = @rels
+      #end
       all.each do |format|
         hash[:items] << format.to_hash
       end
