@@ -8,9 +8,14 @@ module Microformats2
       @element = element
       @base = base
       @method_name = to_method_name(format_types.first)
+      @real_name = to_real_name(format_types.first)
       @property_names = []
       @child_formats = []
       @child_formats_parsed = false
+    end
+
+    def real_name
+        @real_name
     end
 
     def parse
@@ -73,7 +78,7 @@ module Microformats2
     def to_hash
       hash = { type: format_types, properties: {} }
       @property_names.each do |method_name|
-        hash[:properties][method_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
+        hash[:properties][send(method_name).real_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
       end
       unless children.empty?
         hash[:children] = []
@@ -96,10 +101,17 @@ module Microformats2
       set_value(property.method_name, property)
     end
 
-
     def to_method_name(html_class)
       # p-class-name -> class_name
       mn = html_class.downcase.split("-")[1..-1].join("_")
+      # avoid overriding Object#class
+      mn = "klass" if mn == "class"
+      mn
+    end
+
+    def to_real_name(html_class)
+      # p-class-name -> class-name
+      mn = html_class.downcase.split("-")[1..-1].join("-")
       # avoid overriding Object#class
       mn = "klass" if mn == "class"
       mn

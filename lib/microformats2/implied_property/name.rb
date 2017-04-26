@@ -6,6 +6,10 @@ module Microformats2
         "name"
       end
 
+      def real_name
+        "name"
+      end
+
       def to_s
         @to_s ||= element_value || selector_value || text_value
       end

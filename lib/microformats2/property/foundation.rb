@@ -6,8 +6,13 @@ module Microformats2
       def initialize(element, html_class, string_value=nil, base=nil)
         @element = element
         @method_name = to_method_name(html_class)
+        @real_name = to_real_name(html_class)
         @string_value = string_value
         @base = base
+      end
+
+      def real_name
+        @real_name
       end
 
       def parse
@@ -67,6 +72,14 @@ module Microformats2
       end
 
       private
+
+      def to_real_name(html_class)
+        # p-class-name -> class_name
+        mn = html_class.downcase.split("-")[1..-1].join("-")
+        # avoid overriding Object#class
+        mn = "klass" if mn == "class"
+        mn
+      end
 
       def to_method_name(html_class)
         # p-class-name -> class_name
