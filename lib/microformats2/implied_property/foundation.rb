@@ -15,6 +15,10 @@ module Microformats2
         "foundation"
       end
 
+      def real_name
+        "foundation"
+      end
+
       def to_s
         @to_s ||= element_value || selector_value
       end
