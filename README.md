@@ -27,10 +27,10 @@ Implemented:
 * [rel](http://microformats.org/wiki/rel)
 * [normalize u-* property values](http://microformats.org/wiki/microformats2-parsing-faq#normalizing_u-.2A_property_values)
 * nested microformat without associated property
+* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 
 Not Implemented:
 
-* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 * [include-pattern](http://microformats.org/wiki/include-pattern)
 * recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
 * backwards compatible support for microformats v1

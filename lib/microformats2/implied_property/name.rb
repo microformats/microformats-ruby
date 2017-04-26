@@ -31,7 +31,7 @@ module Microformats2
       private
 
       def text_value
-        @element.inner_text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+        @element.inner_text.strip
       end
     end
   end

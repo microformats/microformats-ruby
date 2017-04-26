@@ -251,7 +251,8 @@ describe Microformats2::Collection do
   # end
 
   describe "node_modules/microformat-tests/tests" do
-    cases_dir = "node_modules/microformat-tests/tests/*"
+    #cases_dir = "node_modules/microformat-tests/tests/*"
+    cases_dir = "node_modules/microformat-tests/tests/microformats-v2" #limit to only v2 for now
     Dir[File.join(cases_dir, "*")].each do |page_dir|
     describe page_dir.split("/")[-2..-1].join("/") do
         Dir[File.join(page_dir, "*")].keep_if { |f| f =~ /([.]json$)/ }.each do |json_file|

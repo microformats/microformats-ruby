@@ -4,7 +4,10 @@
       "url": ["http://example.org/", "http://flickr.com/", "http://twitter.com/jlsuttles"],
       "name": ["Jessica Lynn Suttles"],
       "bday": ["1990-10-15"],
-      "content": ["<p>Vegan. Cat lover. Coder.</p>"]
+      "content": {
+        "value": ["Vegan. Cat lover. Coder."],
+        "html": ["<p>Vegan. Cat lover. Coder.</p>"]
+      }
     }
   }],
   "rels": {},
