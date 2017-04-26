@@ -7,5 +7,6 @@
       "content": ["<p>Vegan. Cat lover. Coder.</p>"]
     }
   }],
-  "rels": {}
+  "rels": {},
+  "rel-urls": {}
 }
