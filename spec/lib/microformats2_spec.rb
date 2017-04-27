@@ -9,8 +9,8 @@ describe Microformats2 do
   end
 
   describe "::parse" do
-    it "returns a collection" do
-      Microformats2.parse(@html).should be_kind_of Microformats2::Collection
+    it "returns ParserResults" do
+      Microformats2.parse(@html).should be_kind_of Microformats2::ParserResults
     end
   end
 
