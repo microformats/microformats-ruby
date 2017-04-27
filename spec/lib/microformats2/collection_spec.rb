@@ -1,8 +1,7 @@
 require "spec_helper"
 require "microformats2"
 
-describe Microformats2::Collection do
-  describe "spec/support/lib/microformats2" do
+describe Microformats2::Parser do
 
     describe "simple.html" do
       before do
