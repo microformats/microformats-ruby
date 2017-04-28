@@ -36,7 +36,6 @@ module Microformats2
 
       found_base = parse_base(document)
       @base = found_base unless found_base.nil?
-      puts 'base: ' + @base.to_s
       
       parse_node(document)
       parse_rels(document)

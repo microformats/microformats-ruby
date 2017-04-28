@@ -14,10 +14,6 @@ module Microformats2
 
         parse_node(element.children)
 
-        h_object = {type: format_classes(element), properties: @properties}
-
-        h_object['children'] = @children unless @children.empty?
-
 
         ##### Implied Properties######
         #NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
@@ -138,7 +134,6 @@ module Microformats2
             end
           end
 
-          #TODO relative urls
           if @properties['url'].nil?
             if element.name == "a" and not element.attribute("href").nil?
               @properties['url'] = [element.attribute("href").value]
@@ -207,13 +202,25 @@ module Microformats2
 
         end 
         ##### END Implied Properties######
+        
+        if @value.nil? or @value.empty?
+            if element_type == 'p' and not @properties['name'].nil? and not @properties['name'].empty?
+                @value = @properties['name'].first
+            elsif element_type == 'u' and not @properties['url'].nil? and not @properties['url'].empty?
+                @value = @properties['url'].first
+            end
+        end
 
+
+        h_object = {type: format_classes(element), properties: @properties}
+
+        h_object['children'] = @children unless @children.empty?
 
         h_object['value'] = @value unless @value.nil?
 
         if @format_property_type == 'e'
             h_object['value'] = element.text.strip
-            h_object['html'] = element.inner_html.strip
+            h_object['html'] = element.inner_html
         end
 
         ##todo fall back to p- dt- u- parsing if value still not set
@@ -234,11 +241,11 @@ module Microformats2
 
               if @value.nil?
                   if @format_property_type == 'p' and property_name == 'name'
-                    @value = parsed_format[:value]
+                    @value = parsed_format['value']
                   #elsif @format_property_type == 'dt' and property_name == '???'
-                    #@value = parsed_format[:value]
+                    #@value = parsed_format['value']
                   elsif @format_property_type == 'u' and property_name == 'url'
-                    @value = parsed_format[:value]
+                    @value = parsed_format['value']
                   end
               end
 
@@ -255,16 +262,6 @@ module Microformats2
               property_name = element_class.downcase.split("-")[1..-1].join("-")
 
               parsed_property = PropertyParser.new.parse(element, @base, element_type) 
-
-              if @value.nil?
-                  if @format_property_type == 'p' and property_name == 'name'
-                    @value = parsed_property
-                  #elsif @format_property_type == 'dt' and property_name == '???'
-                    #@value = parsed_property
-                  elsif @format_property_type == 'u' and property_name == 'url'
-                    @value = parsed_property
-                  end
-              end
               
               @properties[property_name] = []  if @properties[property_name].nil?
               @properties[property_name] << parsed_property
