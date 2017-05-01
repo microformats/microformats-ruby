@@ -12,8 +12,8 @@ require "microformats2/property_parser"
 
 module Microformats2
   class << self
-    def parse(html)
-      Parser.new.parse(html)
+    def parse(html, base=nil)
+      Parser.new.parse(html, base)
     end
 
     def read_html(html)
