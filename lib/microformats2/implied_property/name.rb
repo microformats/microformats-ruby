@@ -6,6 +6,10 @@ module Microformats2
         "name"
       end
 
+      def real_name
+        "name"
+      end
+
       def to_s
         @to_s ||= element_value || selector_value || text_value
       end
@@ -27,7 +31,7 @@ module Microformats2
       private
 
       def text_value
-        @element.inner_text.gsub(/\n+/, " ").gsub(/\s+/, " ").strip
+        @element.inner_text.strip
       end
     end
   end

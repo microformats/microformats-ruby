@@ -8,13 +8,28 @@ module Microformats2
       @element = element
       @base = base
       @method_name = to_method_name(format_types.first)
+      @real_name = to_real_name(format_types.first)
       @property_names = []
+      @child_formats = []
+      @child_formats_parsed = false
+    end
+
+    def real_name
+        @real_name
     end
 
     def parse
       format_types
       properties
       self
+    end
+
+    def children
+        unless @child_formats_parsed
+            parse_child_formats
+            @child_formats_parsed = true
+        end
+        @child_formats
     end
 
     def format_types
@@ -30,6 +45,12 @@ module Microformats2
     def parse_properties
       PropertyParser.parse(@element.children, @base).each do |property|
         assign_property(property)
+      end
+    end
+
+    def parse_child_formats
+      FormatParser.parse(@element.children, @base, true).each do |child_format|
+        @child_formats.push(child_format)
       end
     end
 
@@ -57,7 +78,13 @@ module Microformats2
     def to_hash
       hash = { type: format_types, properties: {} }
       @property_names.each do |method_name|
-        hash[:properties][method_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
+        hash[:properties][send(method_name).real_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
+      end
+      unless children.empty?
+        hash[:children] = []
+        children.each do |child_format|
+          hash[:children].push(child_format.to_hash)
+        end
       end
       hash
     end
@@ -77,6 +104,14 @@ module Microformats2
     def to_method_name(html_class)
       # p-class-name -> class_name
       mn = html_class.downcase.split("-")[1..-1].join("_")
+      # avoid overriding Object#class
+      mn = "klass" if mn == "class"
+      mn
+    end
+
+    def to_real_name(html_class)
+      # p-class-name -> class-name
+      mn = html_class.downcase.split("-")[1..-1].join("-")
       # avoid overriding Object#class
       mn = "klass" if mn == "class"
       mn

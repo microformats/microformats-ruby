@@ -26,11 +26,11 @@ Implemented:
 * dynamic creation of properties
 * [rel](http://microformats.org/wiki/rel)
 * [normalize u-* property values](http://microformats.org/wiki/microformats2-parsing-faq#normalizing_u-.2A_property_values)
+* nested microformat without associated property
+* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 
 Not Implemented:
 
-* nested microformat without associated property
-* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 * [include-pattern](http://microformats.org/wiki/include-pattern)
 * recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
 * backwards compatible support for microformats v1
@@ -127,12 +127,11 @@ If you find bugs, have feature requests or questions, please
 
 ## Specs
 
-**TODO** remove this and use the [microformats tests repo](https://github.com/microformats/tests) instead.
+This uses the [microformats tests repo](https://github.com/microformats/tests).
 
-To update spec cases that are scraped from other sites.
-**Warning:** This could break specs.
+To install the test files run
 ```
-rake specs:update
+npm install
 ```
 
 To run specs

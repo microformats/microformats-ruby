@@ -15,6 +15,7 @@ module Microformats2
 
       @format_names = []
       @rels = {}
+      @rel_urls = {}
       @alternates = []
     end
 
@@ -41,7 +42,7 @@ module Microformats2
     end
 
     def to_hash
-      hash = { items: [], rels: @rels }
+      hash = { items: [], rels: @rels, 'rel-urls': @rel_urls}
       all.each do |format|
         hash[:items] << format.to_hash
       end
@@ -76,6 +77,7 @@ module Microformats2
         send("#{mn}=", value)
       end
       if current = send(mn.pluralize)
+        current = [current] if mn == mn.pluralize #otherwise h-news fails completely
         current << value
       else
         send("#{mn.pluralize}=", [value])
@@ -98,6 +100,9 @@ module Microformats2
           end
           unless rel.attribute("type").nil?
             alternate_inst["type"] = rel.attribute("type").text
+          end
+          unless rel.text.strip.empty?
+            alternate_inst["text"] = rel.text.strip
           end
           @alternates << alternate_inst
         else

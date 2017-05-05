@@ -6,6 +6,10 @@ module Microformats2
         "url"
       end
 
+      def real_name
+        "url"
+      end
+
       def to_s
         @to_s = Microformats2::AbsoluteUri.new(@base, super.to_s).absolutize
       end
