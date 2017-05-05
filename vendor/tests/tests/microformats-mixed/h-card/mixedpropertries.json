@@ -1,0 +1,22 @@
+{
+    "items": [{
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Mozilla Foundation"],
+            "org": ["Mozilla Foundation"],
+            "url": ["http://mozilla.org/"]
+        },
+        "children" : [{
+            "type": ["h-adr"],
+            "properties": {
+                "street-address": ["665 3rd St."],
+                "extended-address": ["Suite 207"],
+                "locality": ["San Francisco"],
+                "region": ["CA"],
+                "postal-code": ["94107"]
+            }
+        }]
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

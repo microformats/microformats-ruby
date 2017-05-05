@@ -1,18 +1,5 @@
 module Microformats2
 
-  #stub to get around the tests for now
-  class ParserResults
-    def initialize(hash)
-      @hash = hash
-    end
-    def to_hash
-      @hash
-    end
-    def to_json
-      to_hash.to_json
-    end
-  end
-
   class Parser < ParserCore
     attr_reader :http_headers, :http_body
     def initialize
@@ -51,7 +38,7 @@ module Microformats2
       parse_node(document)
       parse_rels(document)
       
-      ParserResults.new({items: @items, rels: @rels, 'rel-urls': @rel_urls})
+      ParserResult.new({'items' => @items, 'rels' => @rels, 'rel-urls' =>  @rel_urls})
     end
 
     def read_html(html, headers={})

@@ -221,13 +221,38 @@ module Microformats2
           end
 
         end 
-        ##### END Implied Properties######
+        ##### END Implied Properties when not in backcompat mode######
+
+        ### imply date for dt-end if dt-start is defined with a date ###
+        if not @properties['end'].nil? and not @properties['start'].nil?
+            start_date = nil
+            @properties['start'].each do |start_val|
+                if start_val =~ /^(\d{4}-[01]\d-[0-3]\d)/
+                    start_date = $1 if start_date.nil?
+                elsif start_val =~ /^(\d{4}-[0-3]\d\d)/
+                    start_date = $1 if start_date.nil?
+                end
+            end
+            unless start_date.nil?
+                @properties['end'].map! do |end_val|
+                    if end_val=~ /^\d{4}-[01]\d-[0-3]\d/
+                        end_val
+                    elsif end_val=~ /^\d{4}-[0-3]\d\d/
+                        end_val
+                    else
+                        start_date + ' ' + end_val
+                    end
+                end
+            end
+        end
         
         if @value.nil? or @value.empty?
             if element_type == 'p' and not @properties['name'].nil? and not @properties['name'].empty?
                 @value = @properties['name'].first
             elsif element_type == 'u' and not @properties['url'].nil? and not @properties['url'].empty?
                 @value = @properties['url'].first
+            elsif not element_type.nil?
+				@value = PropertyParser.new.parse(element, @base, element_type,  @mode_backcompat) 
             end
         end
 

@@ -1,0 +1,29 @@
+
+  {
+	"items": [{
+      "type": [
+        "h-card"
+      ],
+      "properties": {
+        "name": [
+          "Mitchell Baker"
+        ],
+        "url": ["http://blog.lizardwrangler.com/"],
+        "org": [
+          {
+            "value": "Mozilla Foundation",
+            "type": [
+              "h-card"
+            ],
+            "properties": {
+              "name": ["Mozilla Foundation"],
+              "url": ["http://example.com/bios/mitchell-baker/"]
+            }
+          }
+        ],
+        "photo": ["http://example.com/bios/mitchell-baker/picture.jpeg"]
+      }
+   }],
+    "rels": {},
+    "rel-urls": {}
+}

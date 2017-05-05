@@ -63,22 +63,8 @@ module Microformats2
 
         elsif element_type == 'dt'
 
-            parse_value_class_pattern(element)
+            @value = Microformats2::TimePropertyParser.new.parse(element, base, element_type, fmt_classes, backcompat)
 
-            if @value.nil? 
-
-                if ['time', 'ins', 'del'].include? element.name and not element.attribute('datetime').nil?
-                    @value = element.attribute('datetime').value.strip
-                elsif element.name == 'abbr' and not element.attribute('title').nil?
-                    @value = element.attribute('title').value.strip
-                elsif (element.name == 'data' or element.name == 'input') and not element.attribute('value').nil?
-                    @value = element.attribute('value').value.strip
-                else
-                    @value = element.text.strip
-                end
-            end
-
-            @value = standardize_datetime(@value) unless @value.nil?
         end
 
         @value
@@ -87,11 +73,7 @@ module Microformats2
       def parse_value_class_pattern(element)
             @value_class_pattern_value = []
             parse_node(element.children) 
-            if @property_type == 'dt'
-                @value = @value_class_pattern_value.join(' ') unless @value_class_pattern_value.empty?
-            else
-                @value = @value_class_pattern_value.join unless @value_class_pattern_value.empty?
-            end
+            @value = @value_class_pattern_value.join unless @value_class_pattern_value.empty?
 
       end
 
@@ -106,12 +88,6 @@ module Microformats2
                 @value_class_pattern_value << element.attribute('value').value.strip 
             elsif element.name == 'abbr' and not element.attribute('title').nil?
                 @value_class_pattern_value << element.attribute('title').value.strip 
-            elsif @property_type == 'dt'
-                if ['time', 'ins', 'del'].include? element.name and not element.attribute('datetime').nil?
-                    @value = element.attribute('datetime').value.strip
-                else
-                    @value_class_pattern_value << element.text.strip 
-                end
             else
                 @value_class_pattern_value << element.text.strip 
             end
