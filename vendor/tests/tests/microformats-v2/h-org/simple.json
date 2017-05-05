@@ -1,0 +1,10 @@
+{
+    "items": [{
+        "type": ["h-org"],
+        "properties": {
+            "name": ["Mozilla Foundation"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

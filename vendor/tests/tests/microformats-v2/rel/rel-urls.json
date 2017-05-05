@@ -1,0 +1,33 @@
+{
+  "items": [],
+  "rels": { 
+    "author": [ "http://example.com/a", "http://example.com/b" ],
+    "in-reply-to": [ "http://example.com/1", "http://example.com/2" ], 
+    "home": [ "http://example.com/fr" ], 
+    "alternate": [ "http://example.com/fr" ] 
+  },
+  "rel-urls": {
+    "http://example.com/a": {
+      "rels": ["author"], 
+      "text": "author a"
+    },
+    "http://example.com/b": {
+      "rels": ["author"], 
+      "text": "author b"
+    },
+    "http://example.com/1": {
+      "rels": ["in-reply-to"], 
+      "text": "post 1"
+    },
+    "http://example.com/2": {
+      "rels": ["in-reply-to"], 
+      "text": "post 2"
+    },
+    "http://example.com/fr": {
+      "rels": ["alternate", "home"],
+      "media": "handheld", 
+      "hreflang": "fr", 
+      "text": "French mobile homepage"
+    }
+  }
+}

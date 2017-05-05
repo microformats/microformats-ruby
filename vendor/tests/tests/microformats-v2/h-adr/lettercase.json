@@ -1,0 +1,12 @@
+{
+    "items": [{
+        "type": ["h-adr"],
+        "properties": {
+            "name": ["Bricklayer's Arms"],
+            "street-address": ["3 Charlotte Road"],
+            "locality": ["City of London"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

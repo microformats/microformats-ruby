@@ -1,14 +1,15 @@
 require "nokogiri"
 require "open-uri"
 require "json"
-require "active_support/inflector"
 
 require "microformats2/version"
 require "microformats2/absolute_uri"
 require "microformats2/parser_core"
 require "microformats2/parser"
+require "microformats2/parser_result"
 require "microformats2/format_parser"
 require "microformats2/property_parser"
+require "microformats2/time_property_parser"
 
 module Microformats2
   class << self

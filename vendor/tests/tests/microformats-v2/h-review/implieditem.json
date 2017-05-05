@@ -1,0 +1,19 @@
+{
+    "items": [{
+        "type": ["h-review"],
+        "properties": {
+            "item": [{
+                "value": "Crepes on Cole",
+                "type": ["h-item"],
+                "properties": {
+                    "name": ["Crepes on Cole"],
+                    "url": ["http://example.com/crepeoncole"]
+                }
+            }],
+            "rating": ["4.7"],
+            "name": ["Crepes on Cole\n    4.7 out of 5 stars"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

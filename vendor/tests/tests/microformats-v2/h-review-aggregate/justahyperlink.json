@@ -1,0 +1,19 @@
+{
+    "items": [{
+        "type": ["h-review-aggregate"],
+        "properties": {
+            "item": [{
+                "value": "Mediterranean Wraps",
+                "type": ["h-item"],
+                "properties": {
+                    "name": ["Mediterranean Wraps"]
+                }
+            }],
+            "summary": ["Customers flock to this small restaurant for their \n        tasty falafel and shawerma wraps and welcoming staff."],
+            "rating": ["4.5"],
+            "name": ["Mediterranean Wraps\n     \n        Customers flock to this small restaurant for their \n        tasty falafel and shawerma wraps and welcoming staff.\n    \n    4.5 out of 5"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

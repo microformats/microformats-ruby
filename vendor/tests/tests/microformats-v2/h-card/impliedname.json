@@ -1,0 +1,90 @@
+{  
+   "items": [{
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"],
+            "photo": ["http://example.com/jane.html"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"],
+            "url": ["http://example.com/jane.html"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"],
+            "photo": ["http://example.com/jane.html"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"],
+            "url": ["http://example.com/jane.html"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"],
+            "photo": ["http://example.com/jane.html"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"],
+            "url": ["http://example.com/jane.html"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Jane Doe"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Name"]
+        },
+        "children": [{
+            "type": ["h-card"],
+            "properties": {
+                "name": ["John Doe"],
+                "photo": ["http://example.com/john.html"]
+            }
+        }]
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Name"]
+        },
+        "children": [{
+            "type": ["h-card"],
+            "properties": {
+                "name": ["John Doe"],
+                "photo": ["http://example.com/john.html"]
+            }
+        }]
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

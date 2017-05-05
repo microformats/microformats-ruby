@@ -1,0 +1,30 @@
+{
+    "items": [{
+        "type": ["h-resume"],
+        "properties": {
+            "contact": [{
+                "value": "Tim Berners-Lee",
+                "type": ["h-card"],
+                "properties": {
+                    "name": ["Tim Berners-Lee"],
+                    "job-title": ["Director of the World Wide Web Foundation"]
+                }
+            }],
+            "summary": ["Invented the World Wide Web."],
+            "experience": [{
+                "value": "World Wide Web Foundation",
+                "type": ["h-event", "h-card"],
+                "properties": {
+                    "job-title": ["Director"],
+                    "name": ["World Wide Web Foundation"],
+                    "org": ["World Wide Web Foundation"],
+                    "url": ["http://www.webfoundation.org/"],
+                    "start": ["2009-01-18"],
+                    "duration": ["P2Y11M"]
+                }
+            }]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

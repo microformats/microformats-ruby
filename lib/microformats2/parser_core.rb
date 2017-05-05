@@ -73,7 +73,7 @@ module Microformats2
     def format_classes(element)
       result_set = []
       element.attribute('class').to_s.split.each do |html_class|
-        case html_class.downcase
+        case html_class
         when FORMAT_CLASS_REG_EXP
             result_set << html_class
         end
@@ -90,29 +90,31 @@ module Microformats2
       html_classes.each do |html_class|
         case html_class
 
-        when  /adr/
+        when  /^adr$/
             result_set << 'h-adr'
-        when  /geo/
+        when  /^geo$/
             result_set << 'h-geo'
-        when  /h[eE]ntry/
+        when  /^h[eE]ntry$/
             result_set << 'h-entry'
-        when  /h[pP]roduct/
+        when  /^h[pP]roduct$/
             result_set << 'h-product'
-        when  /h[rR]ecipe/
+        when  /^h[rR]ecipe$/
             result_set << 'h-recipe'
-        when  /h[rR]esume/
+        when  /^h[rR]esume$/
             result_set << 'h-resume'
-        when  /h[rR]eview/
+        when  /^h[rR]eview$/
             result_set << 'h-review'
-        when  /h[rR]eview-aggregate/
+        when  /^h[rR]eview-aggregate$/
             result_set << 'h-review-aggregate'
-        when  /[vh][eE]vent/
+        when  /^[vh][eE]vent$/
             result_set << 'h-event'
-        when  /[vh][cC]ard/
+        when  /^[vh][cC]ard$/
             result_set << 'h-card'
-        when  /h[fF]eed/
+
+            #these aren't actually specified by the backcompat faq, but probably should parse them
+        when  /^h[fF]eed$/
             result_set << 'h-feed'
-        when  /h[nN]ews/
+        when  /^h[nN]ews$/
             result_set << 'h-news'
 
 
@@ -146,8 +148,19 @@ module Microformats2
                 result_set << 'h-item'
               end
           end
+          if @fmt_classes.include? 'h-review-aggregate' and html_class == 'item'
+              if not html_classes.include? 'vcard' and not html_classes.include? 'vevent' and not html_classes.include? 'hproduct'
+                result_set << 'h-item'
+              end
+          end
+          if @fmt_classes.include? 'h-review-aggregate' and html_class == 'reviewer'
+            result_set << 'h-card'
+          end
           if @fmt_classes.include? 'h-entry' and html_class == 'location'
             result_set << 'h-adr'
+            result_set << 'h-card'
+          end
+          if @fmt_classes.include? 'h-feed' and html_class == 'author'
             result_set << 'h-card'
           end
         end
@@ -171,12 +184,15 @@ module Microformats2
         result_set << 'u-url'
       end
       if @fmt_classes.include? 'h-entry' and rels.include? 'tag'
-        result_set << 'uevent-category'
+        result_set << 'p-category'
       end
       if @fmt_classes.include? 'h-recipe' and rels.include? 'tag'
         result_set << 'p-category'
       end
       if @fmt_classes.include? 'h-review' and rels.include? 'tag'
+        result_set << 'p-category'
+      end
+      if @fmt_classes.include? 'h-feed' and rels.include? 'tag'
         result_set << 'p-category'
       end
       if @fmt_classes.include? 'h-review' and rels.include? 'self' and rels.include? 'bookmark'
@@ -218,7 +234,7 @@ module Microformats2
                 result_set << 'p-summary'
 
             elsif html_class ==  'entry-content'
-                result_set << 'p-content'
+                result_set << 'e-content'
 
             elsif ['updated', 'published'].include? html_class
                 result_set << 'dt-' + html_class
@@ -228,6 +244,22 @@ module Microformats2
 
             end
 
+          end
+
+          if @fmt_classes.include? 'h-news'
+            if [ 'source-org', 'entry', 'dateline', 'geo' ].include? html_class
+                result_set << 'p-' + html_class
+            end
+          end
+
+          if @fmt_classes.include? 'h-feed'
+            if html_class ==  'fn'
+                result_set << 'p-name'
+            elsif [ 'author', 'summary' ].include? html_class
+                result_set << 'p-' + html_class
+            elsif ['photo', 'url'].include? html_class
+                result_set << 'u-' + html_class
+            end
           end
 
           if @fmt_classes.include? 'h-item'
@@ -242,7 +274,7 @@ module Microformats2
                 result_set << 'p-name'
             elsif ['photo', 'url', 'identifier'].include? html_class
                 result_set << 'u-' + html_class
-            elsif [ 'brand', 'category', 'price', 'review' ].include? html_class
+            elsif [ 'brand', 'category', 'price', 'review', 'description' ].include? html_class
                 result_set << 'p-' + html_class
             end
           end
@@ -300,7 +332,7 @@ module Microformats2
                 result_set << 'e-content'
             elsif ['photo', 'url', 'identifier'].include? html_class
                 result_set << 'u-' + html_class
-            elsif [ 'rating', 'best', 'worst', 'item', 'counts', 'votes'].include? html_class
+            elsif [ 'rating', 'best', 'worst', 'item', 'count', 'votes', 'average' ].include? html_class
                 result_set << 'p-' + html_class
             end
           end
@@ -318,7 +350,7 @@ module Microformats2
                 result_set << 'p-location'
             elsif ['url'].include? html_class
                 result_set << 'u-' + html_class
-            elsif [ 'description', 'category', 'location'].include? html_class
+            elsif [ 'description', 'category', 'location', 'attendee'].include? html_class
                 result_set << 'p-' + html_class
             end
           end
@@ -356,97 +388,6 @@ module Microformats2
         html_class =~ VALUE_TITLE_CLASS_REG_EXP
       end
     end
-      def standardize_datetime(data)
-
-          if parse_duration(data)
-              res = data
-          else 
-              date_alone = parse_date(data)
-              time_alone = parse_time(data)
-
-
-              if date_alone.nil? and time_alone.nil?
-                  res = parse_date_and_time(data)
-              elsif date_alone.nil?
-                  res = time_alone
-              elsif time_alone.nil?
-                  res = date_alone
-              end
-          end
-
-          if res.nil?
-              data
-          else
-              res
-          end
-        
-      end
-
-      def parse_duration(data)
-
-      end
-
-      def parse_date(data)
-          
-          begin 
-              case data
-              when /^([0-9]{4})-([01][0-9])-([0-3][0-9])$/
-                  DateTime.new($1.to_i, $2.to_i, $3.to_i).strftime('%F')
-              when /^([0-9]{4})-([0-3][0-9]{2})$/
-                  DateTime.ordinal($1.to_i, $2.to_i).strftime('%F')
-              end
-          rescue
-              nil
-          end
-      end
-      def parse_time(data)
-          begin
-              case data
-              when /^[0-2]{2}-[0-5][0-9]-[0-5][0-9][zZ]?$/
-                  Time.parse(data).strftime('%T')
-              when /^[0-2]{2}-[0-5][0-9][zZ]?$/
-                  Time.parse(data).strftime('%H:%M')
-              when /^([0-2]{2}-[0-5][0-9]-[0-5][0-9][-+][01][0-9]:?[0-5][0-9])$/
-                  Time.parse(data).strftime('%T') #to make sure this time doesn't throw an error
-                  $1
-              when /^([0-2]{2}-[0-5][0-9][-+][01][0-9]:?[0-5][0-9])$/
-                  Time.parse(data).strftime('%H:%M') #to make sure this time doesn't throw an error
-                  $1
-              end
-          rescue
-              nil
-          end
-      end
-      def parse_date_and_time(data)
-          parts = data.split('T')
-          if parts.count == 2
-              d = parse_date(parts[0])
-              t = parse_time(parts[1])
-          end
-          if not d.nil? and not t.nil?
-              d + ' ' + t
-          else 
-
-              parts = data.split(' ')
-              if parts.count == 2
-                  d = parse_date(parts[0])
-                  t = parse_time(parts[1])
-              elsif parts.count == 3
-                  d = parse_date(parts[0])
-                  t = parse_time(parts[1] + parts[2])
-              end
-              if not d.nil? and not t.nil?
-                  d + ' ' + t
-              else 
-                  begin
-                      Time.parse(data).strftime('%F %T')
-                  rescue
-                      nil
-                  end
-              end
-          end
-
-      end
 
   end
 

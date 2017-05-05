@@ -1,0 +1,32 @@
+{
+    "items": [{
+        "type": ["h-resume"],
+        "properties": {
+            "contact": [{
+                "value": "Tim Berners-Lee",
+                "type": ["h-card"],
+                "properties": {
+                    "name": ["Tim Berners-Lee"],
+                    "org": ["MIT"],
+                    "adr": [{
+                        "value": "32 Vassar Street, \n            Room 32-G524, \n            Cambridge,  \n            MA \n            02139, \n            USA.  \n            (Work)",
+                        "type": ["h-adr"],
+                        "properties": {
+                            "street-address": ["32 Vassar Street"],
+                            "extended-address": ["Room 32-G524"],
+                            "locality": ["Cambridge"],
+                            "region": ["MA"],
+                            "postal-code": ["02139"],
+                            "country-name": ["USA"]
+                         }
+                    }],
+                    "tel": ["+1 (617) 253 5702"],
+                    "email": ["mailto:timbl@w3.org"]
+                }
+            }],
+            "summary": ["Invented the World Wide Web."]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

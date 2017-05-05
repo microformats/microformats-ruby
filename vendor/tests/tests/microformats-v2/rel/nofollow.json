@@ -1,0 +1,12 @@
+{
+    "items": [],
+    "rels": {
+        "nofollow": ["http://microformats.org/wiki/microformats:copyrights"]
+    },
+    "rel-urls": {
+        "http://microformats.org/wiki/microformats:copyrights": {
+            "text": "Copyrights",
+            "rels": ["nofollow"]
+        }
+    }
+}
