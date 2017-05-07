@@ -10,7 +10,7 @@ module Microformats2
     end
 
     def absolutize
-        #TODO: i'm sure this could be improved a bit
+      #TODO: i'm sure this could be improved a bit
       return nil if relative.nil? or relative == ""
       return relative if relative =~ /^https?:\/\//
 

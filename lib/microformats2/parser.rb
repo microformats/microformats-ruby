@@ -7,7 +7,7 @@ module Microformats2
       super
     end
 
-    def parse(html, base=nil, headers={})
+    def parse(html, base= nil, headers={})
 
       @http_headers = {}
 
@@ -24,20 +24,20 @@ module Microformats2
 
       found_base = parse_base(document)
       @base = found_base unless found_base.nil?
-      
-        document.traverse do |node|
-            if not node.attribute('src').nil?
-                absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('src').value.to_s).absolutize
-                node.attribute('src').value = absolute_url
 
-            elsif not node.attribute('href').nil?
-                absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('href').value.to_s).absolutize
-                node.attribute('href').value = absolute_url
-            end
+      document.traverse do |node|
+        if not node.attribute('src').nil?
+          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('src').value.to_s).absolutize
+          node.attribute('src').value = absolute_url
+
+        elsif not node.attribute('href').nil?
+          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('href').value.to_s).absolutize
+          node.attribute('href').value = absolute_url
         end
+      end
       parse_node(document)
       parse_rels(document)
-      
+
       ParserResult.new({'items' => @items, 'rels' => @rels, 'rel-urls' =>  @rel_urls})
     end
 
@@ -75,7 +75,6 @@ module Microformats2
       base.values.first unless base.nil?
     end
 
-
     def parse_rels(element)
       element.search('*[@rel]').each do |rel|
         unless rel.attribute('href').nil?
@@ -83,9 +82,9 @@ module Microformats2
 
           rel_values = rel.attribute('rel').text.split(' ')
           rel_values.each do |rel_value|
-              @rels[rel_value] = [] unless @rels.has_key?(rel_value)
-              @rels[rel_value] << Microformats2::AbsoluteUri.new(@base, rel.attribute('href').text).absolutize
-              @rels[rel_value].uniq!
+            @rels[rel_value] = [] unless @rels.has_key?(rel_value)
+            @rels[rel_value] << Microformats2::AbsoluteUri.new(@base, rel.attribute('href').text).absolutize
+            @rels[rel_value].uniq!
           end
 
           @rel_urls[url] = {} unless @rel_urls.has_key?(url)
@@ -100,7 +99,6 @@ module Microformats2
         end
       end
     end
-
 
   end
 end
