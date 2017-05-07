@@ -40,6 +40,25 @@ Not Implemented:
 
 3.0.0
 
+### Differences to 2.x
+
+Version 3 of the microformats2 parsing library makes several significant changes from version 2.
+Version 2 of the parser created new ruby objects for every root format and every property it parsed, this is no longer the case. 
+Instead, all parsing is done in to a hash and results are wrapped in a ParserResult object which will respond to many of the function calls that the old classes would.
+This means that the to_hash output is really the safest way to handle output data.
+
+The ParserResult class takes several steps to guess at what function is wanted when it is called.  
+For of of the following, if the result is an array it will return the first item in the array unless it is passed the argument :all.
+
+1. If the function called is a key of the current object, return the contents of that key.
+2. If the function called is a key of the 'properties' array of the current object, return the contents.
+3. Repeat #1 and #2, replacing underscores with hyphens.
+4. If still nothing found, look through the items array for the first entry with a type array that includes the function name.
+5. Repeat #4, replacing underscores with hyphens.
+
+This drops the need for a .format function as the result is always a ParserResult object.
+
+Finally this also means that nokogiri elements are no longer accessible from the results of the parser.  There are potential work arounds for this if it is discovered that anyone is relying on this.
 
 ## Requirements
 
@@ -208,7 +227,9 @@ If you find bugs, have feature requests or questions, please
 [file an issue](https://github.com/indieweb/microformats2-ruby/issues).
 
 
-## Specs
+## Testing
+
+### Specs
 
 This uses a copy of  [microformats tests repo](https://github.com/microformats/tests).
 This will be moved to being required automatically at some point.
@@ -224,6 +245,12 @@ To run specs
 rake spec
 ```
 
+###Interactive
+
+You can use the code interacively for testing but runnin 
+```
+bundle console
+```
 
 ## License
 
