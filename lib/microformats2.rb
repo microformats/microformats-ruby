@@ -13,7 +13,7 @@ require "microformats2/time_property_parser"
 
 module Microformats2
   class << self
-    def parse(html, base=nil)
+    def parse(html, base: nil)
       Parser.new.parse(html, base)
     end
 
