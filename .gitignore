@@ -16,5 +16,3 @@ test/tmp
 test/version_tmp
 tmp
 coverage
-node_modules
-*.swp
