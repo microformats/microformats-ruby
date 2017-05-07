@@ -5,8 +5,8 @@ module Microformats2
     def initialize(base, relative)
       @base = base
       @relative = relative
-      @base = @base.strip unless @base.nil?
-      @relative = @relative.strip unless @relative.nil?
+      @base&.strip!
+      @relative&.strip!
     end
 
     def absolutize
