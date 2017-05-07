@@ -1,0 +1,20 @@
+{
+    "rels": {
+        "category": [
+            "http://ma.tt/category/asides/"
+        ], 
+        "tag": [
+            "http://ma.tt/category/asides/"
+        ]
+    }, 
+    "items": [], 
+    "rel-urls": {
+        "http://ma.tt/category/asides/": {
+            "rels": [
+                "category", 
+                "tag"
+            ], 
+            "text": "Asides"
+        }
+    }
+}

@@ -18,7 +18,7 @@ describe Microformats2::AbsoluteUri do
 
     context "when relative is a valid absolute URI" do
       let(:relative) { "http://google.com" }
-      it { should eq("http://google.com/") }
+      it { should eq("http://google.com") }
     end
 
     context "when relative is a valid non-absolute URI" do

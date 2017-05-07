@@ -5,10 +5,14 @@ module Microformats2
     def initialize(base, relative)
       @base = base
       @relative = relative
+      @base&.strip!
+      @relative&.strip!
     end
 
     def absolutize
+      #TODO: i'm sure this could be improved a bit
       return nil if relative.nil? or relative == ""
+      return relative if relative =~ /^https?:\/\//
 
       uri = URI.parse(relative)
 

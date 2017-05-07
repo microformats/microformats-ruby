@@ -1,52 +1,101 @@
 module Microformats2
-  class PropertyParser
-    class << self
-      def parse(element, base)
-        @@base = base
-        parse_node(element).flatten.compact
-      end
+  class PropertyParser < ParserCore
 
-      def parse_node(node)
-        case
-        when node.is_a?(Nokogiri::XML::NodeSet) then parse_nodeset(node)
-        when node.is_a?(Nokogiri::XML::Element) then [parse_for_properties(node)]
+    def parse(element, base, element_type, fmt_classes = [], backcompat = nil)
+      @base = base
+      @value = nil
+      @property_type = element_type
+
+      @fmt_classes = fmt_classes
+      @mode_backcompat = backcompat
+
+      if element_type == 'p'
+        parse_value_class_pattern(element)
+
+        if @value.nil?
+          if element.name == 'abbr' and not element.attribute('title').nil?
+            @value = element.attribute('title').value.strip
+          elsif (element.name == 'data' or element.name == 'input') and not element.attribute('value').nil?
+            @value = element.attribute('value').value.strip
+          elsif (element.name == 'img' or element.name == 'area') and not element.attribute('alt').nil?
+            @value = element.attribute('alt').value.strip
+          else
+            @value = render_text_and_replace_images(element, @base)
+            #todo this should actually replace any img elements with alt or src properties
+          end
         end
-      end
 
-      def parse_nodeset(nodeset)
-        nodeset.map { |node| parse_node(node) }
-      end
+      elsif element_type == 'e'
+        @value = {
+          value: render_text(element, @base), #TODO the spec doesn't say to remove script and style tags, assuming this to be in error
+          html: element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
+        }
 
-      def parse_for_properties(element)
-        if property_classes(element).length >= 1
-          parse_property(element)
-        elsif format_classes(element).length >= 1
-          #do nothing because we don't want child elements ending up with their properties here
+      elsif element_type == 'u'
+        if ['a', 'area'].include? element.name and not element.attribute('href').nil?
+          @value = element.attribute('href').value.strip
+        elsif ['img', 'audio', 'video', 'source'].include? element.name and not element.attribute('src').nil?
+          @value = element.attribute('src').value.strip
+        elsif element.name == 'video' and not element.attribute('poster').nil?
+          @value = element.attribute('poster').value.strip
+        elsif element.name == 'object' and not element.attribute('data').nil?
+          @value = element.attribute('data').value.strip
+        end
+
+        if not @value.nil?
+          @value = Microformats2::AbsoluteUri.new(@base, @value).absolutize
         else
-          parse_nodeset(element.children)
+
+          parse_value_class_pattern(element)
+
+          if @value.nil?
+            if element.name == 'abbr' and not element.attribute('title').nil?
+              @value = element.attribute('title').value.strip
+            elsif (element.name == 'data' or element.name == 'input') and not element.attribute('value').nil?
+              @value = element.attribute('value').value.strip
+            else
+              @value = render_text(element, @base)
+            end
+
+          end
         end
+
+      elsif element_type == 'dt'
+        @value = Microformats2::TimePropertyParser.new.parse(element, base, element_type, fmt_classes, backcompat)
+
       end
 
-      def parse_property(element)
-        property_classes(element).map do |property_class|
-          property   = Property.new(element, property_class, nil, @@base).parse
-          properties = format_classes(element).empty? ? PropertyParser.parse(element.children, @@base) : []
+      @value
+    end
 
-          [property].concat properties
-        end
-      end
+    def parse_value_class_pattern(element)
+      @value_class_pattern_value = []
+      parse_node(element.children)
+      @value = @value_class_pattern_value.join unless @value_class_pattern_value.empty?
+    end
 
-      def property_classes(element)
-        element.attribute("class").to_s.split.select do |html_class|
-          html_class =~ Property::CLASS_REG_EXP
-        end
-      end
+    def parse_element(element)
+      if value_title_classes(element).length >= 1
+          @value_class_pattern_value << element.attribute('title').value.strip
 
-      def format_classes(element)
-        element.attribute("class").to_s.split.select do |html_class|
-          html_class =~ Format::CLASS_REG_EXP
-        end
+      elsif value_classes(element).length >= 1
+          if element.name == 'img' or element.name == 'area' and not element.attribute('alt').nil?
+              @value_class_pattern_value << element.attribute('alt').value.strip
+          elsif element.name == 'data' and not element.attribute('value').nil?
+              @value_class_pattern_value << element.attribute('value').value.strip
+          elsif element.name == 'abbr' and not element.attribute('title').nil?
+              @value_class_pattern_value << element.attribute('title').value.strip
+          else
+              @value_class_pattern_value << element.text.strip
+          end
+      else
+          p_classes = property_classes(element)
+          p_classes = backcompat_property_classes(element) if @mode_backcompat
+          if p_classes.length == 0 and format_classes(element).length == 0
+              parse_node(element.children)
+          end
       end
-    end # class << self
+    end
+
   end
 end

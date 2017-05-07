@@ -6,7 +6,7 @@ describe Microformats2::Parser do
 
   describe "#http_headers" do
     it "starts as a blank hash" do
-      parser.http_headers.should eq({})
+      expect(parser.http_headers).to eq({})
     end
 
     describe "open file" do
@@ -15,10 +15,10 @@ describe Microformats2::Parser do
       end
 
       it "doesn't save #http_headers" do
-        parser.http_headers.should eq({})
+        expect(parser.http_headers).to eq({})
       end
       it "saves #http_body" do
-        parser.http_body.should include "<!DOCTYPE html>"
+        expect(parser.http_body).to include "<!DOCTYPE html>"
       end
     end
 
@@ -31,11 +31,34 @@ describe Microformats2::Parser do
       end
 
       it "saves #http_headers" do
-        parser.http_headers.should eq({"content-length" => "3"})
+        expect(parser.http_headers).to eq({"content-length" => "3"})
       end
       it "saves #http_body" do
-        parser.http_body.should eq("abc")
+        expect(parser.http_body).to eq("abc")
       end
     end
   end
+
+  describe "microformat-tests/tests" do
+    cases_dir = "vendor/tests/tests/*" 
+    #cases_dir = "vendor/tests/tests/microformats-mixed"
+    #cases_dir = "vendor/tests/tests/microformats-v1"
+    #cases_dir = "vendor/tests/tests/microformats-working"
+    #cases_dir = "vendor/tests/tests/microformats-v2" #limit to only v2 for now
+    Dir[File.join(cases_dir, "*")].each do |page_dir|
+    describe page_dir.split("/")[-2..-1].join("/") do
+        Dir[File.join(page_dir, "*")].keep_if { |f| f =~ /([.]json$)/ }.each do |json_file|
+          it "#{json_file.split("/").last}" do
+            #pending "These are dynamic tests that are not yet passing so commenting out for now"
+            html_file = json_file.gsub(/([.]json$)/, ".html")
+            html = open(html_file).read
+            json = open(json_file).read
+            
+            expect(JSON.parse(Microformats2.parse(html, base:'http://example.com').to_json)).to eq(JSON.parse(json))
+          end
+        end
+      end
+    end
+  end
+
 end

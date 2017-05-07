@@ -1,6 +1,6 @@
 {
   "name": "microformats2-ruby",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "[![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.png?branch=master)](https://travis-ci.org/indieweb/microformats2-ruby) [![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats2-ruby)",
   "main": "index.js",
   "scripts": {
@@ -11,12 +11,9 @@
     "url": "git+https://github.com/dissolve/microformats2-ruby.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "CC0-1.0",
   "bugs": {
     "url": "https://github.com/dissolve/microformats2-ruby/issues"
   },
-  "homepage": "https://github.com/dissolve/microformats2-ruby#readme",
-  "dependencies": {
-    "microformat-tests": "^0.1.23"
-  }
+  "homepage": "https://github.com/dissolve/microformats2-ruby#readme"
 }

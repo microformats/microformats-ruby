@@ -1,0 +1,49 @@
+{
+    "items": [{
+        "type": ["h-card"],
+        "properties": {
+            "org": ["Mozilla"],
+            "adr": [{
+                "value": "665 3rd St.  \n    Suite 207  \n    San Francisco,  \n    CA  \n    94107  \n    U.S.A.",
+                "type": ["h-adr"],
+                "properties": {
+                    "street-address": ["665 3rd St."],
+                    "extended-address": ["Suite 207"],
+                    "locality": ["San Francisco"],
+                    "region": ["CA"],
+                    "postal-code": ["94107"],
+                    "country-name": ["U.S.A."]
+                }
+            }]
+        }
+    }, {
+        "type": ["h-card"],
+        "properties": {
+            "org": ["Mozilla"],
+            "adr": [{
+                "value": "665 3rd St.  \n    Suite 207  \n    San Francisco,  \n    CA  \n    94107  \n    U.S.A.",
+                "type": ["h-adr"],
+                "properties": {
+                    "street-address": ["665 3rd St."],
+                    "extended-address": ["Suite 207"],
+                    "locality": ["San Francisco"],
+                    "region": ["CA"],
+                    "postal-code": ["94107"],
+                    "country-name": ["U.S.A."]
+                }
+            }]
+        }
+    }, {
+        "type": ["h-adr"],
+        "properties": {
+            "street-address": ["665 3rd St."],
+            "extended-address": ["Suite 207"],
+            "locality": ["San Francisco"],
+            "region": ["CA"],
+            "postal-code": ["94107"],
+            "country-name": ["U.S.A."]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

@@ -1,0 +1,11 @@
+{
+    "items": [{
+        "type": ["h-card"],
+        "properties": {
+            "name": ["John \n        Doe"],
+            "given-name": ["John"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

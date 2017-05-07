@@ -1,0 +1,11 @@
+{
+    "items": [{
+        "type": ["h-card"],
+        "properties": {
+            "name": ["Ben Ward"],
+            "url": ["http://benward.me/"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

@@ -1,0 +1,33 @@
+{
+    "items": [{
+        "type": ["h-feed"],
+        "properties": {
+            "name": ["Microformats blog"],
+            "author": [{
+                "value": "Tantek",
+                "type": ["h-card"],
+                "properties": {
+                    "name": ["Tantek"],
+                    "url": ["http://tantek.com/"]
+                }
+            }],
+            "url": ["http://microformats.org/blog"],
+            "photo": ["http://example.com/photo.jpeg"]
+        },
+        "children": [{
+            "type": ["h-entry"],
+            "properties": {
+                "name": ["microformats.org at 7"],
+                "url": ["http://microformats.org/2012/06/25/microformats-org-at-7"],
+                "content": [{
+                    "value": "Last week the microformats.org community \n\t            celebrated its 7th birthday at a gathering hosted by Mozilla in \n\t            San Francisco and recognized accomplishments, challenges, and \n\t            opportunities.\n\t\n\t        The microformats tagline “humans first, machines second” \n\t            forms the basis of many of our \n\t            principles, and \n\t            in that regard, we’d like to recognize a few people and \n\t            thank them for their years of volunteer service",
+                    "html": "\n\t        <p class=\"p-summary\">Last week the microformats.org community \n\t            celebrated its 7th birthday at a gathering hosted by Mozilla in \n\t            San Francisco and recognized accomplishments, challenges, and \n\t            opportunities.</p>\n\t\n\t        <p>The microformats tagline “humans first, machines second” \n\t            forms the basis of many of our \n\t            <a href=\"http://microformats.org/wiki/principles\">principles</a>, and \n\t            in that regard, we’d like to recognize a few people and \n\t            thank them for their years of volunteer service </p>\n\t"
+                }],
+                "summary": ["Last week the microformats.org community \n\t            celebrated its 7th birthday at a gathering hosted by Mozilla in \n\t            San Francisco and recognized accomplishments, challenges, and \n\t            opportunities."],
+                "updated": ["2012-06-25 17:08:26"]
+            }
+        }]
+    }],
+    "rels": {},
+    "rel-urls": {}
+}
