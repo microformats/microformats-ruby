@@ -9,12 +9,22 @@ module Microformats2
       @base = base
       @method_name = to_method_name(format_types.first)
       @property_names = []
+      @child_formats = []
+      @child_formats_parsed = false
     end
 
     def parse
       format_types
       properties
       self
+    end
+
+    def children
+      unless @child_formats_parsed
+        parse_child_formats
+        @child_formats_parsed = true
+      end
+      @child_formats
     end
 
     def format_types
@@ -30,6 +40,12 @@ module Microformats2
     def parse_properties
       PropertyParser.parse(@element.children, @base).each do |property|
         assign_property(property)
+      end
+    end
+
+    def parse_child_formats
+      FormatParser.parse(@element.children, @base, true).each do |child_format|
+        @child_formats.push(child_format)
       end
     end
 
@@ -58,6 +74,12 @@ module Microformats2
       hash = { type: format_types, properties: {} }
       @property_names.each do |method_name|
         hash[:properties][method_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
+      end
+      unless children.empty?
+        hash[:children] = []
+        children.each do |child_format|
+          hash[:children].push(child_format.to_hash)
+        end
       end
       hash
     end
