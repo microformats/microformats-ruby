@@ -12,6 +12,5 @@
       "name": ["Jessica Lynn Suttles"]
     }
   }],
-  "rels": {},
-  "rel-urls": {}
+  "rels": {}
 }

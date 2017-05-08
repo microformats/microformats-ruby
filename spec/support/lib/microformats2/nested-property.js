@@ -5,7 +5,6 @@
       "nickname": ["jlsuttles"]
     }
   }],
-  "rels": {},
-  "rel-urls": {}
+  "rels": {}
 }
 

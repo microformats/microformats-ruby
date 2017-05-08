@@ -9,6 +9,5 @@
      "type": "application/atom+xml",
      "rel": "updates"
     }
-  ],
-  "rel-urls": {}
+  ]
 }

@@ -20,8 +20,6 @@ module Microformats2
       def parse_for_properties(element)
         if property_classes(element).length >= 1
           parse_property(element)
-        elsif format_classes(element).length >= 1
-          #do nothing because we don't want child elements ending up with their properties here
         else
           parse_nodeset(element.children)
         end

@@ -1,30 +1,28 @@
 module Microformats2
   class FormatParser
     class << self
-      def parse(element, base=nil, parsing_children = false)
+      def parse(element, base=nil)
         @@base = base
-        parse_node(element, parsing_children).flatten.compact
+        parse_node(element).flatten.compact
       end
 
-      def parse_node(node, parsing_children=false)
+      def parse_node(node)
         case
-        when node.is_a?(Nokogiri::HTML::Document) then parse_node(node.children, parsing_children)
-        when node.is_a?(Nokogiri::XML::NodeSet)   then parse_nodeset(node, parsing_children)
-        when node.is_a?(Nokogiri::XML::Element)   then [parse_for_microformats(node, parsing_children)]
+        when node.is_a?(Nokogiri::HTML::Document) then parse_node(node.children)
+        when node.is_a?(Nokogiri::XML::NodeSet)   then parse_nodeset(node)
+        when node.is_a?(Nokogiri::XML::Element)   then [parse_for_microformats(node)]
         end
       end
 
-      def parse_nodeset(nodeset, parsing_children=false)
-        nodeset.map { |node| parse_node(node, parsing_children) }
+      def parse_nodeset(nodeset)
+        nodeset.map { |node| parse_node(node) }
       end
 
-      def parse_for_microformats(element, parsing_children=false)
-        if property_classes(element).length >= 1 and parsing_children
-          #do nothing because we don't want properties obj in children
-        elsif format_classes(element).length >= 1
+      def parse_for_microformats(element)
+        if format_classes(element).length >= 1
           parse_microformat(element)
         else
-          parse_nodeset(element.children, parsing_children)
+          parse_nodeset(element.children)
         end
       end
 
@@ -35,12 +33,6 @@ module Microformats2
         klass = find_or_create_ruby_class(const_name)
 
         klass.new(element, @@base).parse
-      end
-
-      def property_classes(element)
-        element.attribute("class").to_s.split.select do |html_class|
-          html_class =~ Property::CLASS_REG_EXP
-        end
       end
 
       def format_classes(element)

@@ -12,6 +12,5 @@
       "name": ["123 Rainbow Lane"]
     }
   }],
-  "rels": {},
-  "rel-urls": {}
+  "rels": {}
 }
