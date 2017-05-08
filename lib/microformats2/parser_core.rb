@@ -189,6 +189,9 @@ module Microformats2
       if @fmt_classes.include? 'h-review' and rels.include? 'self' and rels.include? 'bookmark'
         result_set << 'u-url'
       end
+      if @fmt_classes.include? 'h-news' and rels.include? 'principles'
+        result_set << 'u-principles'
+      end
 
       #TODO PROPOSED convert time.entry-date[datetime] to dt-published  see wiki/h-entry
       #TODO PROPOSED convert rel=author to u-author  see wiki/h-entry
@@ -221,6 +224,7 @@ module Microformats2
           end
         end
 
+        #h-news isn't even listed in backcompat list, adding to follow test suite
         if @fmt_classes.include? 'h-news'
           if [ 'source-org', 'entry', 'dateline', 'geo' ].include? html_class
             result_set << 'p-' + html_class
@@ -344,6 +348,14 @@ module Microformats2
                   'category', 'adr', 'extended-address', 'street-address', 'locality', 'region', 'postal-code', 'country-name',
                   'label', 'geo', 'latitude', 'longitude', 'tel', 'note', 'org', 'organization-name', 'organization-unit', 'role', 'tz' ].include? html_class
             result_set << 'p-' + html_class
+
+          #these aren't listed in the wiki, may be removed
+          elsif ['sound'].include? html_class
+            result_set << 'u-' + html_class
+          #these aren't listed in the wiki, may be removed
+          elsif ['agent', 'mailer', 'sort-string', 'class'].include? html_class
+            result_set << 'p-' + html_class
+
           end
         end
 
