@@ -20,11 +20,11 @@ module Microformats2
     end
 
     def children
-        unless @child_formats_parsed
-            parse_child_formats
-            @child_formats_parsed = true
-        end
-        @child_formats
+      unless @child_formats_parsed
+        parse_child_formats
+        @child_formats_parsed = true
+      end
+      @child_formats
     end
 
     def format_types
