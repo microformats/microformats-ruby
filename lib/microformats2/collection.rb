@@ -76,6 +76,7 @@ module Microformats2
         send("#{mn}=", value)
       end
       if current = send(mn.pluralize)
+        current = [current] if mn == mn.pluralize #otherwise h-news fails completely
         current << value
       else
         send("#{mn.pluralize}=", [value])
