@@ -7,14 +7,14 @@ module Microformats2
     def initialize(element, base)
       @element = element
       @base = base
-      @method_name = to_method_name(format_types.first)
+      @method_name = to_method_name(type.first)
       @property_names = []
       @child_formats = []
       @child_formats_parsed = false
     end
 
     def parse
-      format_types
+      type
       properties
       self
     end
@@ -28,7 +28,12 @@ module Microformats2
     end
 
     def format_types
-      @format_types ||= @element.attribute("class").to_s.split.select do |html_class|
+      warn "[DEPRECATION] format_types is deprecated and will be removed in the next release.  Please use 'type' instead."
+      type
+    end
+
+    def type
+      @type ||= @element.attribute("class").to_s.split.select do |html_class|
         html_class =~ Format::CLASS_REG_EXP
       end
     end
@@ -71,7 +76,7 @@ module Microformats2
     end
 
     def to_hash
-      hash = { type: format_types, properties: {} }
+      hash = { type: type, properties: {} }
       @property_names.each do |method_name|
         hash[:properties][method_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
       end
