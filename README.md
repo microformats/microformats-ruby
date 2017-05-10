@@ -80,8 +80,8 @@ source = "<div class='h-card'><p class='p-name'>Jessica Lynn Suttles</p></div>"
 collection = Microformats2.parse(source)
 # using singular accessors
 collection.card.name.to_s #=> "Jessica Lynn Suttles"
-# using plural accessors
-collection.cards.first.names.first.to_s #=> "Jessica Lynn Suttles"
+# using :all returns an array
+collection.card(:all)[0].name(:all).first.to_s #=> "Jessica Lynn Suttles"
 
 source = "<article class='h-entry'>
   <h1 class='p-name'>Microformats 2</h1>
@@ -90,7 +90,7 @@ source = "<article class='h-entry'>
 collection = Microformats2.parse(source)
 collection.entry.name.to_s #=> "Microformats 2"
 # accessing nested microformats
-collection.entry.author.format.name.to_s #=> "Jessica Lynn Suttles"
+collection.entry.author.name.to_s #=> "Jessica Lynn Suttles"
 
 # getting a copy of the canonical microformats2 hash structure
 collection.to_hash

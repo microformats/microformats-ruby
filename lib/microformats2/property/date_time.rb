@@ -7,10 +7,10 @@ module Microformats2
       end
 
       def to_hash
-        if formats.empty?
+        if items.empty?
           to_s
         else
-          { value: to_s }.merge(formats.first.to_hash)
+          { value: to_s }.merge(items.first.to_hash)
         end
       end
 

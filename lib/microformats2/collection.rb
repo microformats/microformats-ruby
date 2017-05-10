@@ -33,23 +33,23 @@ module Microformats2
     end
 
     def all
-      warn "[DEPRECATION] all is deprecated and will be removed in the next release.  Please use 'items' instead."
+      warn "[DEPRECATION] `all` is deprecated and will be removed in the next release.  Please use `items` instead."
       items
     end
 
     def first
-      warn "[DEPRECATION] first is deprecated and will be removed in the next release.  Please use 'items.first' instead."
+      warn "[DEPRECATION] `first` is deprecated and will be removed in the next release.  Please use `items.first` instead."
       items.first
     end
 
     def last
-      warn "[DEPRECATION] first is deprecated and will be removed in the next release.  Please use 'items.last' instead."
+      warn "[DEPRECATION] `last` is deprecated and will be removed in the next release.  Please use `items.last` instead."
       items.last
     end
 
     def to_hash
       hash = { items: [], rels: @rels }
-      all.each do |format|
+      items.each do |format|
         hash[:items] << format.to_hash
       end
       hash[:alternates] = @alternates unless @alternates.nil? || @alternates.empty?
@@ -72,20 +72,20 @@ module Microformats2
     def define_method(mn)
       unless respond_to?(mn)
         #self.class.class_eval { attr_accessor mn }
-          self.class.class_eval("
-            def #{mn}(arg = nil);
-              if arg == :all
-                @#{mn}_array
-              else
-                @#{mn}
-              end
-            end") 
+        self.class.class_eval("
+          def #{mn}(arg = nil);
+            if arg == :all
+              @#{mn}_array
+            else
+              @#{mn}
+            end
+          end") 
         self.class.class_eval("def #{mn}=(x); @#{mn} = x; end") 
       end
       unless respond_to?(mn.pluralize)
         #self.class.class_eval { attr_accessor mn.pluralize }
         self.class.class_eval("def #{mn.pluralize};
-          warn \"[DEPRECATION] pluralized accessors are deprecated and will be removed in the next release. Please use '#{mn}(:all)' instead.\"
+          warn \"[DEPRECATION] pluralized accessors are deprecated and will be removed in the next release. Please use `#{mn}(:all)` instead.\"
           return @#{mn}_array; end") 
         self.class.class_eval("def #{mn.pluralize}=(x); @#{mn}_array = x; end") 
 
@@ -96,7 +96,7 @@ module Microformats2
       unless current = send(mn)
         send("#{mn}=", value)
       end
-      if current = send(mn.pluralize)
+      if current = send(mn, :all)
         current = [current] if mn == mn.pluralize #otherwise h-news fails completely
         current << value
       else

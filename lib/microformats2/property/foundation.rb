@@ -25,13 +25,12 @@ module Microformats2
       end
 
       def format
-        warn "[DEPRECATION] format is deprecated and will be removed in the next release.  Try just leaving this function out completely (example author.formats.name.to_s => author.name.to_s).  You can also call 'items.first' instead."
+        warn "[DEPRECATION] `format` is deprecated and will be removed in the next release.  Try just leaving this function out completely (example author.format.name.to_s => author.name.to_s).  You can also call `items.first` instead."
         items.first
       end
 
       def formats
-        warn "[DEPRECATION] formats is deprecated and will be removed in the next release.  Please use 'items.first' instead."
-        items.first
+        warn "[DEPRECATION] `formats` is deprecated and will be removed in the next release.  Please use `items` instead."
         items
       end
 
