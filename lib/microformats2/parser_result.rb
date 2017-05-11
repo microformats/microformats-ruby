@@ -12,6 +12,14 @@ module Microformats2
       to_hash.to_json
     end
 
+    def to_s
+      if @hash['value']
+        return @hash['value']
+      else
+        super
+      end
+    end
+
     def method_missing(name, *args, &block)
 
       name = name.to_s
