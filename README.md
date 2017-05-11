@@ -40,6 +40,8 @@ Not Implemented:
 
 3.0.0
 
+![Version 3.0.0](https://img.shields.io/badge/VERSION-3.0.0-green.svg)
+
 ### Differences to 2.x
 
 Version 3 of the microformats2 parsing library makes several significant changes from version 2.

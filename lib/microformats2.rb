@@ -6,10 +6,12 @@ require "microformats2/version"
 require "microformats2/absolute_uri"
 require "microformats2/parser_core"
 require "microformats2/parser"
-require "microformats2/parser_result"
 require "microformats2/format_parser"
 require "microformats2/property_parser"
 require "microformats2/time_property_parser"
+require "microformats2/results/parser_result"
+require "microformats2/results/collection"
+require "microformats2/results/property_set"
 
 module Microformats2
   class << self

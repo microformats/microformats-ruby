@@ -10,7 +10,7 @@ describe Microformats2 do
 
   describe "::parse" do
     it "returns ParserResult" do
-      expect(Microformats2.parse(@html)).to be_kind_of Microformats2::ParserResult
+      expect(Microformats2.parse(@html)).to be_kind_of Microformats2::Collection
     end
   end
 

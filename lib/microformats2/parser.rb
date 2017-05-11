@@ -38,7 +38,7 @@ module Microformats2
       parse_node(document)
       parse_rels(document)
 
-      ParserResult.new({'items' => @items, 'rels' => @rels, 'rel-urls' =>  @rel_urls})
+      Collection.new({'items' => @items, 'rels' => @rels, 'rel-urls' =>  @rel_urls})
     end
 
     def read_html(html, headers={})

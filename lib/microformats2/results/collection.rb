@@ -1,7 +1,7 @@
 module Microformats2
 
   #stub to get around the tests for now
-  class ParserResult
+  class Collection
     def initialize(hash)
       @hash = hash
     end
@@ -20,24 +20,38 @@ module Microformats2
       end
     end
 
-    def method_missing(name, *args, &block)
+    def [](key)
+      @hash[key]
+    end
 
-      name = name.to_s
+    def value
+      @hash['value']
+    end
+
+    def items
+      @hash['items'].map do |item|
+        ParserResult.new(item)
+      end
+    end
+
+    def rels
+      @hash['rels']
+    end
+
+    def rel_urls
+      @hash['rel-urls']
+    end
+
+    def respond_to?(sym, include_private = false)
+      has_item?(sym) || super(sym, include_private)
+    end
+
+    def method_missing(sym, *args, &block)
+
+      name = sym.to_s
       name_dash = name.gsub('_', '-') if name.include? '_'
 
-      if not @hash[name].nil?
-        result_hash = @hash[name]
-
-      elsif not @hash['properties'].nil? and not @hash['properties'][name].nil?
-        result_hash = @hash['properties'][name]
-
-      elsif not name_dash.nil? and not @hash[name_dash].nil?
-        result_hash = @hash[name_dash]
-
-      elsif not name_dash.nil? and not @hash['properties'].nil? and not @hash['properties'][name_dash].nil?
-        result_hash = @hash['properties'][name_dash]
-
-      elsif not @hash['items'].nil?
+      if not @hash['items'].nil?
         result_hash = @hash['items'].select do |x|
             x['type'].include?('h-' + name)
         end
@@ -47,6 +61,8 @@ module Microformats2
           end
         end
       end
+
+      super(sym, *args, &block) if result_hash.empty?
 
       if result_hash.is_a? Array
         if args[0].nil?
@@ -73,6 +89,26 @@ module Microformats2
         result_hash
       end
     end
+
+    private
+
+    def has_item?(name)
+      name = name.to_s
+      name_dash = name.gsub('_', '-') if name.include? '_'
+      if not @hash['items'].nil?
+        result_hash = @hash['items'].select do |x|
+          x['type'].include?('h-' + name)
+        end
+        if result_hash.empty? and not name_dash.nil?
+          result_hash = @hash['items'].select do |x|
+            x['type'].include?('h-' + name_dash)
+          end
+        end
+      end
+
+      not result_hash.empty?
+    end
+
   end
 end
 
