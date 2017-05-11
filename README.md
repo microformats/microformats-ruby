@@ -97,7 +97,7 @@ require "microformats2"
 source = "<div class='h-card'><p class='p-name'>Jessica Lynn Suttles</p></div>"
 collection = Microformats2.parse(source)
 
-# getting a copy of the canonical microformats2 hash structure (this is the safest and recommended way)
+# getting a copy of the canonical microformats2 hash structure
 collection.to_hash
 
 # the above, as JSON in a string
@@ -125,9 +125,6 @@ collection.entry.properties.author.properties.name.to_s #=> "Jessica Lynn Suttle
 # use _ instead of - to get these items
 collection.entry.author.first_name #=> "Jessica"
 collection.rel_urls #=> {}
-
-# accessing anything which doesn't exist returns a nil
-collection.foo #=> nil
 
 source = "<article class='h-entry'>
   <h1 class='p-name'>Microformats 2</h1>
@@ -234,13 +231,6 @@ If you find bugs, have feature requests or questions, please
 ### Specs
 
 This uses a copy of  [microformats tests repo](https://github.com/microformats/tests).
-This will be moved to being required automatically at some point.
-
-To update spec cases that are scraped from other sites.
-**Warning:** This could break specs.
-```
-rake specs:update
-```
 
 To run specs
 ```
@@ -249,7 +239,7 @@ rake spec
 
 ###Interactive
 
-You can use the code interacively for testing but runnin 
+You can use the code interacively for testing but running
 ```
 bundle console
 ```
