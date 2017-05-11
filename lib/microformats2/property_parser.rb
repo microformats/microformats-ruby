@@ -21,7 +21,6 @@ module Microformats2
             @value = element.attribute('alt').value.strip
           else
             @value = render_text_and_replace_images(element, @base)
-            #todo this should actually replace any img elements with alt or src properties
           end
         end
 
@@ -95,6 +94,28 @@ module Microformats2
               parse_node(element.children)
           end
       end
+    end
+
+    def render_text_and_replace_images(node, base)
+      new_doc = Nokogiri::HTML(node.inner_html)
+      new_doc.xpath('//script').remove
+      new_doc.xpath('//style').remove
+      new_doc.traverse do |node|
+        if node.name == 'img' and not node.attribute('alt').nil?
+          node.replace(' ' + node.attribute('alt').value.to_s + ' ')
+        elsif node.name == 'img' and not node.attribute('src').nil?
+          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('src').value.to_s).absolutize
+          node.replace(' ' + absolute_url  + ' ')
+        end
+      end
+      new_doc.text.strip
+    end
+
+    def render_text(node, base)
+      new_doc = Nokogiri::HTML(node.inner_html)
+      new_doc.xpath('//script').remove
+      new_doc.xpath('//style').remove
+      new_doc.text.strip
     end
 
   end

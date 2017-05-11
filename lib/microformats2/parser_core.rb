@@ -26,43 +26,6 @@ module Microformats2
       end
     end
 
-    def render_text_and_replace_images(node, base)
-      new_doc = Nokogiri::HTML(node.inner_html)
-      new_doc.xpath('//script').remove
-      new_doc.xpath('//style').remove
-      new_doc.traverse do |node|
-        if node.name == 'img' and not node.attribute('alt').nil?
-          node.replace(' ' + node.attribute('alt').value.to_s + ' ')
-        elsif node.name == 'img' and not node.attribute('src').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('src').value.to_s).absolutize
-          node.replace(' ' + absolute_url  + ' ')
-        end
-      end
-      new_doc.text.strip
-    end
-
-    def render_html(node, base)
-      new_doc = Nokogiri::HTML(node.inner_html)
-      new_doc.traverse do |node|
-        if not node.attribute('src').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('src').value.to_s).absolutize
-          node.attribute('src').value = absolute_url
-
-        elsif not node.attribute('href').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('href').value.to_s).absolutize
-          node.attribute('href').value = absolute_url
-        end
-      end
-      new_doc.children[1].inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
-    end
-
-    def render_text(node, base)
-      new_doc = Nokogiri::HTML(node.inner_html)
-      new_doc.xpath('//script').remove
-      new_doc.xpath('//style').remove
-      new_doc.text.strip
-    end
-
 
     def parse_nodeset(nodeset)
       nodeset.each do |node|

@@ -270,7 +270,8 @@ module Microformats2
         h_object['html'] = element.inner_html
       end
 
-      ##todo fall back to p- dt- u- parsing if value still not set
+      ##todo fall back to p- dt- u- parsing if value still not set?
+      #  not sure that is correct by the spec actually
 
       h_object
 
