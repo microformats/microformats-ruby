@@ -101,6 +101,62 @@ collection.to_json
 
 * `source` can be a URL, filepath, or HTML
 
+
+## Ruby Gem release process
+
+Check out latest code from GitHub repo.
+
+```
+git pull origin master
+```
+
+Make sure the version has been bumped up in all four places:
+
+- [lib/microformats2/version.rb](https://github.com/indieweb/microformats2-ruby/blob/master/lib/microformats2/version.rb#L2)
+- [README.md (three places)](https://github.com/indieweb/microformats2-ruby/blob/master/README.md)
+
+Do a test build locally to make sure it builds properly.
+
+```
+rake build
+```
+
+If that works, then do a test install locally.
+
+  ```
+rake install
+```
+
+If that works, uninstall the gem.
+
+```
+gem uninstall microformats2
+```
+
+Clean up any mess made from testing.
+
+```
+rake clean
+rake clobber
+```
+
+Assuming your one of the gem owners and have release privileges, release the gem!
+
+```
+rake release
+```
+
+If that works, you’ve just release a new version of the gem! Yay! You can see it at:
+
+[https://rubygems.org/gems/microformats2](https://rubygems.org/gems/microformats2)
+
+If `rake release` failed because of an error with your authentication to rubygems.org, follow their instructions in the error message. Then repeat the `rake release` step.
+
+If any other errors failed along the way before `rake release`, try to figure them out or reach out to the IRC/Slack channel for help.
+
+Good luck.
+
+
 ## Authors
 
 - Jessica Lynn Suttles / [@jlsuttles](https://github.com/jlsuttles)
