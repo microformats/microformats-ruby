@@ -16,7 +16,7 @@ module Microformats2
 
       def parse
         to_s
-        formats
+        items
         self
       end
 
@@ -25,23 +25,39 @@ module Microformats2
       end
 
       def format
-        formats.first
+        warn "[DEPRECATION] `format` is deprecated and will be removed in the next release.  Try just leaving this function out completely (example author.format.name.to_s => author.name.to_s).  You can also call `items.first` instead."
+        items.first
       end
 
       def formats
+        warn "[DEPRECATION] `formats` is deprecated and will be removed in the next release.  Please use `items` instead."
+        items
+      end
+
+      def items
         @formats ||= format_classes.length >=1 ? FormatParser.parse(@element, @base) : []
       end
 
       def to_hash
-        if formats.empty?
+        if items.empty?
           to_s
         else
-          { value: to_s }.merge(formats.first.to_hash)
+          { value: to_s }.merge(items.first.to_hash)
         end
       end
 
       def to_json
         to_hash.to_json
+      end
+
+      def method_missing(name, *arg, &block)
+        fmt = items.first
+        if fmt.respond_to?(name)
+          fmt.send(name)
+        else
+          super
+        end
+        
       end
 
       protected

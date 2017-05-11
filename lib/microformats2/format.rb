@@ -7,14 +7,14 @@ module Microformats2
     def initialize(element, base)
       @element = element
       @base = base
-      @method_name = to_method_name(format_types.first)
+      @method_name = to_method_name(type.first)
       @property_names = []
       @child_formats = []
       @child_formats_parsed = false
     end
 
     def parse
-      format_types
+      type
       properties
       self
     end
@@ -28,7 +28,12 @@ module Microformats2
     end
 
     def format_types
-      @format_types ||= @element.attribute("class").to_s.split.select do |html_class|
+      warn "[DEPRECATION] `format_types` is deprecated and will be removed in the next release.  Please use `type` instead."
+      type
+    end
+
+    def type
+      @type ||= @element.attribute("class").to_s.split.select do |html_class|
         html_class =~ Format::CLASS_REG_EXP
       end
     end
@@ -71,9 +76,9 @@ module Microformats2
     end
 
     def to_hash
-      hash = { type: format_types, properties: {} }
+      hash = { type: type, properties: {} }
       @property_names.each do |method_name|
-        hash[:properties][method_name.to_sym] = send(method_name.pluralize).map(&:to_hash)
+        hash[:properties][method_name.to_sym] = send(method_name, :all).map(&:to_hash)
       end
       unless children.empty?
         hash[:children] = []
@@ -112,10 +117,23 @@ module Microformats2
 
     def define_method(mn)
       unless respond_to?(mn)
-        self.singleton_class.class_eval { attr_accessor mn }
+        #self.singleton_class.class_eval { attr_accessor mn }
+        self.singleton_class.class_eval("
+          def #{mn}(arg = nil);
+            if arg == :all
+              @#{mn}_array
+            else
+              @#{mn}
+            end
+          end") 
+        self.singleton_class.class_eval("def #{mn}=(x); @#{mn} = x; end") 
       end
       unless respond_to?(mn.pluralize)
-        self.singleton_class.class_eval { attr_accessor mn.pluralize }
+        #self.singleton_class.class_eval { attr_accessor mn.pluralize }
+        self.singleton_class.class_eval("def #{mn.pluralize};
+          warn \"[DEPRECATION] pluralized accessors are deprecated and will be removed in the next release. Please use `#{mn}(:all)` instead.\"
+          return @#{mn}_array; end") 
+        self.singleton_class.class_eval("def #{mn.pluralize}=(x); @#{mn}_array = x; end") 
       end
     end
 
@@ -123,7 +141,7 @@ module Microformats2
       unless current = send(mn)
         send("#{mn}=", value)
       end
-      if current = send(mn.pluralize)
+      if current = send(mn,:all)
         current << value if current.respond_to? :<<
       else
         send("#{mn.pluralize}=", [value])
