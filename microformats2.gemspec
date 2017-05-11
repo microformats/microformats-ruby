@@ -29,6 +29,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "webmock"
 
   gem.post_install_message = %q{
+
   "Calling all. This is our last cry before our eternal silence."
   - The 2.X version.
 
@@ -54,6 +55,7 @@ Gem::Specification.new do |gem|
   manual acceptance testing in this transition to 2.9 and 3.0.
 
   <3 
+
   }
 
 end
