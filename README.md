@@ -9,9 +9,8 @@ and return a collection of dynamically defined Ruby objects.
 
 ## Development Status
 
-This gem sat unmaintained for quite a long time. It's now under new management. Work will begin shortly on getting it on par with the other Microformats2 parsers and the current state of the spec. (2015-12-23)
+This gem has been almost completely rewritten and now supports almost all aspects of the Microformats2 parsing spec.  As such a few things have changed, however there is a 2.9.0 release that will add a few new features and slightly improved parsing without breaking any of your existing code. (2017-05-12)
 
-A work in progress.
 
 Implemented:
 
@@ -46,21 +45,19 @@ Not Implemented:
 
 Version 3 of the microformats2 parsing library makes several significant changes from version 2.
 Version 2 of the parser created new ruby objects for every root format and every property it parsed, this is no longer the case. 
-Instead, all parsing is done in to a hash and results are wrapped in a ParserResult object which will respond to many of the function calls that the old classes would.
-This means that the to_hash output is really the safest way to handle output data.
+Instead, all parsing is done in to a hash and results are wrapped in a few different objects classes which will respond to many of the function calls that the old classes would.
+This means that the to_hash/to_h output is really the safest way to handle output data.
 
-The ParserResult class takes several steps to guess at what function is wanted when it is called.  
+The ParserResult class (akin to the old Format class) takes several steps to guess at what function is wanted when it is called.  
 For of of the following, if the result is an array it will return the first item in the array unless it is passed the argument :all.
 
 1. If the function called is a key of the current object, return the contents of that key.
 2. If the function called is a key of the 'properties' array of the current object, return the contents.
 3. Repeat #1 and #2, replacing underscores with hyphens.
-4. If still nothing found, look through the items array for the first entry with a type array that includes the function name.
-5. Repeat #4, replacing underscores with hyphens.
 
 This drops the need for a .format function as the result is always a ParserResult object.
 
-Finally this also means that nokogiri elements are no longer accessible from the results of the parser.  There are potential work arounds for this if it is discovered that anyone is relying on this.
+Finally this also means that nokogiri elements are no longer accessible from the results of the parser.
 
 ## Requirements
 
