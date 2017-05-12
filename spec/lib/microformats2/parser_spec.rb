@@ -62,7 +62,7 @@ describe Microformats2::Parser do
             html = open(html_file).read
             json = open(json_file).read
             
-            expect(JSON.parse(Microformats2.parse(html, base:'http://example.com').to_json)).to eq(JSON.parse(json))
+            expect(JSON.parse(Microformats2.parse(html, base: 'http://example.com').to_json)).to eq(JSON.parse(json))
           end
         end
       end

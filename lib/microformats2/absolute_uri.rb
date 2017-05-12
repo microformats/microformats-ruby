@@ -2,7 +2,7 @@ module Microformats2
   class AbsoluteUri
     attr_accessor :base, :relative
 
-    def initialize(base, relative)
+    def initialize(relative, base: nil)
       @base = base
       @relative = relative
       @base.strip! unless @base.nil?

@@ -1,12 +1,12 @@
 module Microformats2
   class PropertyParser < ParserCore
 
-    def parse(element, base, element_type, fmt_classes = [], backcompat = nil)
+    def parse(element, base: nil, element_type: , format_class_array: [], backcompat: nil)
       @base = base
       @value = nil
       @property_type = element_type
 
-      @fmt_classes = fmt_classes
+      @fmt_classes = format_class_array
       @mode_backcompat = backcompat
 
       if element_type == 'p'
@@ -20,13 +20,13 @@ module Microformats2
           elsif (element.name == 'img' or element.name == 'area') and not element.attribute('alt').nil?
             @value = element.attribute('alt').value.strip
           else
-            @value = render_text_and_replace_images(element, @base)
+            @value = render_text_and_replace_images(element, base: @base)
           end
         end
 
       elsif element_type == 'e'
         @value = {
-          value: render_text(element, @base), #TODO the spec doesn't say to remove script and style tags, assuming this to be in error
+          value: render_text(element, base: @base), #TODO the spec doesn't say to remove script and style tags, assuming this to be in error
           html: element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
         }
 
@@ -42,7 +42,7 @@ module Microformats2
         end
 
         if not @value.nil?
-          @value = Microformats2::AbsoluteUri.new(@base, @value).absolutize
+          @value = Microformats2::AbsoluteUri.new(@value, base: @base).absolutize
         else
 
           parse_value_class_pattern(element)
@@ -53,14 +53,14 @@ module Microformats2
             elsif (element.name == 'data' or element.name == 'input') and not element.attribute('value').nil?
               @value = element.attribute('value').value.strip
             else
-              @value = render_text(element, @base)
+              @value = render_text(element, base: @base)
             end
 
           end
         end
 
       elsif element_type == 'dt'
-        @value = Microformats2::TimePropertyParser.new.parse(element, base, element_type, fmt_classes, backcompat)
+        @value = Microformats2::TimePropertyParser.new.parse(element, base: base, element_type: element_type, format_class_array: format_class_array, backcompat: backcompat)
 
       end
 
@@ -75,28 +75,28 @@ module Microformats2
 
     def parse_element(element)
       if value_title_classes(element).length >= 1
-          @value_class_pattern_value << element.attribute('title').value.strip
+        @value_class_pattern_value << element.attribute('title').value.strip
 
       elsif value_classes(element).length >= 1
-          if element.name == 'img' or element.name == 'area' and not element.attribute('alt').nil?
-              @value_class_pattern_value << element.attribute('alt').value.strip
-          elsif element.name == 'data' and not element.attribute('value').nil?
-              @value_class_pattern_value << element.attribute('value').value.strip
-          elsif element.name == 'abbr' and not element.attribute('title').nil?
-              @value_class_pattern_value << element.attribute('title').value.strip
-          else
-              @value_class_pattern_value << element.text.strip
-          end
+        if element.name == 'img' or element.name == 'area' and not element.attribute('alt').nil?
+          @value_class_pattern_value << element.attribute('alt').value.strip
+        elsif element.name == 'data' and not element.attribute('value').nil?
+          @value_class_pattern_value << element.attribute('value').value.strip
+        elsif element.name == 'abbr' and not element.attribute('title').nil?
+          @value_class_pattern_value << element.attribute('title').value.strip
+        else
+          @value_class_pattern_value << element.text.strip
+        end
       else
-          p_classes = property_classes(element)
-          p_classes = backcompat_property_classes(element) if @mode_backcompat
-          if p_classes.length == 0 and format_classes(element).length == 0
-              parse_node(element.children)
-          end
+        p_classes = property_classes(element)
+        p_classes = backcompat_property_classes(element) if @mode_backcompat
+        if p_classes.length == 0 and format_classes(element).length == 0
+          parse_node(element.children)
+        end
       end
     end
 
-    def render_text_and_replace_images(node, base)
+    def render_text_and_replace_images(node, base: nil)
       new_doc = Nokogiri::HTML(node.inner_html)
       new_doc.xpath('//script').remove
       new_doc.xpath('//style').remove
@@ -104,14 +104,14 @@ module Microformats2
         if node.name == 'img' and not node.attribute('alt').nil?
           node.replace(' ' + node.attribute('alt').value.to_s + ' ')
         elsif node.name == 'img' and not node.attribute('src').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('src').value.to_s).absolutize
+          absolute_url = Microformats2::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
           node.replace(' ' + absolute_url  + ' ')
         end
       end
       new_doc.text.strip
     end
 
-    def render_text(node, base)
+    def render_text(node, base: nil)
       new_doc = Nokogiri::HTML(node.inner_html)
       new_doc.xpath('//script').remove
       new_doc.xpath('//style').remove

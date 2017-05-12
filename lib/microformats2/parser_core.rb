@@ -169,7 +169,7 @@ module Microformats2
 
         if @fmt_classes.include? 'h-geo'
           if [ 'longitude', 'latitude' ].include? html_class
-              result_set << 'p-' + html_class
+            result_set << 'p-' + html_class
           end
         end
 

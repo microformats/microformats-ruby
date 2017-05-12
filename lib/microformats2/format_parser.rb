@@ -1,7 +1,7 @@
 module Microformats2
   class FormatParser < ParserCore
 
-    def parse(element, base=nil, element_type=nil, fmt_classes=[], backcompat=false)
+    def parse(element, base:nil, element_type:nil, format_class_array:[], backcompat:false)
       @base = base
 
       @mode_backcompat = backcompat
@@ -14,7 +14,7 @@ module Microformats2
 
       @mode_backcompat = backcompat
 
-      @fmt_classes =  fmt_classes
+      @fmt_classes =  format_class_array
 
       parse_node(element.children)
 
@@ -149,7 +149,7 @@ module Microformats2
 
           end
           unless @properties['photo'].nil?
-            @properties['photo'] = [ Microformats2::AbsoluteUri.new(@base, @properties['photo'].first).absolutize ]
+            @properties['photo'] = [ Microformats2::AbsoluteUri.new(@properties['photo'].first, base: @base).absolutize ]
           end
         end
 
@@ -217,7 +217,7 @@ module Microformats2
           end
 
           unless @properties['url'].nil?
-            @properties['url'] = [ Microformats2::AbsoluteUri.new(@base, @properties['url'].first).absolutize ]
+            @properties['url'] = [ Microformats2::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize ]
           end
         end
 
@@ -253,14 +253,14 @@ module Microformats2
         elsif element_type == 'u' and not @properties['url'].nil? and not @properties['url'].empty?
           @value = @properties['url'].first
         elsif not element_type.nil?
-          @value = PropertyParser.new.parse(element, @base, element_type,  @mode_backcompat)
+          @value = PropertyParser.new.parse(element, base: @base, element_type: element_type,  backcompat: @mode_backcompat)
         end
       end
 
       h_object = {}
 
       h_object['value'] = @value unless @value.nil?
-      h_object['type'] = fmt_classes
+      h_object['type'] = format_class_array
       h_object['properties'] = @properties
 
       h_object['children'] = @children unless @children.empty?
@@ -299,7 +299,7 @@ module Microformats2
             element_type = element_class.downcase.split('-')[0]
             property_name = element_class.downcase.split('-')[1..-1].join('-')
 
-            parsed_format = FormatParser.new.parse(element, @base, element_type, fmt_classes, bc_classes_found )
+            parsed_format = FormatParser.new.parse(element, base:@base, element_type: element_type, format_class_array: fmt_classes, backcompat: bc_classes_found )
 
             if @value.nil?
               if @format_property_type == 'p' and property_name == 'name'
@@ -322,7 +322,7 @@ module Microformats2
             element_type = element_class.downcase.split('-')[0]
             property_name = element_class.downcase.split('-')[1..-1].join('-')
 
-            parsed_property = PropertyParser.new.parse(element, @base, element_type,  @mode_backcompat)
+            parsed_property = PropertyParser.new.parse(element, base: @base, element_type: element_type, backcompat:  @mode_backcompat)
 
             if not parsed_property.nil? and not parsed_property.empty?
               @properties[property_name] = []  if @properties[property_name].nil?
@@ -333,7 +333,7 @@ module Microformats2
         end
 
       elsif fmt_classes.length >= 1
-        @children << FormatParser.new.parse(element, @base, nil, fmt_classes, bc_classes_found )
+        @children << FormatParser.new.parse(element, base: @base, format_class_array: fmt_classes, backcompat: bc_classes_found )
       else
         parse_nodeset(element.children)
       end

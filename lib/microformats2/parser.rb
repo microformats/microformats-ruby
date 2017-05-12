@@ -7,7 +7,7 @@ module Microformats2
       super
     end
 
-    def parse(html, base= nil, headers={})
+    def parse(html, base: nil, headers:{})
 
       @http_headers = {}
 
@@ -19,7 +19,7 @@ module Microformats2
 
       @base = base
 
-      html = read_html(html, headers)
+      html = read_html(html, headers: headers)
       document = Nokogiri::HTML(html)
 
       found_base = parse_base(document)
@@ -27,11 +27,11 @@ module Microformats2
 
       document.traverse do |node|
         if not node.attribute('src').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('src').value.to_s).absolutize
+          absolute_url = Microformats2::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
           node.attribute('src').value = absolute_url
 
         elsif not node.attribute('href').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(@base, node.attribute('href').value.to_s).absolutize
+          absolute_url = Microformats2::AbsoluteUri.new(node.attribute('href').value.to_s, base: @base).absolutize
           node.attribute('href').value = absolute_url
         end
       end
@@ -41,7 +41,7 @@ module Microformats2
       Collection.new({'items' => @items, 'rels' => @rels, 'rel-urls' =>  @rel_urls})
     end
 
-    def read_html(html, headers={})
+    def read_html(html, headers:{})
       open(html, headers) do |response|
         @http_headers = response.meta if response.respond_to?(:meta)
         @http_body = response.read
@@ -62,9 +62,9 @@ module Microformats2
       joined_classes =  fmt_classes + bc_fmt_classes
 
       if bc_fmt_classes.length >= 1
-        @items << FormatParser.new.parse(element, @base, nil, joined_classes, true)
+        @items << FormatParser.new.parse(element, base: @base, format_class_array: joined_classes, backcompat: true)
       elsif fmt_classes.length >= 1
-        @items << FormatParser.new.parse(element, @base, nil, fmt_classes, false)
+        @items << FormatParser.new.parse(element, base: @base, format_class_array: fmt_classes )
       else
         parse_nodeset(element.children)
       end
@@ -78,12 +78,12 @@ module Microformats2
     def parse_rels(element)
       element.search('*[@rel]').each do |rel|
         unless rel.attribute('href').nil?
-          url = Microformats2::AbsoluteUri.new(@base, rel.attribute('href').text).absolutize
+          url = Microformats2::AbsoluteUri.new(rel.attribute('href').text, base: @base).absolutize
 
           rel_values = rel.attribute('rel').text.split(' ')
           rel_values.each do |rel_value|
             @rels[rel_value] = [] unless @rels.has_key?(rel_value)
-            @rels[rel_value] << Microformats2::AbsoluteUri.new(@base, rel.attribute('href').text).absolutize
+            @rels[rel_value] << Microformats2::AbsoluteUri.new(rel.attribute('href').text, base: @base).absolutize
             @rels[rel_value].uniq!
           end
 

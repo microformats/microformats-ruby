@@ -2,12 +2,19 @@ module Microformats2
 
   #stub to get around the tests for now
   class Collection
+
     def initialize(hash)
       @hash = hash
     end
+
+    def to_h
+      @hash
+    end
+
     def to_hash
       @hash
     end
+
     def to_json
       to_hash.to_json
     end

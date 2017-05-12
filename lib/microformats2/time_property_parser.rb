@@ -1,7 +1,7 @@
 module Microformats2
   class TimePropertyParser < ParserCore
 
-    def parse(element, base, element_type, fmt_classes = [], backcompat = nil)
+    def parse(element, base: nil, element_type: , format_class_array: [], backcompat:  nil)
       @base = base
       @duration_value = nil
       @date_value = nil
@@ -9,7 +9,7 @@ module Microformats2
 
       @property_type = element_type
 
-      @fmt_classes = fmt_classes
+      @fmt_classes = format_class_array
       @mode_backcompat = backcompat
 
       parse_value_class_pattern(element)
@@ -66,7 +66,7 @@ module Microformats2
             value = element.text.strip
           end
         end
-        parse_dt(value, true) 
+        parse_dt(value, normalize: true) 
 
         p_classes = property_classes(element)
         p_classes = backcompat_property_classes(element) if @mode_backcompat
@@ -77,7 +77,7 @@ module Microformats2
 
     end
 
-    def parse_dt(data, normalize = false)
+    def parse_dt(data, normalize: false)
       # currently the value-class-pattern page lists to normalize  and remove :'s but not regular parsing, seems very odd
       # https://github.com/microformats/tests/issues/29
       #
