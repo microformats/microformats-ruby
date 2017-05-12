@@ -1,0 +1,27 @@
+{
+    "items": [{
+        "type": ["h-entry"],
+        "properties": {
+            "in-reply-to": [{
+                "type": ["h-cite"],
+                "properties": {
+                    "name": ["Example Post"],
+                    "url": ["http://example.com/post"],
+
+                    "author": [{
+                        "type": ["h-card"],
+                        "properties": {
+                            "url": ["http://example.com"],
+                            "name": ["Example Author"]
+                        },
+                        "value": "Example Author"
+                    }]
+                },
+                "value": "http://example.com/post"
+            }],
+            "name": ["Example Author\n                  Home\n            \n            Example Post"]
+        }
+    }],
+	"rels": {},
+	"rel-urls": {}
+}

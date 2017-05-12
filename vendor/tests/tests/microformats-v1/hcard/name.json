@@ -1,0 +1,15 @@
+{
+    "items": [{
+        "type": ["h-card"],
+        "properties": {
+            "honorific-prefix": ["Dr"],
+            "given-name": ["John"],
+            "additional-name": ["Peter"],
+            "family-name": ["Doe"],
+            "honorific-suffix": ["MSc", "PHD"],
+            "photo": ["http://example.com/images/logo.gif"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

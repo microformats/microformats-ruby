@@ -2,13 +2,17 @@ module Microformats2
   class AbsoluteUri
     attr_accessor :base, :relative
 
-    def initialize(base, relative)
+    def initialize(relative, base: nil)
       @base = base
       @relative = relative
+      @base.strip! unless @base.nil?
+      @relative.strip! unless @relative.nil?
     end
 
     def absolutize
+      #TODO: i'm sure this could be improved a bit
       return nil if relative.nil? or relative == ""
+      return relative if relative =~ /^https?:\/\//
 
       uri = URI.parse(relative)
 

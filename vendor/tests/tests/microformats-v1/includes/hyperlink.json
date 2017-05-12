@@ -1,0 +1,43 @@
+{
+    "items": [{
+        "type": ["h-card"],
+        "properties": {
+            "org": ["Twitter"],
+            "adr": [{
+                "value": "1355 Market St,\n        San Francisco, \n        CA\n        94103",
+                "type": ["h-adr"],
+                "properties": {
+                    "street-address": ["1355 Market St"],
+                    "locality": ["San Francisco"],
+                    "region": ["CA"],
+                    "postal-code": ["94103"]
+                }
+            }]
+         }
+    }, {
+        "type": ["h-card"],
+        "properties": {
+            "org": ["Twitter"],
+            "adr": [{
+                "value": "1355 Market St,\n        San Francisco, \n        CA\n        94103",
+                "type": ["h-adr"],
+                "properties": {
+                    "street-address": ["1355 Market St"],
+                    "locality": ["San Francisco"],
+                    "region": ["CA"],
+                    "postal-code": ["94103"]
+                }
+            }]
+          }
+    }, {
+        "type": ["h-adr"],
+        "properties": {
+            "street-address": ["1355 Market St"],
+            "locality": ["San Francisco"],
+            "region": ["CA"],
+            "postal-code": ["94103"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

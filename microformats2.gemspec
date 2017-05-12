@@ -17,9 +17,10 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
+  gem.required_ruby_version = ">= 2.0"
+
   gem.add_runtime_dependency "nokogiri"
   gem.add_runtime_dependency "json"
-  gem.add_runtime_dependency "activesupport"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"

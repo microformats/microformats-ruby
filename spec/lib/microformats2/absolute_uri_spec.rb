@@ -3,7 +3,7 @@ require "microformats2/absolute_uri"
 
 describe Microformats2::AbsoluteUri do
   describe "#absolutize" do
-    subject { Microformats2::AbsoluteUri.new(base, relative).absolutize }
+    subject { Microformats2::AbsoluteUri.new(relative, base: base).absolutize }
     let(:base) { nil }
 
     context "when relative is nil" do
@@ -18,7 +18,7 @@ describe Microformats2::AbsoluteUri do
 
     context "when relative is a valid absolute URI" do
       let(:relative) { "http://google.com" }
-      it { should eq("http://google.com/") }
+      it { should eq("http://google.com") }
     end
 
     context "when relative is a valid non-absolute URI" do

@@ -1,0 +1,52 @@
+{
+    "items": [{
+        "type": ["h-product"],
+        "properties": {
+            "name": ["Raspberry Pi"],
+            "photo": ["http://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/RaspberryPi.jpg/320px-RaspberryPi.jpg"],
+            "description": [ "The Raspberry Pi is a credit-card sized computer that plugs into your TV and a keyboard. It’s a capable little PC which can be used for many of the things that your desktop PC does, like spreadsheets, word-processing and games. It also plays high-definition video. We want to see it being used by kids all over the world to learn programming." ],
+            "url": ["http://www.raspberrypi.org/"],
+            "price": ["£29.95"],
+            "review": [{
+                "value": "9.2",
+                "type": ["h-review", "h-review-aggregate"],
+                "properties": {
+                    "rating": ["9.2"],
+                    "average": ["9.2"],
+                    "best": ["10"],
+                    "count": ["178"]
+                }
+            }],
+            "category": ["Computer", "Education"],
+            "brand": [{
+                "value": "The Raspberry Pi Foundation",
+                "type": ["h-card"],
+                "properties": {
+                    "name": ["The Raspberry Pi Foundation"],
+                    "org": ["The Raspberry Pi Foundation"],
+                    "adr": [{
+                        "value": "Cambridge \n            UK",
+                        "type": ["h-adr"],
+                        "properties": {
+                            "locality": ["Cambridge"],
+                            "country-name": ["UK"]
+                        }
+                    }]
+                }
+            }]
+        }
+    }],
+    "rels": {
+        "tag": ["http://en.wikipedia.org/wiki/computer", "http://en.wikipedia.org/wiki/education"]
+    },
+    "rel-urls": {
+        "http://en.wikipedia.org/wiki/computer": {
+            "text": "Computer",
+            "rels": ["tag"]
+        },
+        "http://en.wikipedia.org/wiki/education": {
+            "text": "Education",
+            "rels": ["tag"]
+        }
+    }
+}

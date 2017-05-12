@@ -9,9 +9,8 @@ and return a collection of dynamically defined Ruby objects.
 
 ## Development Status
 
-This gem sat unmaintained for quite a long time. It's now under new management. Work will begin shortly on getting it on par with the other Microformats2 parsers and the current state of the spec. (2015-12-23)
+This gem has been almost completely rewritten and now supports almost all aspects of the Microformats2 parsing spec.  As such a few things have changed, however there is a 2.9.0 release that will add a few new features and slightly improved parsing without breaking any of your existing code. (2017-05-12)
 
-A work in progress.
 
 Implemented:
 
@@ -26,28 +25,44 @@ Implemented:
 * dynamic creation of properties
 * [rel](http://microformats.org/wiki/rel)
 * [normalize u-* property values](http://microformats.org/wiki/microformats2-parsing-faq#normalizing_u-.2A_property_values)
+* nested microformat without associated property
+* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
+* recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
+* backwards compatible support for microformats v1
 
 Not Implemented:
 
-* nested microformat without associated property
-* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 * [include-pattern](http://microformats.org/wiki/include-pattern)
-* recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
-* backwards compatible support for microformats v1
 
 
 ## Current Version
 
-2.9.0
+3.0.0
 
-![Version 2.9.0](https://img.shields.io/badge/VERSION-2.9.0-green.svg)
+![Version 3.0.0](https://img.shields.io/badge/VERSION-3.0.0-green.svg)
 
+### Differences to 2.x
+
+Version 3 of the microformats2 parsing library makes several significant changes from version 2.
+Version 2 of the parser created new ruby objects for every root format and every property it parsed, this is no longer the case. 
+Instead, all parsing is done in to a hash and results are wrapped in a few different objects classes which will respond to many of the function calls that the old classes would.
+This means that the to_hash/to_h output is really the safest way to handle output data.
+
+The ParserResult class (akin to the old Format class) takes several steps to guess at what function is wanted when it is called.  
+For of of the following, if the result is an array it will return the first item in the array unless it is passed the argument :all.
+
+1. If the function called is a key of the current object, return the contents of that key.
+2. If the function called is a key of the 'properties' array of the current object, return the contents.
+3. Repeat #1 and #2, replacing underscores with hyphens.
+
+This drops the need for a .format function as the result is always a ParserResult object.
+
+Finally this also means that nokogiri elements are no longer accessible from the results of the parser.
 
 ## Requirements
 
 * [nokogiri](https://github.com/sparklemotion/nokogiri)
 * [json](https://github.com/flori/json)
-* [activesupport](https://github.com/rails/rails/tree/master/activesupport)
 
 
 ## Installation
@@ -78,25 +93,51 @@ require "microformats2"
 
 source = "<div class='h-card'><p class='p-name'>Jessica Lynn Suttles</p></div>"
 collection = Microformats2.parse(source)
-# using singular accessors
-collection.card.name.to_s #=> "Jessica Lynn Suttles"
-# using :all returns an array
-collection.card(:all)[0].name(:all).first.to_s #=> "Jessica Lynn Suttles"
-
-source = "<article class='h-entry'>
-  <h1 class='p-name'>Microformats 2</h1>
-  <div class='h-card p-author'><p class='p-name'>Jessica Lynn Suttles</p></div>
-</article>"
-collection = Microformats2.parse(source)
-collection.entry.name.to_s #=> "Microformats 2"
-# accessing nested microformats
-collection.entry.author.name.to_s #=> "Jessica Lynn Suttles"
 
 # getting a copy of the canonical microformats2 hash structure
 collection.to_hash
 
 # the above, as JSON in a string
 collection.to_json
+
+# shortcuts
+
+# return a string if there is only one item found
+collection.card.name #=> "Jessica Lynn Suttles"
+
+source = "<article class='h-entry'>
+  <h1 class='p-name'>Microformats 2</h1>
+  <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Jessica</span> Lynn Suttles</p></div>
+</article>"
+collection = Microformats2.parse(source)
+collection.entry.name.to_s #=> "Microformats 2"
+
+# accessing nested microformats
+collection.entry.author.name.to_s #=> "Jessica Lynn Suttles"
+
+# accessing nested microformats can use shortcuts or more expanded method
+collection.entry.author.name #=> "Jessica Lynn Suttles"
+collection.entry.properties.author.properties.name.to_s #=> "Jessica Lynn Suttles"
+
+# use _ instead of - to get these items
+collection.entry.author.first_name #=> "Jessica"
+collection.rel_urls #=> {}
+
+source = "<article class='h-entry'>
+  <h1 class='p-name'>Microformats 2</h1>
+  <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Jessica</span> Lynn Suttles</p></div>
+  <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Brandon</span> Edens</p></div>
+</article>"
+collection = Microformats2.parse(source)
+
+# arrays of items with always take the first item by default
+collection.entry.author.name #=> "Jessica Lynn Suttles"
+collection.entry.author(1).name #=> "Brandon Edens"
+
+# get the actual array with :all
+collection.entry.author(:all).count #=> 2
+collection.entry.author(:all)[1].name #=> "Brandon Edens"
+
 ```
 
 * `source` can be a URL, filepath, or HTML
@@ -159,6 +200,7 @@ Good luck.
 
 ## Authors
 
+- Ben Roberts / [@dissolve](https://github.com/dissolve)
 - Jessica Lynn Suttles / [@jlsuttles](https://github.com/jlsuttles)
 - Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
 - Chris Stringer / [@jcstringer](https://github.com/jcstringer)
@@ -181,21 +223,23 @@ If you find bugs, have feature requests or questions, please
 [file an issue](https://github.com/indieweb/microformats2-ruby/issues).
 
 
-## Specs
+## Testing
 
-**TODO** remove this and use the [microformats tests repo](https://github.com/microformats/tests) instead.
+### Specs
 
-To update spec cases that are scraped from other sites.
-**Warning:** This could break specs.
-```
-rake specs:update
-```
+This uses a copy of  [microformats tests repo](https://github.com/microformats/tests).
 
 To run specs
 ```
 rake spec
 ```
 
+###Interactive
+
+You can use the code interacively for testing but running
+```
+bundle console
+```
 
 ## License
 

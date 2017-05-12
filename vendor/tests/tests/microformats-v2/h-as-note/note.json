@@ -1,0 +1,98 @@
+{
+    "items": [{
+        "type": ["h-entry", "h-as-note"],
+        "properties": {
+            "in-reply-to": [{
+                "value": "http://werd.io/2015/im-super-proud-of-everything-weve-done-on-withknown-so-far",
+                "type": ["h-cite"],
+                "properties": {
+                    "name": ["http://werd.io/2015/im-super-proud-of-everything-weve-done-on-withknown-so-far"],
+                    "url": ["http://werd.io/2015/im-super-proud-of-everything-weve-done-on-withknown-so-far"]
+                }
+            },
+            {
+                "value": "https://twitter.com/benwerd/status/604733231284383744",
+                "type": ["h-cite"],
+                "properties": {
+                    "name": ["https://twitter.com/benwerd/status/604733231284383744"],
+                    "url": ["https://twitter.com/benwerd/status/604733231284383744"]
+                }
+            }],
+            "author": [{
+                "value": "Tantek Çelik",
+                "type": ["h-card"],
+                "properties": {
+                    "name": ["Tantek Çelik"],
+                    "photo": ["http://tantek.com/images/photo.gif"],
+                    "url": ["http://tantek.com/"]
+                }
+            }],
+            "name": ["@benwerd\n      @erinjoalso proud of you &\n      @withknown— so much #indieweb & especially user empathy. Keep up the great work!"],
+            "content": [{
+                "value": "@benwerd\n      @erinjoalso proud of you &\n      @withknown— so much #indieweb & especially user empathy. Keep up the great work!",
+                "html": "\n      <a class=\"auto-link h-x-username\" href=\"https://twitter.com/benwerd\">@benwerd</a>\n      <a class=\"auto-link h-x-username\" href=\"https://twitter.com/erinjo\">@erinjo</a>also proud of you &amp;\n      <a class=\"auto-link h-x-username\" href=\"https://twitter.com/withknown\">@withknown</a>— so much #indieweb &amp; especially user empathy. Keep up the great work!"
+            }],
+            "published": ["2015-06-01 22:20-0700"],
+            "updated": ["2015-06-01 22:20-0700"],
+            "url": ["http://tantek.com/2015/152/t2/proud-withknown-indieweb-user-empathy"],
+            "uid": ["http://tantek.com/2015/152/t2/proud-withknown-indieweb-user-empathy"],
+            "syndication": ["https://twitter.com/t/status/605604965566906369"]
+        },
+        "children": [{
+            "type": ["h-x-username"],
+            "properties": {
+                "name": ["@benwerd"],
+                "url": ["https://twitter.com/benwerd"]
+            }
+        },
+        {
+            "type": ["h-x-username"],
+            "properties": {
+                "name": ["@erinjo"],
+                "url": ["https://twitter.com/erinjo"]
+            }
+        },
+        {
+            "type": ["h-x-username"],
+            "properties": {
+                "name": ["@withknown"],
+                "url": ["https://twitter.com/withknown"]
+            }
+        }]
+    }],
+    "rels": {
+        "prev": ["http://tantek.com/152/t1/congrats-fellow-elected-w3cab-members"],
+        "next": ["http://tantek.com/152/t3/going-indiewebcamp-2015-portland"],
+        "in-reply-to": ["http://werd.io/2015/im-super-proud-of-everything-weve-done-on-withknown-so-far", "https://twitter.com/benwerd/status/604733231284383744"],
+        "author": ["http://tantek.com/"],
+        "syndication": ["https://twitter.com/t/status/605604965566906369"]
+    },
+    "rel-urls": {
+        "http://tantek.com/152/t1/congrats-fellow-elected-w3cab-members": {
+            "title": "View the previous (older) item in the stream.",
+            "text": "←",
+            "rels": ["prev"]
+        },
+        "http://tantek.com/152/t3/going-indiewebcamp-2015-portland": {
+            "title": "View the next (newer) item in the stream",
+            "text": "→",
+            "rels": ["next"]
+        },
+        "http://werd.io/2015/im-super-proud-of-everything-weve-done-on-withknown-so-far": {
+            "text": "http://werd.io/2015/im-super-proud-of-everything-weve-done-on-withknown-so-far",
+            "rels": ["in-reply-to"]
+        },
+        "https://twitter.com/benwerd/status/604733231284383744": {
+            "text": "https://twitter.com/benwerd/status/604733231284383744",
+            "rels": ["in-reply-to"]
+        },
+        "http://tantek.com/": {
+            "title": "Tantek Çelik",
+            "rels": ["author"]
+        },
+        "https://twitter.com/t/status/605604965566906369": {
+            "text": "View \n      Conversation\n      on Twitter",
+            "rels": ["syndication"]
+        }
+    }
+}

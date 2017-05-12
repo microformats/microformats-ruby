@@ -1,0 +1,19 @@
+{
+    "items": [{
+        "type": ["h-review-aggregate"],
+        "properties": {
+            "item": [{
+                "value": "Mediterranean Wraps",
+                "type": ["h-item"],
+                "properties": {
+                    "name": ["Mediterranean Wraps"],
+                    "url": ["http://example.com/mediterraneanwraps"]
+                }
+            }],
+            "rating": ["4.5"],
+            "count": ["6"]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}
