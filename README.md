@@ -1,6 +1,6 @@
 # Microformats2 (ruby)
 
-[![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.png?branch=master)](https://travis-ci.org/indieweb/microformats2-ruby)
+[![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.svg)](https://travis-ci.org/indieweb/microformats2-ruby)
 [![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats2-ruby)
 
 A Ruby gem to parse HTML containing one or more [microformats2](http://microformats.org/wiki/microformats-2)
@@ -37,18 +37,18 @@ Not Implemented:
 
 ## Current Version
 
-3.0.0
+3.0.1
 
-![Version 3.0.0](https://img.shields.io/badge/VERSION-3.0.0-green.svg)
+![Version 3.0.1](https://img.shields.io/badge/VERSION-3.0.1-green.svg)
 
 ### Differences to 2.x
 
 Version 3 of the microformats2 parsing library makes several significant changes from version 2.
-Version 2 of the parser created new ruby objects for every root format and every property it parsed, this is no longer the case. 
+Version 2 of the parser created new ruby objects for every root format and every property it parsed, this is no longer the case.
 Instead, all parsing is done in to a hash and results are wrapped in a few different objects classes which will respond to many of the function calls that the old classes would.
 This means that the to_hash/to_h output is really the safest way to handle output data.
 
-The ParserResult class (akin to the old Format class) takes several steps to guess at what function is wanted when it is called.  
+The ParserResult class (akin to the old Format class) takes several steps to guess at what function is wanted when it is called.
 For of of the following, if the result is an array it will return the first item in the array unless it is passed the argument :all.
 
 1. If the function called is a key of the current object, return the contents of that key.
