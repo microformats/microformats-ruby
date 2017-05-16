@@ -9,9 +9,6 @@ and return a collection of dynamically defined Ruby objects, a Ruby hash or a JS
 
 ## Development Status
 
-This gem has been almost completely rewritten and now supports almost all aspects of the Microformats2 parsing spec.  As such a few things have changed, however there is a 2.9.0 release that will add a few new features and slightly improved parsing without breaking any of your existing code. (2017-05-12)
-
-
 Implemented:
 
 * [parsing depth first, doc order](http://microformats.org/wiki/microformats2-parsing#parse_a_document_for_microformats)

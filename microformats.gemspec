@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = Microformats::VERSION
   gem.authors       = ["Shane Becker", "Jessica Lynn Suttles", "Ben Roberts"]
   gem.email         = ["veganstraightedge@gmail.com", "jlsuttles@gmail.com", "ben@thatmustbe.me"]
-  gem.description   = %q{Parses HTML for microformats and return a collection of dynamically defined Ruby objects}
+  gem.description   = %q{A Ruby gem to parse HTML containing one or more microformats and microformats2 and return a collection of dynamically defined Ruby objects, a Ruby hash or a JSON hash.}
   gem.summary       = %q{Microformats and microformats2 parser}
   gem.homepage      = "https://github.com/indieweb/microformats-ruby"
 
