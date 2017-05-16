@@ -26,3 +26,18 @@ module Microformats2
 
   class InvalidPropertyPrefix < StandardError; end
 end
+
+#duplicate of above to allow for early adopters to use Microformats.parse instead of Microformats2.parse
+module Microformats
+  class << self
+    def parse(html, base: nil)
+      Microformats2::Parser.new.parse(html, base: base)
+    end
+
+    def read_html(html)
+      Microformats2::Parser.new.read_html(html)
+    end
+  end # class << self
+
+  class InvalidPropertyPrefix < StandardError; end
+end

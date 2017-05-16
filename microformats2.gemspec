@@ -47,6 +47,13 @@ to
 to
 
     require "microformats"
+
+4. Change any references to the module such as:
+
+    Microformats2.parse(source)
+
+to
+    Microformats.parse(source)
 }
 
   gem.required_ruby_version = ">= 2.0"
