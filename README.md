@@ -37,9 +37,9 @@ Not Implemented:
 
 ## Current Version
 
-3.0.1
+3.1.0
 
-![Version 3.0.1](https://img.shields.io/badge/VERSION-3.0.1-green.svg)
+![Version 3.1.0](https://img.shields.io/badge/VERSION-3.1.0-green.svg)
 
 ### Differences to 2.x
 
