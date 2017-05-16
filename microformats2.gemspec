@@ -18,7 +18,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.post_install_message = %q{
-The name of the Microformats Ruby Parser is changing from "microformats2" to "microformats". This is a one time change. (Thanks to @chrisjpowers for transferring the namespace to us.)
+The name of the Microformats Ruby Parser is changing from
+"microformats2" to "microformats". This is a one time change.
+(Thanks to @chrisjpowers for transferring the namespace to us.)
 
 Follow these instructions to migrate.
 
