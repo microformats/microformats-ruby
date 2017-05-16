@@ -17,6 +17,36 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
+  gem.post_install_message = %q{
+The name of the Microformats Ruby Parser is changing from "microformats2" to "microformats". This is a one time change. (Thanks to @chrisjpowers for transferring the namespace to us.)
+
+Follow these instructions to migrate.
+
+1. Install the new gem. Uninstall the old gem.
+
+    gem install microformats
+    gem uninstall microformats2
+
+
+2. Change any Gemfiles from:
+
+    gem "microformats2"
+
+to
+
+    gem "microformats"
+    bundle
+
+
+3. Change any requires from:
+
+    require "microformats2"
+
+to
+
+    require "microformats"
+}
+
   gem.required_ruby_version = ">= 2.0"
 
   gem.add_runtime_dependency "nokogiri"
