@@ -1,9 +1,9 @@
 require "spec_helper"
-require "microformats2/absolute_uri"
+require "microformats/absolute_uri"
 
-describe Microformats2::AbsoluteUri do
+describe Microformats::AbsoluteUri do
   describe "#absolutize" do
-    subject { Microformats2::AbsoluteUri.new(relative, base: base).absolutize }
+    subject { Microformats::AbsoluteUri.new(relative, base: base).absolutize }
     let(:base) { nil }
 
     context "when relative is nil" do
@@ -41,8 +41,8 @@ describe Microformats2::AbsoluteUri do
     end
 
     context "when relative is an invalid URI" do
-      let(:relative) { "git@github.com:indieweb/microformats2-ruby.git" }
-      it { should eq("git@github.com:indieweb/microformats2-ruby.git") }
+      let(:relative) { "git@github.com:indieweb/microformats-ruby.git" }
+      it { should eq("git@github.com:indieweb/microformats-ruby.git") }
     end
   end
 end

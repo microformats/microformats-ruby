@@ -1,4 +1,4 @@
-module Microformats2
+module Microformats
 
   #stub to get around the tests for now
   class Collection

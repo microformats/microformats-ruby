@@ -1,4 +1,4 @@
-module Microformats2
+module Microformats
   class ParserCore
 
     VALUE_CLASS_REG_EXP = /^value$/

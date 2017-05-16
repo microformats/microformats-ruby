@@ -1,8 +1,8 @@
 require "spec_helper"
-require "microformats2"
+require "microformats"
 
-describe Microformats2::Parser do
-  let(:parser) { Microformats2::Parser.new }
+describe Microformats::Parser do
+  let(:parser) { Microformats::Parser.new }
 
   describe "#http_headers" do
     it "starts as a blank hash" do
@@ -11,7 +11,7 @@ describe Microformats2::Parser do
 
     describe "open file" do
       before do
-        parser.parse("spec/support/lib/microformats2/simple.html")
+        parser.parse("spec/support/lib/microformats/simple.html")
       end
 
       it "doesn't save #http_headers" do
@@ -62,7 +62,7 @@ describe Microformats2::Parser do
             html = open(html_file).read
             json = open(json_file).read
             
-            expect(JSON.parse(Microformats2.parse(html, base: 'http://example.com').to_json)).to eq(JSON.parse(json))
+            expect(JSON.parse(Microformats.parse(html, base: 'http://example.com').to_json)).to eq(JSON.parse(json))
           end
         end
       end

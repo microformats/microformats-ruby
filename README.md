@@ -1,10 +1,10 @@
-# Microformats2 (ruby)
+# Microformats (ruby)
 
-[![Build Status](https://travis-ci.org/indieweb/microformats2-ruby.svg)](https://travis-ci.org/indieweb/microformats2-ruby)
-[![Code Climate](https://codeclimate.com/github/indieweb/microformats2-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats2-ruby)
+[![Build Status](https://travis-ci.org/indieweb/microformats-ruby.svg)](https://travis-ci.org/indieweb/microformats-ruby)
+[![Code Climate](https://codeclimate.com/github/indieweb/microformats-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats-ruby)
 
-A Ruby gem to parse HTML containing one or more [microformats2](http://microformats.org/wiki/microformats-2)
-and return a collection of dynamically defined Ruby objects.
+A Ruby gem to parse HTML containing one or more microformats and [microformats2](http://microformats.org/wiki/microformats-2)
+and return a collection of dynamically defined Ruby objects, a Ruby hash or a JSON hash.
 
 
 ## Development Status
@@ -28,7 +28,7 @@ Implemented:
 * nested microformat without associated property
 * [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
 * recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
-* backwards compatible support for microformats v1
+* backward compatible support for microformats v1
 
 Not Implemented:
 
@@ -37,27 +37,10 @@ Not Implemented:
 
 ## Current Version
 
-3.1.0
+4.0.0
 
-![Version 3.1.0](https://img.shields.io/badge/VERSION-3.1.0-green.svg)
+![Version 4.0.0](https://img.shields.io/badge/VERSION-4.0.0-green.svg)
 
-### Differences to 2.x
-
-Version 3 of the microformats2 parsing library makes several significant changes from version 2.
-Version 2 of the parser created new ruby objects for every root format and every property it parsed, this is no longer the case.
-Instead, all parsing is done in to a hash and results are wrapped in a few different objects classes which will respond to many of the function calls that the old classes would.
-This means that the to_hash/to_h output is really the safest way to handle output data.
-
-The ParserResult class (akin to the old Format class) takes several steps to guess at what function is wanted when it is called.
-For of of the following, if the result is an array it will return the first item in the array unless it is passed the argument :all.
-
-1. If the function called is a key of the current object, return the contents of that key.
-2. If the function called is a key of the 'properties' array of the current object, return the contents.
-3. Repeat #1 and #2, replacing underscores with hyphens.
-
-This drops the need for a .format function as the result is always a ParserResult object.
-
-Finally this also means that nokogiri elements are no longer accessible from the results of the parser.
 
 ## Requirements
 
@@ -70,7 +53,7 @@ Finally this also means that nokogiri elements are no longer accessible from the
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "microformats2"
+gem "microformats"
 ```
 
 And then execute:
@@ -82,19 +65,19 @@ bundle
 Or install it yourself as:
 
 ```
-gem install microformats2
+gem install microformats
 ```
 
 
 ## Usage
 
 ```ruby
-require "microformats2"
+require "microformats"
 
 source = "<div class='h-card'><p class='p-name'>Jessica Lynn Suttles</p></div>"
-collection = Microformats2.parse(source)
+collection = Microformats.parse(source)
 
-# getting a copy of the canonical microformats2 hash structure
+# getting a copy of the canonical microformats hash structure
 collection.to_hash
 
 # the above, as JSON in a string
@@ -109,7 +92,7 @@ source = "<article class='h-entry'>
   <h1 class='p-name'>Microformats 2</h1>
   <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Jessica</span> Lynn Suttles</p></div>
 </article>"
-collection = Microformats2.parse(source)
+collection = Microformats.parse(source)
 collection.entry.name.to_s #=> "Microformats 2"
 
 # accessing nested microformats
@@ -128,7 +111,7 @@ source = "<article class='h-entry'>
   <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Jessica</span> Lynn Suttles</p></div>
   <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Brandon</span> Edens</p></div>
 </article>"
-collection = Microformats2.parse(source)
+collection = Microformats.parse(source)
 
 # arrays of items with always take the first item by default
 collection.entry.author.name #=> "Jessica Lynn Suttles"
@@ -153,8 +136,8 @@ git pull origin master
 
 Make sure the version has been bumped up in all four places:
 
-- [lib/microformats2/version.rb](https://github.com/indieweb/microformats2-ruby/blob/master/lib/microformats2/version.rb#L2)
-- [README.md (three places)](https://github.com/indieweb/microformats2-ruby/blob/master/README.md)
+- [lib/microformats/version.rb](https://github.com/indieweb/microformats-ruby/blob/master/lib/microformats/version.rb#L2)
+- [README.md (three places)](https://github.com/indieweb/microformats-ruby/blob/master/README.md)
 
 Do a test build locally to make sure it builds properly.
 
@@ -171,7 +154,7 @@ rake install
 If that works, uninstall the gem.
 
 ```
-gem uninstall microformats2
+gem uninstall microformats
 ```
 
 Clean up any mess made from testing.
@@ -189,7 +172,7 @@ rake release
 
 If that works, you’ve just release a new version of the gem! Yay! You can see it at:
 
-[https://rubygems.org/gems/microformats2](https://rubygems.org/gems/microformats2)
+[https://rubygems.org/gems/microformats](https://rubygems.org/gems/microformats)
 
 If `rake release` failed because of an error with your authentication to rubygems.org, follow their instructions in the error message. Then repeat the `rake release` step.
 
@@ -220,7 +203,7 @@ Good luck.
 7. Create new Pull Request
 
 If you find bugs, have feature requests or questions, please
-[file an issue](https://github.com/indieweb/microformats2-ruby/issues).
+[file an issue](https://github.com/indieweb/microformats-ruby/issues).
 
 
 ## Testing
@@ -243,6 +226,6 @@ bundle console
 
 ## License
 
-Microformats2 (ruby) is dedicated to the public domain using Creative Commons -- CC0 1.0 Universal.
+Microformats (ruby) is dedicated to the public domain using Creative Commons -- CC0 1.0 Universal.
 
 http://creativecommons.org/publicdomain/zero/1.0

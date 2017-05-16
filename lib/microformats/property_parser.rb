@@ -1,4 +1,4 @@
-module Microformats2
+module Microformats
   class PropertyParser < ParserCore
 
     def parse(element, base: nil, element_type: , format_class_array: [], backcompat: nil)
@@ -42,7 +42,7 @@ module Microformats2
         end
 
         if not @value.nil?
-          @value = Microformats2::AbsoluteUri.new(@value, base: @base).absolutize
+          @value = Microformats::AbsoluteUri.new(@value, base: @base).absolutize
         else
 
           parse_value_class_pattern(element)
@@ -60,7 +60,7 @@ module Microformats2
         end
 
       elsif element_type == 'dt'
-        @value = Microformats2::TimePropertyParser.new.parse(element, base: base, element_type: element_type, format_class_array: format_class_array, backcompat: backcompat)
+        @value = Microformats::TimePropertyParser.new.parse(element, base: base, element_type: element_type, format_class_array: format_class_array, backcompat: backcompat)
 
       end
 
@@ -104,7 +104,7 @@ module Microformats2
         if node.name == 'img' and not node.attribute('alt').nil?
           node.replace(' ' + node.attribute('alt').value.to_s + ' ')
         elsif node.name == 'img' and not node.attribute('src').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
+          absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
           node.replace(' ' + absolute_url  + ' ')
         end
       end

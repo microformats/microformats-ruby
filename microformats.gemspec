@@ -1,16 +1,16 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'microformats2/version'
+require 'microformats/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "microformats2"
-  gem.version       = Microformats2::VERSION
+  gem.name          = "microformats"
+  gem.version       = Microformats::VERSION
   gem.authors       = ["Shane Becker", "Jessica Lynn Suttles", "Ben Roberts"]
   gem.email         = ["veganstraightedge@gmail.com", "jlsuttles@gmail.com", "ben@thatmustbe.me"]
   gem.description   = %q{Parses HTML for microformats and return a collection of dynamically defined Ruby objects}
-  gem.summary       = %q{microformats2 parser}
-  gem.homepage      = "https://github.com/indieweb/microformats2-ruby"
+  gem.summary       = %q{Microformats and microformats2 parser}
+  gem.homepage      = "https://github.com/indieweb/microformats-ruby"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -19,42 +19,7 @@ Gem::Specification.new do |gem|
 
   gem.post_install_message = %q{
 
-The name of the Microformats Ruby Parser is changing from
-"microformats2" to "microformats". This is a one time change.
-(Thanks to @chrisjpowers for transferring the namespace to us.)
-
-Follow these instructions to migrate.
-
-1. Install the new gem. Uninstall the old gem.
-
-    gem install microformats
-    gem uninstall microformats2
-
-
-2. Change any Gemfiles from:
-
-    gem "microformats2"
-
-to
-
-    gem "microformats"
-    bundle
-
-
-3. Change any requires from:
-
-    require "microformats2"
-
-to
-
-    require "microformats"
-
-4. Change any references to the module such as:
-
-    Microformats2.parse(source)
-
-to
-    Microformats.parse(source)
+Previously called "microformats2" (on version 3.1 and below).
 
 }
 
