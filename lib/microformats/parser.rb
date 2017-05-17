@@ -1,4 +1,4 @@
-module Microformats2
+module Microformats
 
   class Parser < ParserCore
     attr_reader :http_headers, :http_body
@@ -27,11 +27,11 @@ module Microformats2
 
       document.traverse do |node|
         if not node.attribute('src').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
+          absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
           node.attribute('src').value = absolute_url
 
         elsif not node.attribute('href').nil?
-          absolute_url = Microformats2::AbsoluteUri.new(node.attribute('href').value.to_s, base: @base).absolutize
+          absolute_url = Microformats::AbsoluteUri.new(node.attribute('href').value.to_s, base: @base).absolutize
           node.attribute('href').value = absolute_url
         end
       end
@@ -78,12 +78,12 @@ module Microformats2
     def parse_rels(element)
       element.search('*[@rel]').each do |rel|
         unless rel.attribute('href').nil?
-          url = Microformats2::AbsoluteUri.new(rel.attribute('href').text, base: @base).absolutize
+          url = Microformats::AbsoluteUri.new(rel.attribute('href').text, base: @base).absolutize
 
           rel_values = rel.attribute('rel').text.split(' ')
           rel_values.each do |rel_value|
             @rels[rel_value] = [] unless @rels.has_key?(rel_value)
-            @rels[rel_value] << Microformats2::AbsoluteUri.new(rel.attribute('href').text, base: @base).absolutize
+            @rels[rel_value] << Microformats::AbsoluteUri.new(rel.attribute('href').text, base: @base).absolutize
             @rels[rel_value].uniq!
           end
 

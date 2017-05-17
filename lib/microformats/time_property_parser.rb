@@ -1,4 +1,4 @@
-module Microformats2
+module Microformats
   class TimePropertyParser < ParserCore
 
     def parse(element, base: nil, element_type: , format_class_array: [], backcompat:  nil)

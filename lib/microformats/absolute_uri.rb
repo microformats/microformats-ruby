@@ -1,4 +1,4 @@
-module Microformats2
+module Microformats
   class AbsoluteUri
     attr_accessor :base, :relative
 

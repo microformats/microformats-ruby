@@ -1,4 +1,4 @@
-module Microformats2
+module Microformats
   class FormatParser < ParserCore
 
     def parse(element, base:nil, element_type:nil, format_class_array:[], backcompat:false)
@@ -149,7 +149,7 @@ module Microformats2
 
           end
           unless @properties['photo'].nil?
-            @properties['photo'] = [ Microformats2::AbsoluteUri.new(@properties['photo'].first, base: @base).absolutize ]
+            @properties['photo'] = [ Microformats::AbsoluteUri.new(@properties['photo'].first, base: @base).absolutize ]
           end
         end
 
@@ -217,7 +217,7 @@ module Microformats2
           end
 
           unless @properties['url'].nil?
-            @properties['url'] = [ Microformats2::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize ]
+            @properties['url'] = [ Microformats::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize ]
           end
         end
 
