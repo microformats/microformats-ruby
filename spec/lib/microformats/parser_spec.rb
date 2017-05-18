@@ -39,6 +39,20 @@ describe Microformats::Parser do
     end
   end
 
+  describe "edge cases" do
+    cases_dir = "spec/support/lib/edge_cases/"
+    Dir[File.join(cases_dir, "*")].keep_if { |f| f =~ /([.]js$)/ }.each do |json_file|
+      it "#{json_file.split("/").last}" do
+
+        html_file = json_file.gsub(/([.]js$)/, ".html")
+        html = open(html_file).read
+        json = open(json_file).read
+        
+        expect(JSON.parse(Microformats.parse(html).to_json)).to eq(JSON.parse(json))
+      end
+    end
+  end
+
   describe "microformat-tests/tests" do
     cases_dir = "vendor/tests/tests/*" 
     #cases_dir = "vendor/tests/tests/microformats-mixed"

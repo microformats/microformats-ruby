@@ -10,9 +10,9 @@ module Microformats
     end
 
     def absolutize
-      #TODO: i'm sure this could be improved a bit
-      return nil if relative.nil? or relative == ""
+      return base if relative.nil? or relative == ""
       return relative if relative =~ /^https?:\/\//
+      return base + relative if relative =~ /^#/
 
       uri = URI.parse(relative)
 

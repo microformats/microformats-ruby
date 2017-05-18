@@ -28,11 +28,11 @@ module Microformats
       document.traverse do |node|
         if not node.attribute('src').nil?
           absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
-          node.attribute('src').value = absolute_url
+          node.attribute('src').value = absolute_url.to_s
 
         elsif not node.attribute('href').nil?
           absolute_url = Microformats::AbsoluteUri.new(node.attribute('href').value.to_s, base: @base).absolutize
-          node.attribute('href').value = absolute_url
+          node.attribute('href').value = absolute_url.to_s
         end
       end
       parse_node(document)
@@ -45,6 +45,9 @@ module Microformats
       open(html, headers) do |response|
         @http_headers = response.meta if response.respond_to?(:meta)
         @http_body = response.read
+      end
+      if @base.nil?
+          @base = html
       end
       @http_body
     rescue Errno::ENOENT, Errno::ENAMETOOLONG => e
