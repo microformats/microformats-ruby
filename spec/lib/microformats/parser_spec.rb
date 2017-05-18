@@ -39,8 +39,8 @@ describe Microformats::Parser do
     end
   end
 
-  describe "bad markup" do
-    cases_dir = "spec/support/lib/bad_markup/"
+  describe "edge cases" do
+    cases_dir = "spec/support/lib/edge_cases/"
     Dir[File.join(cases_dir, "*")].keep_if { |f| f =~ /([.]js$)/ }.each do |json_file|
       it "#{json_file.split("/").last}" do
 

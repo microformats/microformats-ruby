@@ -22,17 +22,15 @@ module Microformats
       html = read_html(html, headers: headers)
       document = Nokogiri::HTML(html)
 
-      if base.nil?
-          found_base = parse_base(document)
-          @base = found_base unless found_base.nil?
-      end
+      found_base = parse_base(document)
+      @base = found_base unless found_base.nil?
 
       document.traverse do |node|
         if not node.attribute('src').nil?
           absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
           node.attribute('src').value = absolute_url.to_s
 
-        elsif not node.attribute('href').nil? and not node.attribute('href').value.empty?
+        elsif not node.attribute('href').nil?
           absolute_url = Microformats::AbsoluteUri.new(node.attribute('href').value.to_s, base: @base).absolutize
           node.attribute('href').value = absolute_url.to_s
         end
@@ -49,12 +47,7 @@ module Microformats
         @http_body = response.read
       end
       if @base.nil?
-          #figure out the base from the url
-          if html =~ /^https?:\/\/[^\/]+$/
-              @base = html + '/' 
-          elsif html =~  /^(https?:\/\/.*\/)[^\/]+$/
-              @base = $1
-          end
+          @base = html
       end
       @http_body
     rescue Errno::ENOENT, Errno::ENAMETOOLONG => e
