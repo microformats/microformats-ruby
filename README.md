@@ -34,9 +34,9 @@ Not Implemented:
 
 ## Current Version
 
-4.0.1
+4.0.2
 
-![Version 4.0.1](https://img.shields.io/badge/VERSION-4.0.1-green.svg)
+![Version 4.0.2](https://img.shields.io/badge/VERSION-4.0.2-green.svg)
 
 
 ## Requirements
@@ -121,6 +121,22 @@ collection.entry.author(:all)[1].name #=> "Brandon Edens"
 ```
 
 * `source` can be a URL, filepath, or HTML
+
+### Console utility
+
+This gem also provides a command like script 'microformats' that will return the JSON equivalent
+```
+microformats http://example.com
+```
+
+You can give the microformats script a URL, filepath, or HTML
+
+additionally, the script will accept input piped from stdin
+
+```
+curl http://example.com | microformats
+```
+
 
 
 ## Ruby Gem release process
@@ -212,9 +228,8 @@ This uses a copy of  [microformats tests repo](https://github.com/microformats/t
 To run specs
 ```
 rake spec
-```
 
-###Interactive
+### Interactive
 
 You can use the code interacively for testing but running
 ```

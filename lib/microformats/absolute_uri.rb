@@ -5,11 +5,12 @@ module Microformats
     def initialize(relative, base: nil)
       @base = base
       @relative = relative
-      @base.strip! unless @base.nil?
-      @relative.strip! unless @relative.nil?
+      @base = base.strip unless base.nil?
+      @relative = relative.strip unless relative.nil?
     end
 
     def absolutize
+      return relative if base.nil?
       return base if relative.nil? or relative == ""
       return relative if relative =~ /^https?:\/\//
       return base + relative if relative =~ /^#/
