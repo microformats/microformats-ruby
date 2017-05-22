@@ -90,14 +90,16 @@ module Microformats
             @rels[rel_value].uniq!
           end
 
-          @rel_urls[url] = {} unless @rel_urls.has_key?(url)
+          unless rel_values.empty? 
+              @rel_urls[url] = {} unless @rel_urls.has_key?(url)
 
-          @rel_urls[url]['hreflang'] = rel.attribute('hreflang').value if @rel_urls[url]['hreflang'].nil? and not rel.attribute('hreflang').nil?
-          @rel_urls[url]['media'] = rel.attribute('media').value if @rel_urls[url]['media'].nil? and not rel.attribute('media').nil?
-          @rel_urls[url]['title'] = rel.attribute('title').value if @rel_urls[url]['title'].nil? and not rel.attribute('title').nil?
-          @rel_urls[url]['type'] = rel.attribute('type').value if @rel_urls[url]['type'].nil? and not rel.attribute('type').nil?
-          @rel_urls[url]['text'] = rel.text.strip if  @rel_urls[url]['text'].nil? and not rel.text.empty?
-          @rel_urls[url]['rels'] = rel_values
+              @rel_urls[url]['hreflang'] = rel.attribute('hreflang').value if @rel_urls[url]['hreflang'].nil? and not rel.attribute('hreflang').nil?
+              @rel_urls[url]['media'] = rel.attribute('media').value if @rel_urls[url]['media'].nil? and not rel.attribute('media').nil?
+              @rel_urls[url]['title'] = rel.attribute('title').value if @rel_urls[url]['title'].nil? and not rel.attribute('title').nil?
+              @rel_urls[url]['type'] = rel.attribute('type').value if @rel_urls[url]['type'].nil? and not rel.attribute('type').nil?
+              @rel_urls[url]['text'] = rel.text.strip if  @rel_urls[url]['text'].nil? and not rel.text.empty?
+              @rel_urls[url]['rels'] = rel_values
+          end
 
         end
       end
