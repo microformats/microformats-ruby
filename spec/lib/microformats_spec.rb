@@ -9,7 +9,7 @@ describe Microformats do
   end
 
   describe "::parse" do
-    it "returns ParserResult" do
+    it "returns Collection" do
       expect(Microformats.parse(@html)).to be_kind_of Microformats::Collection
     end
   end

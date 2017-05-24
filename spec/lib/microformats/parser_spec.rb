@@ -55,6 +55,36 @@ describe Microformats::Parser do
     end
   end
 
+  describe "#frozen_strings" do
+
+    describe "frozen url" do
+      before do
+        stub_request(:get, "http://www.example.com/").
+           with(:headers => {"Accept"=>"*/*", "User-Agent"=>"Ruby"}).
+           to_return(:status => 200, :body => "abc", :headers => {"Content-Length" => 3})
+        url = "http://www.example.com"
+        url.freeze
+        parser.parse(url)
+      end
+
+      it "saves #http_body" do
+        expect(parser.http_body).to eq("abc")
+      end
+    end
+
+    describe "frozen html" do
+      before do
+        @html = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
+        @html.freeze
+      end
+
+      it "returns Collection" do
+        expect(Microformats.parse(@html)).to be_kind_of Microformats::Collection
+      end
+    end
+  end
+
+
   describe "edge cases" do
     cases_dir = "spec/support/lib/edge_cases/"
     Dir[File.join(cases_dir, "*")].keep_if { |f| f =~ /([.]js$)/ }.each do |json_file|
