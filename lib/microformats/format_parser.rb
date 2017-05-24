@@ -324,7 +324,7 @@ module Microformats
 
             parsed_property = PropertyParser.new.parse(element, base: @base, element_type: element_type, backcompat:  @mode_backcompat)
 
-            if not parsed_property.nil? and not parsed_property.empty?
+            if not parsed_property.nil? 
               @properties[property_name] = []  if @properties[property_name].nil?
               @properties[property_name] << parsed_property
             end

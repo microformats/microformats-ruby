@@ -6,7 +6,7 @@
             "given-name": ["John"],
             "additional-name": ["Peter"],
             "family-name": ["Doe"],
-            "honorific-suffix": ["MSc", "PHD"],
+            "honorific-suffix": ["MSc", "", "", "PHD"],
             "org": ["Madgex", "Mozilla"]
         }
     }],
