@@ -34,9 +34,9 @@ Not Implemented:
 
 ## Current Version
 
-4.0.4
+4.0.5
 
-![Version 4.0.3](https://img.shields.io/badge/VERSION-4.0.4-green.svg)
+![Version 4.0.5](https://img.shields.io/badge/VERSION-4.0.5-green.svg)
 
 
 ## Requirements

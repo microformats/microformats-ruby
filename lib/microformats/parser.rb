@@ -42,13 +42,13 @@ module Microformats
     end
 
     def read_html(html, headers:{})
-      html.strip!
-      open(html, headers) do |response|
+      stripped_html = html.strip
+      open(stripped_html, headers) do |response|
         @http_headers = response.meta if response.respond_to?(:meta)
         @http_body = response.read
       end
       if @base.nil?
-          @base = html
+          @base = stripped_html
       end
       @http_body
     rescue Errno::ENOENT, Errno::ENAMETOOLONG => e
