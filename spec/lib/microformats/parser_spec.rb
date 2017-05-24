@@ -39,6 +39,22 @@ describe Microformats::Parser do
     end
   end
 
+  describe "#bad_input" do
+
+    describe "space after url" do
+      before do
+        stub_request(:get, "http://www.example.com/").
+           with(:headers => {"Accept"=>"*/*", "User-Agent"=>"Ruby"}).
+           to_return(:status => 200, :body => "abc", :headers => {"Content-Length" => 3})
+        parser.parse("http://www.example.com ")
+      end
+
+      it "saves #http_body" do
+        expect(parser.http_body).to eq("abc")
+      end
+    end
+  end
+
   describe "edge cases" do
     cases_dir = "spec/support/lib/edge_cases/"
     Dir[File.join(cases_dir, "*")].keep_if { |f| f =~ /([.]js$)/ }.each do |json_file|

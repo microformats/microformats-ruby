@@ -42,6 +42,7 @@ module Microformats
     end
 
     def read_html(html, headers:{})
+      html.strip!
       open(html, headers) do |response|
         @http_headers = response.meta if response.respond_to?(:meta)
         @http_body = response.read
