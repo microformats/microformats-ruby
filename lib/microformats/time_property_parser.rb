@@ -6,6 +6,7 @@ module Microformats
       @duration_value = nil
       @date_value = nil
       @time_value = nil
+      @tz_value = nil
 
       @property_type = element_type
 
@@ -14,7 +15,7 @@ module Microformats
 
       parse_value_class_pattern(element)
 
-      if @duration_value.nil?  and @time_value.nil? and @date_value.nil?
+      if @duration_value.nil?  and @time_value.nil? and @date_value.nil? and @tz_value.nil?
 
         value = nil
         if ['time', 'ins', 'del'].include? element.name and not element.attribute('datetime').nil?
@@ -31,16 +32,17 @@ module Microformats
 
       end
 
-      if not  @duration_value.nil?
+      if not @duration_value.nil?
         @duration_value
-      elsif not @time_value.nil? and not @date_value.nil?
-        @date_value + ' ' + @time_value
-      elsif not @time_value.nil?
-        @time_value
-      elsif not @date_value.nil?
-        @date_value
       else
-        nil
+        result = nil
+        result = result.to_s + @date_value unless @date_value.nil?
+        unless @time_value.nil? 
+            result = result.to_s + ' ' unless result.nil?
+            result = result.to_s + @time_value
+        end
+        result = result.to_s + @tz_value unless @tz_value.nil?
+        result
       end
     end
 
@@ -50,7 +52,7 @@ module Microformats
 
     def parse_element(element)
 
-      if @duration_value.nil? or (@time_value.nil? and @date_value.nil?)
+      if @duration_value.nil? or (@time_value.nil? and @date_value.nil? and @tz_value.nil?)
         if value_title_classes(element).length >= 1
           value =  element.attribute('title').value.strip
         elsif value_classes(element).length >= 1
@@ -84,31 +86,39 @@ module Microformats
       #TODO this still allows a lot of non correct values such as 39th day of the month, etc
       begin
         case data.strip
-        when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?([zZ]|[-+][01]?\d:?[0-5]\d)?)$/
-          @date_value = $1 if @date_value.nil?
-          @time_value = $2.gsub(/z/, 'Z') if @time_value.nil?
-        when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)? ?[-+]\d\d)$/
-          @date_value = $1 if @date_value.nil?
-          @time_value = $2 if @time_value.nil?
-        when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d:[0-5]\d ?[-+]\d\d):?(\d\d)$/
-          @date_value = $1 if @date_value.nil?
-          if normalize
-            @time_value = $2 + $3 if @time_value.nil?
-          else
-            @time_value = $2 + ':' + $3 if @time_value.nil?
-          end
-        when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d)( ?[-+]\d\d:?\d\d)$/
-          @date_value = $1 if @date_value.nil?
-          if normalize
-            @time_value = $2 + $3.gsub(/:/,'') if @time_value.nil?
-          else
-            @time_value = $2 + $3 if @time_value.nil?
-          end
         when /^P\d*W$/
           @duration_value = data if @duration_value.nil?
 
         when /^P(\d+Y)?(\d+M)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?$/
           @duration_value = data if @duration_value.nil?
+
+        when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
+          @date_value = $1 if @date_value.nil?
+          @time_value = $2 if @time_value.nil?
+          @tz_value = $4.gsub(/z/, 'Z') if @tz_value.nil?
+
+        when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
+          @date_value = $1 if @date_value.nil?
+          @time_value = $2 if @time_value.nil?
+          if normalize
+            @tz_value = $4.gsub(/z/, 'Z').gsub(/:/,'') if @tz_value.nil?
+          else
+            @tz_value = $4.gsub(/z/, 'Z') if @tz_value.nil?
+          end
+
+        when /^(\d{4}-[0-3]\d\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
+          @date_value = $1 if @date_value.nil?
+          @time_value = $2 if @time_value.nil?
+          @tz_value = $4.gsub(/z/, 'Z') if @tz_value.nil?
+
+        when /^(\d{4}-[0-3]\d\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
+          @date_value = $1 if @date_value.nil?
+          @time_value = $2 if @time_value.nil?
+          if normalize
+            @tz_value = $4.gsub(/z/, 'Z').gsub(/:/,'') if @tz_value.nil?
+          else
+            @tz_value = $4.gsub(/z/, 'Z') if @tz_value.nil?
+          end
 
         when /^(\d{4})-([01]?\d)-([0-3]?\d)$/
           @date_value = DateTime.new($1.to_i, $2.to_i, $3.to_i).strftime('%F') if @date_value.nil?
@@ -119,22 +129,34 @@ module Microformats
         when /^(\d{4})-([01]?\d)$/
           @date_value = data if @date_value.nil?
 
-        when /^[0-2]\d:[0-5]\d(:[0-5]\d)?([zZ]|[-+][01]\d:?\d\d)?$/
+        when /^([zZ]|[-+][01]?\d:?[0-5]\d)$/
           if normalize
-            @time_value = data.gsub(/z/, 'Z').gsub(/([+-]\d\d):(\d\d)/, '\1\2') if @time_value.nil?
+            @tz_value = $1.gsub(/z/, 'Z').gsub(/:/,'') if @tz_value.nil?
           else
-            @time_value = data.gsub(/z/, 'Z') if @time_value.nil?
+            @tz_value = $1.gsub(/z/, 'Z') if @tz_value.nil?
+          end
+
+        when /^([0-2]\d:[0-5]\d(:[0-5]\d)?)([zZ]|[-+][01]\d:?\d\d)?$/
+          @time_value = $1 if @time_value.nil?
+          if normalize
+            @tz_value = $3.gsub(/z/, 'Z').gsub(/:/,'') if @tz_value.nil?
+          else
+            @tz_value = $3.gsub(/z/, 'Z') if @tz_value.nil?
           end
 
         when /^[0-2]\d:[0-5]\d[zZ]?$/
           @time_value = Time.parse(data).strftime('%H:%M') if @time_value.nil?
-        when /^([0-2]\d:[0-5]\d:[0-5]\d[-+][01]\d:?[0-5]\d)$/
+          @tz_value = 'Z'
+
+        when /^([0-2]\d:[0-5]\d:[0-5]\d)([-+][01]\d:?[0-5]\d)$/
           Time.parse(data).strftime('%T') #to make sure this time doesn't throw an error
           @time_value = $1 if @time_value.nil?
+          @tz_value = $2 if @tz_value.nil?
 
-        when /^([0-2][0-0]:[0-5]\d[-+][01]\d:?[0-5]\d)$/
+        when /^([0-2][0-0]:[0-5]\d)([-+][01]\d:?[0-5]\d)$/
           Time.parse(data).strftime('%H:%M') #to make sure this time doesn't throw an error
           @time_value = $1 if @time_value.nil?
+          @tz_value = $2 if @tz_value.nil?
 
         when /^([01]?\d):?([0-5]\d)?p\.?m\.?$/i
           @time_value = ($1.to_i + 12).to_s + ':' + $2.to_s.rjust(2,'0') if @time_value.nil?
