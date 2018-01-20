@@ -32,6 +32,7 @@ Previously called "microformats2" (on version 3.1 and below).
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "guard-rspec"
   gem.add_development_dependency "rb-fsevent"
+  gem.add_development_dependency 'rubocop', '~> 0.52.1'
   gem.add_development_dependency "simplecov"
   gem.add_development_dependency "webmock"
 end
