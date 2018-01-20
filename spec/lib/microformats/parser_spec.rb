@@ -1,5 +1,3 @@
-require "microformats"
-
 describe Microformats::Parser do
   let(:parser) { Microformats::Parser.new }
 

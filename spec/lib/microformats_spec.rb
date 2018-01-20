@@ -1,5 +1,3 @@
-require "microformats"
-
 describe Microformats do
   before do
     @html = <<-HTML.strip
