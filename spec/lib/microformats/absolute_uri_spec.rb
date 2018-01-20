@@ -1,4 +1,3 @@
-require "spec_helper"
 require "microformats/absolute_uri"
 
 describe Microformats::AbsoluteUri do
