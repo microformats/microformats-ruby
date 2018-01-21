@@ -69,7 +69,7 @@ Below is a more complex markup structure using an [h-entry](http://microformats.
 source = '<article class="h-entry">
   <h1 class="p-name">Microformats 2</h1>
   <div class="h-card p-author">
-  	<p class="p-name"><span class="p-first-name">Jessica</span> Lynn Suttles</p>
+    <p class="p-name"><span class="p-first-name">Jessica</span> Lynn Suttles</p>
   </div>
 </article>'
 
@@ -95,7 +95,7 @@ Using the same markup patterns as above, here's an h-entry with multiple authors
 source = '<article class="h-entry">
   <h1 class="p-name">Microformats 2</h1>
   <div class="h-card p-author">
-  	<p class="p-name"><span class="p-first-name">Jessica</span> Lynn Suttles</p>
+    <p class="p-name"><span class="p-first-name">Jessica</span> Lynn Suttles</p>
   </div>
   <div class="h-card p-author">
     <p class="p-name"><span class="p-first-name">Brandon</span> Edens</p>
