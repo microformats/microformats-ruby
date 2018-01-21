@@ -1,243 +1,178 @@
-# Microformats (ruby)
+# <span role="presentation" style="display: inline-block; vertical-align: middle; width: 1em">![''][logo]</span> microformats-ruby
 
-[![Build Status](https://travis-ci.org/indieweb/microformats-ruby.svg)](https://travis-ci.org/indieweb/microformats-ruby)
-[![Code Climate](https://codeclimate.com/github/indieweb/microformats-ruby/badges/gpa.svg)](https://codeclimate.com/github/indieweb/microformats-ruby)
+**A Ruby gem for parsing HTML documents containing microformats.**
 
-A Ruby gem to parse HTML containing one or more microformats and [microformats2](http://microformats.org/wiki/microformats-2)
-and return a collection of dynamically defined Ruby objects, a Ruby hash or a JSON hash.
+[![Gem](https://img.shields.io/gem/v/microformats.svg?style=for-the-badge)](https://rubygems.org/gems/microformats)
+[![Downloads](https://img.shields.io/gem/dt/microformats.svg?style=for-the-badge)](https://rubygems.org/gems/microformats)
+[![Build](https://img.shields.io/travis/indieweb/microformats-ruby/master.svg?style=for-the-badge)](https://travis-ci.org/indieweb/microformats-ruby)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/indieweb/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/indieweb/microformats-ruby)
+[![Coverage](https://img.shields.io/codeclimate/c/indieweb/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/indieweb/microformats-ruby/code)
 
+## Key Features
 
-## Development Status
+- Compatible with both [classic microformats](http://microformats.org/wiki/Main_Page#Classic_Microformats) and [microformats2](http://microformats.org/wiki/microformats2) syntaxes.
+- Provides a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) for extracting microformats from a URL, file, or string.
 
-Implemented:
+## Getting Started
 
-* [parsing depth first, doc order](http://microformats.org/wiki/microformats2-parsing#parse_a_document_for_microformats)
-* [parsing a p- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_p-_property)
-* [parsing a u- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_u-_property)
-* [parsing a dt- property](http://microformats.org/wiki/microformats2-parsing#parsing_a_dt-_property)
-* [parsing a e- property](http://microformats.org/wiki/microformats2-parsing#parsing_an_e-_property)
-* [parsing implied properties](http://microformats.org/wiki/microformats-2-parsing#parsing_for_implied_properties)
-* nested properties
-* nested microformat with associated property
-* dynamic creation of properties
-* [rel](http://microformats.org/wiki/rel)
-* [normalize u-* property values](http://microformats.org/wiki/microformats2-parsing-faq#normalizing_u-.2A_property_values)
-* nested microformat without associated property
-* [value-class-pattern](http://microformats.org/wiki/value-class-pattern)
-* recognition of [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS)
-* backward compatible support for microformats v1
+Before installing and using microformats-ruby, you'll want to have Ruby 2.2.9 (or newer) installed. It's recommended that you use a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm).
 
-Not Implemented:
-
-* [include-pattern](http://microformats.org/wiki/include-pattern)
-
-
-## Current Version
-
-4.0.7
-
-![Version 4.0.7](https://img.shields.io/badge/VERSION-4.0.7-green.svg)
-
-
-## Requirements
-
-* [nokogiri](https://github.com/sparklemotion/nokogiri)
-* [json](https://github.com/flori/json)
-
+microformats-ruby is developed using Ruby 2.5.0 and is additionally tested against versions 2.2.9, 2.3.6, and 2.4.3 using [Travis CI](https://travis-ci.org/indieweb/microformats-ruby).
 
 ## Installation
 
-Add this line to your application's Gemfile:
+If you're using [Bundler](http://bundler.io) to manage gem dependencies, add microformats-ruby to your project's Gemfile:
 
-```ruby
-gem "microformats"
+```rb
+ruby '2.5.0'
+
+source 'https://rubygems.org'
+
+gem 'microformats', '~> 4.0', '>= 4.0.7'
 ```
 
-And then execute:
+…and then run:
 
-```
-bundle
+```sh
+bundle install
 ```
 
-Or install it yourself as:
+You may also install microformats-ruby directly using:
 
-```
+```sh
 gem install microformats
 ```
 
-
 ## Usage
 
-```ruby
-require "microformats"
+An example working with a basic [h-card](http://microformats.org/wiki/h-card):
 
-source = "<div class='h-card'><p class='p-name'>Jessica Lynn Suttles</p></div>"
+```ruby
+source = '<div class="h-card"><p class="p-name">Jessica Lynn Suttles</p></div>'
 collection = Microformats.parse(source)
 
-# getting a copy of the canonical microformats hash structure
+# Get a copy of the canonical microformats hash structure
 collection.to_hash
 
-# the above, as JSON in a string
+# The above as JSON in a string
 collection.to_json
 
-# shortcuts
-
-# return a string if there is only one item found
+# Return a string if there is only one item found
 collection.card.name #=> "Jessica Lynn Suttles"
+```
 
-source = "<article class='h-entry'>
-  <h1 class='p-name'>Microformats 2</h1>
-  <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Jessica</span> Lynn Suttles</p></div>
-</article>"
+Below is a more complex markup structure using an [h-entry](http://microformats.org/wiki/h-entry) with a nested h-card:
+
+```rb
+source = '<article class="h-entry">
+  <h1 class="p-name">Microformats 2</h1>
+  <div class="h-card p-author">
+  	<p class="p-name"><span class="p-first-name">Jessica</span> Lynn Suttles</p>
+  </div>
+</article>'
+
 collection = Microformats.parse(source)
+
 collection.entry.name.to_s #=> "Microformats 2"
 
-# accessing nested microformats
+# Accessing nested microformats
 collection.entry.author.name.to_s #=> "Jessica Lynn Suttles"
 
-# accessing nested microformats can use shortcuts or more expanded method
+# Accessing nested microformats can use shortcuts or expanded method
 collection.entry.author.name #=> "Jessica Lynn Suttles"
 collection.entry.properties.author.properties.name.to_s #=> "Jessica Lynn Suttles"
 
-# use _ instead of - to get these items
+# Use `_` instead of `-` to return property values
 collection.entry.author.first_name #=> "Jessica"
 collection.rel_urls #=> {}
+```
 
-source = "<article class='h-entry'>
-  <h1 class='p-name'>Microformats 2</h1>
-  <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Jessica</span> Lynn Suttles</p></div>
-  <div class='h-card p-author'><p class='p-name'><span class='p-first-name'>Brandon</span> Edens</p></div>
-</article>"
+Using the same markup patterns as above, here's an h-entry with multiple authors, each marked up as h-cards:
+
+```rb
+source = '<article class="h-entry">
+  <h1 class="p-name">Microformats 2</h1>
+  <div class="h-card p-author">
+  	<p class="p-name"><span class="p-first-name">Jessica</span> Lynn Suttles</p>
+  </div>
+  <div class="h-card p-author">
+    <p class="p-name"><span class="p-first-name">Brandon</span> Edens</p>
+  </div>
+</article>'
+
 collection = Microformats.parse(source)
 
-# arrays of items with always take the first item by default
+# Arrays of items will always return the first item by default
 collection.entry.author.name #=> "Jessica Lynn Suttles"
 collection.entry.author(1).name #=> "Brandon Edens"
 
-# get the actual array with :all
+# Get the actual array of items by using `:all`
 collection.entry.author(:all).count #=> 2
 collection.entry.author(:all)[1].name #=> "Brandon Edens"
-
 ```
 
-* `source` can be a URL, filepath, or HTML
+### Command Line Interface
 
-### Console utility
+microformats-ruby also includes a command like program that will parse HTML and return a JSON representation of the included microformats.
 
-This gem also provides a command like script 'microformats' that will return the JSON equivalent
-```
-microformats http://example.com
-```
-
-You can give the microformats script a URL, filepath, or HTML
-
-additionally, the script will accept input piped from stdin
-
-```
-curl http://example.com | microformats
+```sh
+microformats http://tantek.com
 ```
 
+The program accepts URLs, file paths, or strings of HTML as an argument. Additionally, the script accepts piped input from other programs:
 
-
-## Ruby Gem release process
-
-Check out latest code from GitHub repo.
-
-```
-git pull origin master
+```sh
+curl http://tantek.com | microformats
 ```
 
-Make sure the version has been bumped up in all four places:
+## Implementation Status
 
-- [lib/microformats/version.rb](https://github.com/indieweb/microformats-ruby/blob/master/lib/microformats/version.rb#L2)
-- [README.md (three places)](https://github.com/indieweb/microformats-ruby/blob/master/README.md)
+| Status | Specification or Parsing Rule |
+|:------:|:------------------------------|
+| ✅ | [Parse a document for microformats](http://microformats.org/wiki/microformats2-parsing#parse_a_document_for_microformats) |
+| ✅ | [Parsing a `p-` property](http://microformats.org/wiki/microformats2-parsing#parsing_a_p-_property) |
+| ✅ | [Parsing a `u-` property](http://microformats.org/wiki/microformats2-parsing#parsing_a_u-_property) |
+| ✅ | [Parsing a `dt-` property](http://microformats.org/wiki/microformats2-parsing#parsing_a_dt-_property) |
+| ✅ | [Parsing an `e-` property](http://microformats.org/wiki/microformats2-parsing#parsing_an_e-_property) |
+| ✅ | [Parsing for implied properties](http://microformats.org/wiki/microformats2-parsing#parsing_for_implied_properties) |
+| ✅ | Nested properties |
+| ✅ | Nested microformat with associated property |
+| ✅ | Nested microformat without associated property |
+| ✅ | Recognize dynamically created properties |
+| ✅ | [Support for `rel` attribute values](http://microformats.org/wiki/rel) |
+| ✅ | [Normalizing `u-*` property values](http://microformats.org/wiki/microformats2-parsing-faq#normalizing_u-.2A_property_values) |
+| ✅ | Parse the [value class pattern](http://microformats.org/wiki/value-class-pattern) |
+| ✅ | Recognize [vendor extensions](http://microformats.org/wiki/microformats2#VENDOR_EXTENSIONS) |
+| ✅ | Support for [classic microformats](http://microformats.org/wiki/Main_Page#Classic_Microformats) |
+| ❌ | Recognize the [include pattern](http://microformats.org/wiki/include-pattern)
 
-Do a test build locally to make sure it builds properly.
+## Improving microformats-ruby
 
-```
-rake build
-```
+Have questions about using microformats-ruby? Found a bug? Have ideas for new or improved features? Want to pitch in and write some code?
 
-If that works, then do a test install locally.
+Check out [CONTRIBUTING.md](https://github.com/indieweb/microformats-ruby/blob/master/CONTRIBUTING.md) for more on how you can help!
 
-  ```
-rake install
-```
+## Acknowledgments
 
-If that works, uninstall the gem.
+The microformats-ruby logo is derived from the [microformats logo mark](http://microformats.org/wiki/spread-microformats) by [Rémi Prévost](http://microformats.org/wiki/User:Remi).
 
-```
-gem uninstall microformats
-```
+microformats-ruby is written and maintained by:
 
-Clean up any mess made from testing.
-
-```
-rake clean
-rake clobber
-```
-
-Assuming your one of the gem owners and have release privileges, release the gem!
-
-```
-rake release
-```
-
-If that works, you’ve just release a new version of the gem! Yay! You can see it at:
-
-[https://rubygems.org/gems/microformats](https://rubygems.org/gems/microformats)
-
-If `rake release` failed because of an error with your authentication to rubygems.org, follow their instructions in the error message. Then repeat the `rake release` step.
-
-If any other errors failed along the way before `rake release`, try to figure them out or reach out to the IRC/Slack channel for help.
-
-Good luck.
-
-
-## Authors
-
-- Ben Roberts / [@dissolve](https://github.com/dissolve)
-- Jessica Lynn Suttles / [@jlsuttles](https://github.com/jlsuttles)
-- Shane Becker / [@veganstraightedge](https://github.com/veganstraightedge)
-- Chris Stringer / [@jcstringer](https://github.com/jcstringer)
-- Michael Mitchell / [@variousred](https://github.com/variousred)
-- Jessica Dillon / [@jessicard](https://github.com/jessicard)
-- Jeena Paradies / [@jeena](https://github.com/jeena)
-- Marty McGuire / [@martymcguire](https://github.com/martymcguire)
-
-## Contributions
-
-1. Fork it
-2. Get it running (see Installation above)
-3. Create your feature branch (`git checkout -b my-new-feature`)
-4. Write your code and **specs**
-5. Commit your changes (`git commit -am 'Add some feature'`)
-6. Push to the branch (`git push origin my-new-feature`)
-7. Create new Pull Request
-
-If you find bugs, have feature requests or questions, please
-[file an issue](https://github.com/indieweb/microformats-ruby/issues).
-
-
-## Testing
-
-### Specs
-
-This uses a copy of  [microformats tests repo](https://github.com/microformats/tests).
-
-To run specs
-```
-rake spec
-
-### Interactive
-
-You can use the code interacively for testing but running
-```
-bundle console
-```
+- Ben Roberts ([@dissolve](https://github.com/dissolve))
+- Jessica Lynn Suttles ([@jlsuttles](https://github.com/jlsuttles))
+- Shane Becker ([@veganstraightedge](https://github.com/veganstraightedge))
+- Chris Stringer ([@jcstringer](https://github.com/jcstringer))
+- Michael Mitchell ([@variousred](https://github.com/variousred))
+- Jessica Dillon ([@jessicard](https://github.com/jessicard))
+- Jeena Paradies ([@jeena](https://github.com/jeena))
+- Marty McGuire ([@martymcguire](https://github.com/martymcguire))
 
 ## License
 
-Microformats (ruby) is dedicated to the public domain using Creative Commons -- CC0 1.0 Universal.
+microformats-ruby is dedicated to the public domain using the [Creative Commons CC0 1.0 Universal license](https://creativecommons.org/publicdomain/zero/1.0/).
 
-http://creativecommons.org/publicdomain/zero/1.0
+The authors waive all of their rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law. You can copy, modify, and distribute the work, even for commercial purposes, all without asking permission.
+
+See [LICENSE.md](https://github.com/indieweb/microformats-ruby/blob/master/LICENSE.md) for more details.
+
+[logo]: data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzM3IiBoZWlnaHQ9IjMzNyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSIgaWQ9ImEiPjxzdG9wIHN0b3AtY29sb3I9IiNmNTUxNWYiIG9mZnNldD0iMCUiLz48c3RvcCBzdG9wLWNvbG9yPSIjOWYwNDFiIiBvZmZzZXQ9IjEwMCUiLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCB4MT0iMCUiIHkxPSIwJSIgeTI9IjEwMCUiIGlkPSJiIj48c3RvcCBzdG9wLWNvbG9yPSIjZjU1MTVmIiBvZmZzZXQ9IjAlIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzlmMDQxYiIgb2Zmc2V0PSIxMDAlIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGcgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIj48cGF0aCBkPSJNMCAxMDUuNzFjMC0zMC4xOSAyMi4wNC01Mi4zMyA1Mi4xMS01Mi4zM2gxNTcuMzdjMzAuMDY5IDAgNTIuMTA5IDIyLjE0IDUyLjEwOSA1Mi4zM3YxNTUuOTZjMCAzMC4xODktMjIuMDQgNTIuMzMtNTIuMTA5IDUyLjMzSDUyLjExQzIyLjA0IDMxNCAwIDI5MS44NTkgMCAyNjEuNjdWMTA1LjcxeiIgZmlsbD0idXJsKCNhKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOCA4KSIvPjxwYXRoIGQ9Ik04OC41OSA1NS40M2MwLTI0LjEzIDE3LjY1LTQxLjgyIDQxLjczLTQxLjgyaDEyNi4wMmMyNC4wOCAwIDQxLjczIDE3LjY5IDQxLjczIDQxLjgydjEyNC42NGMwIDI0LjEzLTE3LjY1IDQxLjgyLTQxLjczIDQxLjgySDEzMC4zMmMtMjQuMDggMC00MS43My0xNy42OS00MS43My00MS44MlY1NS40M3oiIGZpbGw9InVybCgjYikiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDggOCkiLz48cGF0aCBkPSJNMTc4LjIyMSAyOC4zN0MxNzguMjIxIDEyIDE5MC4yNSAwIDIwNi42NiAwaDg1LjlDMzA4Ljk3MSAwIDMyMSAxMiAzMjEgMjguMzd2ODQuNTZjMCAxNi4zNy0xMi4wMjkgMjguMzctMjguNDM5IDI4LjM3aC04NS45Yy0xNi40MSAwLTI4LjQzOS0xMi0yOC40MzktMjguMzdWMjguMzdoLS4wMDF6IiBmaWxsPSJ1cmwoI2IpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4IDgpIi8+PC9nPjwvc3ZnPg==
