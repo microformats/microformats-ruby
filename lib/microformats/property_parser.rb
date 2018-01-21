@@ -15,6 +15,8 @@ module Microformats
         if @value.nil?
           if element.name == 'abbr' and not element.attribute('title').nil?
             @value = element.attribute('title').value.strip
+          elsif element.name == 'link' and not element.attribute('title').nil?
+            @value = element.attribute('title').value.strip
           elsif (element.name == 'data' or element.name == 'input') and not element.attribute('value').nil?
             @value = element.attribute('value').value.strip
           elsif (element.name == 'img' or element.name == 'area') and not element.attribute('alt').nil?
@@ -31,7 +33,7 @@ module Microformats
         }
 
       elsif element_type == 'u'
-        if ['a', 'area'].include? element.name and not element.attribute('href').nil?
+        if ['a', 'area', 'link'].include? element.name and not element.attribute('href').nil?
           @value = element.attribute('href').value.strip
         elsif ['img', 'audio', 'video', 'source'].include? element.name and not element.attribute('src').nil?
           @value = element.attribute('src').value.strip
