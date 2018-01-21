@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/gist/jgarber623/5c4cb8712169f51b571d370084006699/raw/d5ece174e46d98770a4e66f313e81e37ee3a5bf0/microformats-ruby-logo.svg?sanitize=true" align="left" width="100">
+
 # microformats-ruby
 
 **A Ruby gem for parsing HTML documents containing microformats.**
