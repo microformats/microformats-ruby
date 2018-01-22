@@ -1,6 +1,3 @@
-require "spec_helper"
-require "microformats"
-
 describe Microformats do
   before do
     @html = <<-HTML.strip

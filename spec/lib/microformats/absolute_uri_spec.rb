@@ -1,6 +1,3 @@
-require "spec_helper"
-require "microformats/absolute_uri"
-
 describe Microformats::AbsoluteUri do
   describe "#absolutize" do
     subject { Microformats::AbsoluteUri.new(relative, base: base).absolutize }

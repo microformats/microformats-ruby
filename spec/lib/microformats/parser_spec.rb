@@ -1,6 +1,3 @@
-require "spec_helper"
-require "microformats"
-
 describe Microformats::Parser do
   let(:parser) { Microformats::Parser.new }
 
@@ -93,14 +90,14 @@ describe Microformats::Parser do
         html_file = json_file.gsub(/([.]js$)/, ".html")
         html = open(html_file).read
         json = open(json_file).read
-        
+
         expect(JSON.parse(Microformats.parse(html).to_json)).to eq(JSON.parse(json))
       end
     end
   end
 
   describe "microformat-tests/tests" do
-    cases_dir = "vendor/tests/tests/*" 
+    cases_dir = "vendor/tests/tests/*"
     #cases_dir = "vendor/tests/tests/microformats-mixed"
     #cases_dir = "vendor/tests/tests/microformats-v1"
     #cases_dir = "vendor/tests/tests/microformats-working"
@@ -121,7 +118,7 @@ describe Microformats::Parser do
             html_file = json_file.gsub(/([.]json$)/, ".html")
             html = open(html_file).read
             json = open(json_file).read
-            
+
             expect(JSON.parse(Microformats.parse(html, base: 'http://example.com').to_json)).to eq(JSON.parse(json))
           end
         end

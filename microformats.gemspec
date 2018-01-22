@@ -1,37 +1,38 @@
-# -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'microformats/version'
 
-Gem::Specification.new do |gem|
-  gem.name          = "microformats"
-  gem.version       = Microformats::VERSION
-  gem.authors       = ["Shane Becker", "Jessica Lynn Suttles", "Ben Roberts"]
-  gem.email         = ["veganstraightedge@gmail.com", "jlsuttles@gmail.com", "ben@thatmustbe.me"]
-  gem.description   = %q{A Ruby gem to parse HTML containing one or more microformats and microformats2 and return a collection of dynamically defined Ruby objects, a Ruby hash or a JSON hash.}
-  gem.summary       = %q{Microformats and microformats2 parser}
-  gem.homepage      = "https://github.com/indieweb/microformats-ruby"
+Gem::Specification.new do |spec|
+  spec.required_ruby_version = ['>= 2.0', '< 2.6']
 
-  gem.files         = `git ls-files`.split($/)
-  gem.executables   = ['microformats']
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.require_paths = ["lib"]
+  spec.name          = 'microformats'
+  spec.version       = Microformats::VERSION
+  spec.authors       = ['Shane Becker', 'Jessica Lynn Suttles', 'Ben Roberts']
+  spec.email         = ['veganstraightedge@gmail.com', 'jlsuttles@gmail.com', 'ben@thatmustbe.me']
 
-  gem.post_install_message = %q{
+  spec.summary       = 'Microformats2 and classic microformats parser'
+  spec.description   = 'A Ruby gem to parse HTML containing microformats2 and classic microformats that returns a collection of dynamically defined Ruby objects, a Ruby hash, or a JSON hash.'
+  spec.homepage      = 'https://github.com/indieweb/microformats-ruby'
+  spec.license       = 'CC0-1.0'
 
-Previously called "microformats2" (on version 3.1 and below).
+  spec.files         = `git ls-files`.split("\x0").select { |f| f.match(%r{^(bin|lib)/}) }
 
-}
+  spec.bindir        = 'bin'
+  spec.executables   = ['microformats']
+  spec.require_paths = ['lib']
 
-  gem.required_ruby_version = ">= 2.0"
+  spec.post_install_message = 'Prior to version 4.0.0, the microformats gem was named "microformats2."'
 
-  gem.add_runtime_dependency "nokogiri"
-  gem.add_runtime_dependency "json"
+  spec.add_development_dependency 'guard-rspec', '~> 4.7', '>= 4.7.3'
+  spec.add_development_dependency 'rake', '~> 12.3'
+  spec.add_development_dependency 'rb-fsevent', '~> 0.10.2'
+  spec.add_development_dependency 'rspec', '~> 3.7'
+  spec.add_development_dependency 'rubocop', '~> 0.52.1'
+  spec.add_development_dependency 'simplecov', '~> 0.15.1'
+  spec.add_development_dependency 'simplecov-console', '~> 0.4.2'
+  spec.add_development_dependency 'webmock', '~> 3.3'
 
-  gem.add_development_dependency "rake"
-  gem.add_development_dependency "rspec"
-  gem.add_development_dependency "guard-rspec"
-  gem.add_development_dependency "rb-fsevent"
-  gem.add_development_dependency "simplecov"
-  gem.add_development_dependency "webmock"
+  spec.add_runtime_dependency 'json', '~> 2.1'
+  spec.add_runtime_dependency 'nokogiri', '~> 1.8', '>= 1.8.1'
 end

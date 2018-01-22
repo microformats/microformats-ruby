@@ -1,9 +1,8 @@
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
-require "nokogiri"
-require "open-uri"
-require "pp"
+require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
+require 'rubocop/rake_task'
 
-RSpec::Core::RakeTask.new(:spec)
-task :default => [:spec]
+RSpec::Core::RakeTask.new
+RuboCop::RakeTask.new
 
+task default: :spec
