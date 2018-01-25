@@ -12,8 +12,8 @@ module Microformats
     def absolutize
       return relative if base.nil?
       return base if relative.nil? || relative == ''
-      return relative if relative.match?(%r{^https?://})
-      return base + relative if relative.match?(/^#/)
+      return relative if relative =~ %r{^https?://}
+      return base + relative if relative =~ /^#/
 
       uri = URI.parse(relative)
       uri = URI.join(base.to_s, relative.to_s) if base && !uri.absolute?

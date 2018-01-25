@@ -232,9 +232,9 @@ module Microformats
 
         unless start_date.nil?
           @properties['end'].map! do |end_val|
-            if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
+            if end_val =~ /^\d{4}-[01]\d-[0-3]\d/
               end_val
-            elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
+            elsif end_val =~ /^\d{4}-[0-3]\d\d/
               end_val
             else
               start_date + ' ' + end_val
