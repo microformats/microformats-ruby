@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec|vendor)/}) }
   spec.bindir        = 'bin'
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.executables   = ['microformats']
   spec.require_paths = ['lib']
 
   spec.post_install_message = 'Prior to version 4.0.0, the microformats gem was named "microformats2."'
