@@ -16,14 +16,14 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/indieweb/microformats-ruby'
   spec.license       = 'CC0-1.0'
 
-  spec.files         = `git ls-files`.split("\x0").select { |f| f.match(%r{^(bin|lib)/}) }
-
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec|vendor)/}) }
   spec.bindir        = 'bin'
   spec.executables   = ['microformats']
   spec.require_paths = ['lib']
 
   spec.post_install_message = 'Prior to version 4.0.0, the microformats gem was named "microformats2."'
 
+  spec.add_development_dependency 'bundler', '~> 1.16', '>= 1.16.1'
   spec.add_development_dependency 'guard-rspec', '~> 4.7', '>= 4.7.3'
   spec.add_development_dependency 'rake', '~> 12.3'
   spec.add_development_dependency 'rb-fsevent', '~> 0.10.2'
