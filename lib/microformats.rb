@@ -1,17 +1,17 @@
-require "nokogiri"
-require "open-uri"
-require "json"
+require 'nokogiri'
+require 'open-uri'
+require 'json'
 
-require "microformats/version"
-require "microformats/absolute_uri"
-require "microformats/parser_core"
-require "microformats/parser"
-require "microformats/format_parser"
-require "microformats/property_parser"
-require "microformats/time_property_parser"
-require "microformats/results/parser_result"
-require "microformats/results/collection"
-require "microformats/results/property_set"
+require 'microformats/version'
+require 'microformats/absolute_uri'
+require 'microformats/parser_core'
+require 'microformats/parser'
+require 'microformats/format_parser'
+require 'microformats/property_parser'
+require 'microformats/time_property_parser'
+require 'microformats/results/parser_result'
+require 'microformats/results/collection'
+require 'microformats/results/property_set'
 
 module Microformats
   class << self

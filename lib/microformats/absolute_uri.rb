@@ -11,20 +11,16 @@ module Microformats
 
     def absolutize
       return relative if base.nil?
-      return base if relative.nil? or relative == ""
-      return relative if relative =~ /^https?:\/\//
-      return base + relative if relative =~ /^#/
+      return base if relative.nil? || relative == ''
+      return relative if relative.match?(%r{^https?://})
+      return base + relative if relative.match?(/^#/)
 
       uri = URI.parse(relative)
-
-      if base && !uri.absolute?
-        uri = URI.join(base.to_s, relative.to_s)
-      end
+      uri = URI.join(base.to_s, relative.to_s) if base && !uri.absolute?
 
       uri.normalize!
       uri.to_s
-
-    rescue URI::BadURIError, URI::InvalidURIError => e
+    rescue URI::BadURIError, URI::InvalidURIError
       relative.to_s
     end
   end
