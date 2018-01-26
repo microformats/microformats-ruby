@@ -18,17 +18,11 @@ module Microformats
     end
 
     def to_s
-      return @hash['value'] if @hash['value']
-
-      super
+      @hash.to_s
     end
 
     def [](key)
       @hash[key]
-    end
-
-    def value
-      @hash['value']
     end
 
     def items
@@ -81,13 +75,7 @@ module Microformats
         end
       end
 
-      if result_hash.nil? || result_hash.empty?
-        result_hash
-      elsif result_hash.is_a?(Hash)
-        ParserResult.new(result_hash)
-      else
-        result_hash
-      end
+      ParserResult.new(result_hash)
     end
 
     private
