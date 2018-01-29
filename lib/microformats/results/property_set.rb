@@ -21,6 +21,10 @@ module Microformats
       @hash[key]
     end
 
+    def to_s
+      @hash.to_s
+    end
+
     def respond_to?(sym, include_private = false)
       key?(sym) || super(sym, include_private)
     end
