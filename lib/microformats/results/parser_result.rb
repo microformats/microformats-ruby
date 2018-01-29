@@ -20,7 +20,7 @@ module Microformats
     def to_s
       return @hash['value'] if @hash['value']
 
-      super
+      @hash.to_s
     end
 
     def [](key)
