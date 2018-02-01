@@ -173,4 +173,4 @@ microformats-ruby is dedicated to the public domain using the [Creative Commons 
 
 The authors waive all of their rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law. You can copy, modify, and distribute the work, even for commercial purposes, all without asking permission.
 
-See [LICENSE.md](https://github.com/indieweb/microformats-ruby/blob/master/LICENSE.md) for more details.
+See [LICENSE](https://github.com/indieweb/microformats-ruby/blob/master/LICENSE) for more details.
