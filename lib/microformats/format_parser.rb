@@ -262,8 +262,13 @@ module Microformats
       h_object['children'] = @children unless @children.empty?
 
       if @format_property_type == 'e'
-        h_object['value'] = element.text.strip
         h_object['html'] = element.inner_html
+        el = element.clone
+        el.css('br').each do |n|
+          n.replace(Nokogiri::XML::Text.new("\r", el))
+        end
+        new_doc = Nokogiri::HTML(el.inner_html.gsub(/\n/, '').gsub(/\r/, "\n").gsub(/ +/, ' '))
+        h_object['value'] = new_doc.text.strip
       end
 
       # TODO: fall back to p- dt- u- parsing if value still not set?

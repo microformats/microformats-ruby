@@ -27,7 +27,7 @@ module Microformats
         end
       elsif element_type == 'e'
         @value = {
-          value: render_text(element, base: @base), # TODO: the spec doesn't say to remove script and style tags, assuming this to be in error
+          value: render_text_from_html(element, base: @base), # TODO: the spec doesn't say to remove script and style tags, assuming this to be in error
           html: element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
         }
       elsif element_type == 'u'
@@ -116,6 +116,17 @@ module Microformats
 
     def render_text(node, base: nil)
       new_doc = Nokogiri::HTML(node.inner_html)
+      new_doc.xpath('//script').remove
+      new_doc.xpath('//style').remove
+      new_doc.text.strip
+    end
+
+    def render_text_from_html(node, base: nil)
+      el = node.clone
+      el.css('br').each do |n|
+        n.replace(Nokogiri::XML::Text.new("\r", el))
+      end
+      new_doc = Nokogiri::HTML(el.inner_html.gsub(/\n/, '').gsub(/\r/, "\n").gsub(/ +/, ' '))
       new_doc.xpath('//script').remove
       new_doc.xpath('//style').remove
       new_doc.text.strip
