@@ -1,6 +1,10 @@
 require:
   - rubocop-rspec
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
+
 Metrics/LineLength:
   Enabled: false
 
