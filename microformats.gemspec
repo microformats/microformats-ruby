@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rb-fsevent', '~> 0.10.3'
   spec.add_development_dependency 'rspec', '~> 3.7'
   spec.add_development_dependency 'rubocop', '~> 0.57.2'
+  spec.add_development_dependency 'rubocop-rspec', '~> 1.27'
   spec.add_development_dependency 'simplecov', '~> 0.16.1'
   spec.add_development_dependency 'simplecov-console', '~> 0.4.2'
   spec.add_development_dependency 'webmock', '~> 3.4', '>= 3.4.2'

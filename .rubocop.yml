@@ -1,6 +1,5 @@
-AllCops:
-  Exclude:
-    - "spec/**/*"
+require:
+  - rubocop-rspec
 
 Metrics/LineLength:
   Enabled: false
