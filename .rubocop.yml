@@ -8,6 +8,15 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Enabled: false
 
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 10
+
+RSpec/NestedGroups:
+  Max: 6
+
 Style/Documentation:
   Enabled: false
 

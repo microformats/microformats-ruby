@@ -1,53 +1,61 @@
 describe Microformats::AbsoluteUri do
-  describe "#absolutize" do
-    subject { Microformats::AbsoluteUri.new(relative, base: base).absolutize }
+  describe '#absolutize' do
+    subject { described_class.new(relative, base: base).absolutize }
 
-    context "when relative is nil" do
+    context 'when relative is nil' do
       let(:relative) { nil }
-      let(:base) { "http://example.com" }
-      it { should eq base }
+      let(:base) { 'http://example.com' }
+
+      it { is_expected.to eq(base) }
     end
 
-    context "when relative is an empty string" do
-      let(:relative) { "" }
-      let(:base) { "http://example.com" }
-      it { should eq base }
+    context 'when relative is an empty string' do
+      let(:relative) { '' }
+      let(:base) { 'http://example.com' }
+
+      it { is_expected.to eq(base) }
     end
 
-    context "when relative is a valid absolute URI" do
+    context 'when relative is a valid absolute URI' do
       let(:base) { nil }
-      let(:relative) { "http://google.com" }
-      it { should eq("http://google.com") }
+      let(:relative) { 'http://google.com' }
+
+      it { is_expected.to eq('http://google.com') }
     end
 
-    context "when relative is a valid non-absolute URI" do
-      let(:relative) { "bar/qux" }
+    context 'when relative is a valid non-absolute URI' do
+      let(:relative) { 'bar/qux' }
 
-      context "and base is present but not absolute" do
-        let(:base) { "foo" }
-        it { should eq("bar/qux") }
+      context 'when base is present but not absolute' do
+        let(:base) { 'foo' }
+
+        it { is_expected.to eq('bar/qux') }
       end
 
-      context "and base is present and absolute" do
-        let(:base) { "http://google.com" }
-        it { should eq("http://google.com/bar/qux") }
+      context 'when base is present and absolute' do
+        let(:base) { 'http://google.com' }
+
+        it { is_expected.to eq('http://google.com/bar/qux') }
       end
 
-      context "and base is not present" do
+      context 'when base is not present' do
         let(:base) { nil }
-        it { should eq("bar/qux") }
+
+        it { is_expected.to eq('bar/qux') }
       end
 
-      context "and base has a subdir" do
-        let(:base) { "http://google.com/asdf.html" }
-        it { should eq("http://google.com/bar/qux") }
+      context 'when base has a subdir' do
+        let(:base) { 'http://google.com/asdf.html' }
+
+        it { is_expected.to eq('http://google.com/bar/qux') }
       end
     end
 
-    context "when relative is an invalid URI" do
+    context 'when relative is an invalid URI' do
       let(:base) { nil }
-      let(:relative) { "git@github.com:indieweb/microformats-ruby.git" }
-      it { should eq("git@github.com:indieweb/microformats-ruby.git") }
+      let(:relative) { 'git@github.com:indieweb/microformats-ruby.git' }
+
+      it { is_expected.to eq('git@github.com:indieweb/microformats-ruby.git') }
     end
   end
 end
