@@ -4,25 +4,26 @@ require 'microformats'
 require 'json'
 
 def print_usage
-  puts "Usage: microformats (URL, filepath, or HTML)"
+  puts 'Usage: microformats (URL, filepath, or HTML)'
 end
 
 def process_html(html)
-    collection = Microformats.parse(html)
-    puts JSON.pretty_generate(JSON[collection.to_json.to_s])
+  collection = Microformats.parse(html)
+  puts JSON.pretty_generate(JSON[collection.to_json.to_s])
 end
 
 if STDIN.tty?
-  unless ARGV[0].nil?
-    process_html(ARGV[0])
-  else
+  if ARGV[0].nil?
     print_usage
+  else
+    process_html(ARGV[0])
   end
 else
   html = STDIN.read
-  unless html.nil?
-    process_html(html)
-  else
+
+  if html.nil?
     print_usage
+  else
+    process_html(html)
   end
 end

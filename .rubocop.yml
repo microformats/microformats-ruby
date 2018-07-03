@@ -3,6 +3,7 @@ require:
 
 Metrics/BlockLength:
   Exclude:
+    - microformats.gemspec
     - spec/**/*.rb
 
 Metrics/LineLength:
