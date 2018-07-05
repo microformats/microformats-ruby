@@ -21,11 +21,9 @@ microformats-ruby is developed using Ruby 2.4.4 and is additionally tested again
 
 ## Installation
 
-If you're using [Bundler](http://bundler.io) to manage gem dependencies, add microformats-ruby to your project's Gemfile:
+If you're using [Bundler](https://bundler.io) to manage gem dependencies, add microformats-ruby to your project's Gemfile:
 
-```rb
-ruby '2.4.4'
-
+```ruby
 source 'https://rubygems.org'
 
 gem 'microformats', '~> 4.0', '>= 4.0.7'
@@ -63,7 +61,7 @@ collection.card.name #=> "Jessica Lynn Suttles"
 
 Below is a more complex markup structure using an [h-entry](http://microformats.org/wiki/h-entry) with a nested h-card:
 
-```rb
+```ruby
 source = '<article class="h-entry">
   <h1 class="p-name">Microformats 2</h1>
   <div class="h-card p-author">
@@ -89,7 +87,7 @@ collection.rel_urls #=> {}
 
 Using the same markup patterns as above, here's an h-entry with multiple authors, each marked up as h-cards:
 
-```rb
+```ruby
 source = '<article class="h-entry">
   <h1 class="p-name">Microformats 2</h1>
   <div class="h-card p-author">
