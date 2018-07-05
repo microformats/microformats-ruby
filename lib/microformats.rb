@@ -22,7 +22,7 @@ module Microformats
     def read_html(html)
       Parser.new.read_html(html)
     end
-  end # class << self
+  end
 
   class InvalidPropertyPrefix < StandardError; end
 end
