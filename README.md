@@ -157,13 +157,22 @@ The microformats-ruby logo is derived from the [microformats logo mark](http://m
 microformats-ruby is written and maintained by:
 
 - Ben Roberts ([@dissolve](https://github.com/dissolve))
-- Jessica Lynn Suttles ([@jlsuttles](https://github.com/jlsuttles))
+- Jason Garber [(@jgarber623](https://github.com/jgarber623))
+- Jessica Suttles ([@jlsuttles](https://github.com/jlsuttles))
 - Shane Becker ([@veganstraightedge](https://github.com/veganstraightedge))
 - Chris Stringer ([@jcstringer](https://github.com/jcstringer))
 - Michael Mitchell ([@variousred](https://github.com/variousred))
 - Jessica Dillon ([@jessicard](https://github.com/jessicard))
 - Jeena Paradies ([@jeena](https://github.com/jeena))
 - Marty McGuire ([@martymcguire](https://github.com/martymcguire))
+- Tom Morris [(@tommorris](https://github.com/tommorris))
+- Don Peterson [(@dpetersen](https://github.com/dpetersen))
+- Matt Bohme [(@quady](https://github.com/quady))
+- Brian Miller [(@BRIMIL01](https://github.com/BRIMIL01))
+- Christian Weiske [(@cweiske](https://github.com/cweiske))
+- Christian Kruse [(@ckruse](https://github.com/ckruse))
+- Barnaby Walters [(@barnabywalters](https://github.com/barnabywalters))
+- Jeremy Keith [(@adactio](https://github.com/adactio))
 
 ## License
 
