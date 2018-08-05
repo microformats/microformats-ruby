@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/indieweb/microformats-ruby/master/logo.svg?sanitize=true" alt="" width="48px"></span> microformats-ruby
+# ![Microformats Logo](https://raw.githubusercontent.com/indieweb/microformats-ruby/master/logo.svg?sanitize=true) Microformats Ruby
 
 **A Ruby gem for parsing HTML documents containing microformats.**
 
