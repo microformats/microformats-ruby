@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="337" height="330">
-<defs>
-<linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a">
-<stop stop-color="#F5515F" offset="0%"/>
-<stop stop-color="#9F041B" offset="100%"/>
-</linearGradient>
-<linearGradient x1="0%" y1="0%" y2="100%" id="b">
-<stop stop-color="#F5515F" offset="0%"/>
-<stop stop-color="#9F041B" offset="100%"/>
-</linearGradient>
-</defs>
-<g fill-rule="nonzero" stroke="#FFF" stroke-width="16" fill="none">
-<path d="M0 105.71c0-30.19 22.04-52.33 52.11-52.33h157.37c30.069 0 52.109 22.14 52.109 52.33v155.96c0 30.189-22.04 52.33-52.109 52.33H52.11C22.04 314 0 291.859 0 261.67V105.71z" fill="url(#a)" transform="translate(8 8)"/>
-<path d="M88.59 55.43c0-24.13 17.65-41.82 41.73-41.82h126.02c24.08 0 41.73 17.69 41.73 41.82v124.64c0 24.13-17.65 41.82-41.73 41.82H130.32c-24.08 0-41.73-17.69-41.73-41.82V55.43z" fill="url(#b)" transform="translate(8 8)"/>
-<path d="M178.221 28.37C178.221 12 190.25 0 206.66 0h85.9C308.971 0 321 12 321 28.37v84.56c0 16.37-12.029 28.37-28.439 28.37h-85.9c-16.41 0-28.439-12-28.439-28.37V28.37h-.001z" fill="url(#b)" transform="translate(8 8)"/>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="49px" viewBox="0 0 50 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+  <title>Microformats Logo : Ruby Parser Edition</title>
+  <desc>Red version of the Microformats logo to use with Ruby projects.</desc>
+  <defs>
+    <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+      <stop stop-color="#F5515F" offset="0%"></stop>
+      <stop stop-color="#9F041B" offset="100%"></stop>
+    </linearGradient>
+    <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-2">
+      <stop stop-color="#F5515F" offset="0%"></stop>
+      <stop stop-color="#9F041B" offset="100%"></stop>
+    </linearGradient>
+  </defs>
+  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="Group" transform="translate(1.000000, 1.000000)" fill-rule="nonzero" stroke="#FFFFFF" stroke-width="2">
+      <path d="M0,15.8228344 C0,11.303949 3.29570093,7.99 7.79214953,7.99 L31.3241121,7.99 C35.8204112,7.99 39.1161121,11.303949 39.1161121,15.8228344 L39.1161121,39.1671656 C39.1161121,43.6859013 35.8204112,47 31.3241121,47 L7.79214953,47 C3.29570093,47 0,43.6859013 0,39.1671656 L0,15.8228344 Z" id="Shape" fill="url(#linearGradient-1)"></path>
+      <path d="M13.2471028,8.29684713 C13.2471028,4.68503185 15.8863551,2.03716561 19.4871028,2.03716561 L38.331215,2.03716561 C41.9319626,2.03716561 44.571215,4.68503185 44.571215,8.29684713 L44.571215,26.9531529 C44.571215,30.5649682 41.9319626,33.2128344 38.331215,33.2128344 L19.4871028,33.2128344 C15.8863551,33.2128344 13.2471028,30.5649682 13.2471028,26.9531529 L13.2471028,8.29684713 Z" id="Shape" fill="url(#linearGradient-2)"></path>
+      <path d="M26.6498692,4.24646497 C26.6498692,1.79617834 28.4485981,0 30.9024299,0 L43.7472897,0 C46.201271,0 48,1.79617834 48,4.24646497 L48,16.903535 C48,19.3538217 46.201271,21.15 43.7474393,21.15 L30.9025794,21.15 C28.4487477,21.15 26.6500187,19.3538217 26.6500187,16.903535 L26.6500187,4.24646497 L26.6498692,4.24646497 Z" id="Shape" fill="url(#linearGradient-2)"></path>
+    </g>
+  </g>
 </svg>
