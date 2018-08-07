@@ -1,12 +1,12 @@
-# ![Microformats Logo](https://raw.githubusercontent.com/indieweb/microformats-ruby/master/logo.svg?sanitize=true) Microformats Ruby
+# ![Microformats Logo](https://raw.githubusercontent.com/microformats/microformats-ruby/master/logo.svg?sanitize=true) Microformats Ruby
 
 **A Ruby gem for parsing HTML documents containing microformats.**
 
 [![Gem](https://img.shields.io/gem/v/microformats.svg?style=for-the-badge)](https://rubygems.org/gems/microformats)
 [![Downloads](https://img.shields.io/gem/dt/microformats.svg?style=for-the-badge)](https://rubygems.org/gems/microformats)
-[![Build](https://img.shields.io/travis/indieweb/microformats-ruby/master.svg?style=for-the-badge)](https://travis-ci.org/indieweb/microformats-ruby)
-[![Maintainability](https://img.shields.io/codeclimate/maintainability/indieweb/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/indieweb/microformats-ruby)
-[![Coverage](https://img.shields.io/codeclimate/c/indieweb/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/indieweb/microformats-ruby/code)
+[![Build](https://img.shields.io/travis/microformats/microformats-ruby/master.svg?style=for-the-badge)](https://travis-ci.org/microformats/microformats-ruby)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/microformats/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/microformats/microformats-ruby)
+[![Coverage](https://img.shields.io/codeclimate/c/microformats/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/microformats/microformats-ruby/code)
 
 ## Key Features
 
@@ -17,7 +17,7 @@
 
 Before installing and using microformats-ruby, you'll want to have Ruby 2.2.9 (or newer) installed. It's recommended that you use a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm).
 
-microformats-ruby is developed using Ruby 2.4.4 and is additionally tested against version 2.5.1 using [Travis CI](https://travis-ci.org/indieweb/microformats-ruby).
+microformats-ruby is developed using Ruby 2.4.4 and is additionally tested against version 2.5.1 using [Travis CI](https://travis-ci.org/microformats/microformats-ruby).
 
 ## Installation
 
@@ -148,7 +148,7 @@ curl http://tantek.com | microformats
 
 Have questions about using microformats-ruby? Found a bug? Have ideas for new or improved features? Want to pitch in and write some code?
 
-Check out [CONTRIBUTING.md](https://github.com/indieweb/microformats-ruby/blob/master/CONTRIBUTING.md) for more on how you can help!
+Check out [CONTRIBUTING.md](https://github.com/microformats/microformats-ruby/blob/master/CONTRIBUTING.md) for more on how you can help!
 
 ## Acknowledgments
 
@@ -180,4 +180,4 @@ microformats-ruby is dedicated to the public domain using the [Creative Commons 
 
 The authors waive all of their rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law. You can copy, modify, and distribute the work, even for commercial purposes, all without asking permission.
 
-See [LICENSE](https://github.com/indieweb/microformats-ruby/blob/master/LICENSE) for more details.
+See [LICENSE](https://github.com/microformats/microformats-ruby/blob/master/LICENSE) for more details.

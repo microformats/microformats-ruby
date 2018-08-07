@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Microformats2 and classic microformats parser'
   spec.description   = 'A Ruby gem to parse HTML containing microformats2 and classic microformats that returns a collection of dynamically defined Ruby objects, a Ruby hash, or a JSON hash.'
-  spec.homepage      = 'https://github.com/indieweb/microformats-ruby'
+  spec.homepage      = 'https://github.com/microformats/microformats-ruby'
   spec.license       = 'CC0-1.0'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec|vendor)/}) }
@@ -27,8 +27,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'guard-rspec', '~> 4.7', '>= 4.7.3'
   spec.add_development_dependency 'rake', '~> 12.3', '>= 12.3.1'
   spec.add_development_dependency 'rb-fsevent', '~> 0.10.3'
-  spec.add_development_dependency 'rspec', '~> 3.7'
-  spec.add_development_dependency 'rubocop', '~> 0.58.1'
+  spec.add_development_dependency 'rspec', '~> 3.8'
+  spec.add_development_dependency 'rubocop', '~> 0.58.2'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.27'
   spec.add_development_dependency 'simplecov', '~> 0.16.1'
   spec.add_development_dependency 'simplecov-console', '~> 0.4.2'
