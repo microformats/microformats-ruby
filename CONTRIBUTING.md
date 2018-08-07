@@ -8,7 +8,7 @@ There are a couple ways you can help improve microformats-ruby:
 
 ## Getting Started
 
-microformats-ruby is developed using Ruby 2.5.0 and is additionally tested against versions 2.2.9, 2.3.6, and 2.4.3 using [Travis CI](https://travis-ci.org/indieweb/microformats-ruby).
+microformats-ruby is developed using Ruby 2.5.0 and is additionally tested against versions 2.2.9, 2.3.6, and 2.4.3 using [Travis CI](https://travis-ci.org/microformats/microformats-ruby).
 
 Before making changes to microformats-ruby, you'll want to install Ruby 2.5.0. It's recommended that you use a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm). Once you've installed Ruby 2.5.0 using your method of choice, install the project's gems by running:
 
@@ -99,5 +99,5 @@ Code formatting conventions are defined in the `.editorconfig` file which uses t
 
 Your bug fix or feature addition won't be rejected if it runs afoul of any (or all) of these guidelines, but following the guidelines will definitely make everyone's lives a little easier.
 
-[issues]: https://github.com/indieweb/microformats-ruby/issues
-[pulls]: https://github.com/indieweb/microformats-ruby/pulls
+[issues]: https://github.com/microformats/microformats-ruby/issues
+[pulls]: https://github.com/microformats/microformats-ruby/pulls

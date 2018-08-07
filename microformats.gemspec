@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Microformats2 and classic microformats parser'
   spec.description   = 'A Ruby gem to parse HTML containing microformats2 and classic microformats that returns a collection of dynamically defined Ruby objects, a Ruby hash, or a JSON hash.'
-  spec.homepage      = 'https://github.com/indieweb/microformats-ruby'
+  spec.homepage      = 'https://github.com/microformats/microformats-ruby'
   spec.license       = 'CC0-1.0'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec|vendor)/}) }
