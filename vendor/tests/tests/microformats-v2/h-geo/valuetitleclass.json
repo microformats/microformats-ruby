@@ -3,8 +3,7 @@
         "type": ["h-geo"],
         "properties": {
             "latitude": ["51.513458"],
-            "longitude": ["-0.14812"],
-            "name": ["N 51° 51.345, \n        \n        \n            W -0° 14.812"]
+            "longitude": ["-0.14812"]
         }
     }],
     "rels": {},

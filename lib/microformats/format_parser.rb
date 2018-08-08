@@ -7,6 +7,7 @@ module Microformats
 
       @properties = {}
       @children = []
+      @seen_types = {}
 
       @format_property_type = element_type
       @value = nil
@@ -21,7 +22,7 @@ module Microformats
       # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
       # can optimize this later
       unless @mode_backcompat
-        if @properties['name'].nil?
+        if @properties['name'].nil? && !@seen_types["e"] && !@seen_types["p"]
           if element.name == 'img' && !element.attribute('alt').nil?
             @properties['name'] = [element.attribute('alt').value.strip]
           elsif element.name == 'area' && !element.attribute('alt').nil?
@@ -143,7 +144,7 @@ module Microformats
           end
         end
 
-        if @properties['url'].nil?
+        if @properties['url'].nil? && !@seen_types["u"]
           if element.name == 'a' && !element.attribute('href').nil?
             @properties['url'] = [element.attribute('href').value]
           elsif element.name == 'area' && !element.attribute('href').nil?
@@ -310,6 +311,7 @@ module Microformats
             property_name = element_class.downcase.split('-')[1..-1].join('-')
 
             parsed_property = PropertyParser.new.parse(element, base: @base, element_type: element_type, backcompat: @mode_backcompat)
+            @seen_types[element_type] = true
 
             unless parsed_property.nil?
               @properties[property_name] = [] if @properties[property_name].nil?

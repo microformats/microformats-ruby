@@ -15,8 +15,7 @@
                 "value": "4.5 out of 5",
                 "type": ["h-review"],
                 "properties": {
-                    "rating": ["4.5"],
-                    "name": ["4.5 out of 5"]
+                    "rating": ["4.5"]
                 }
             }]
         }

@@ -1,5 +1,13 @@
 {
-	"name": "microformats/test",
-	"type": "library",
-	"description": "Microformats test suite"
+  "name": "mf2/tests",
+  "type": "library",
+  "description": "Microformats test suite",
+  "homepage": "https://github.com/microformats/tests",
+  "license": "CC0",
+  "authors": [
+    {
+      "name": "Glenn Jones",
+      "homepage": "https://glennjones.net/"
+    }
+  ]
 }

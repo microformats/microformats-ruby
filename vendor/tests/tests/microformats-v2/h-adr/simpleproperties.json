@@ -7,8 +7,7 @@
             "locality": ["San Francisco"],
             "region": ["CA"],
             "postal-code": ["94107"],
-            "country-name": ["U.S.A."],
-            "name": ["665 3rd St.  \n    Suite 207  \n    San Francisco,  \n    CA  \n    94107  \n    U.S.A."]
+            "country-name": ["U.S.A."]
         }
     }],
     "rels": {},
