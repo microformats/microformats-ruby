@@ -18,7 +18,7 @@ module Microformats
 
       parse_node(element.children)
 
-      #check properties for any missing h-* so we know not to imply anything
+      # check properties for any missing h-* so we know not to imply anything
       check_for_h_properties
 
       ##### Implied Properties ######
@@ -73,7 +73,8 @@ module Microformats
               @properties['name'] = [element.text.strip]
             end
           end
-        end # end implied name
+        end
+        # end implied name
 
         if @properties['photo'].nil?
           if element.name == 'img' && !element.attribute('src').nil?
@@ -126,7 +127,7 @@ module Microformats
               end
 
               if @properties['photo'].nil?
-                #else if .h-x>:only-child:not[.h-*]>object[data]:only-of-type:not[.h-*], then use that object's data for photo
+                # else if .h-x>:only-child:not[.h-*]>object[data]:only-of-type:not[.h-*], then use that object's data for photo
                 child_object_tags_with_data = child_elements.first.children.select do |child|
                   child.is_a?(Nokogiri::XML::Element) && child.name == 'object' && !child.attribute('data').nil?
                 end
@@ -304,12 +305,11 @@ module Microformats
 
             parsed_format = FormatParser.new.parse(element, base: @base, element_type: element_type, format_class_array: fmt_classes, backcompat: bc_classes_found)
 
-
             if @value.nil?
               if @format_property_type == 'p' && property_name == 'name'
                 @value = parsed_format['value']
               # elsif @format_property_type == 'dt' and property_name == '???'
-                # @value = parsed_format['value']
+              #   @value = parsed_format['value']
               elsif @format_property_type == 'u' && property_name == 'url'
                 @value = parsed_format['value']
               end
@@ -340,22 +340,19 @@ module Microformats
       end
     end
 
-
     def check_for_h_properties
       @properties.each do |label, prop|
         prop.each do |prop_entry|
           if prop_entry.respond_to?(:keys) && prop_entry.keys.include?('type')
-            unless prop_entry['type'].nil? 
+            unless prop_entry['type'].nil?
               prop_entry['type'].each do |type|
                 etype = type.downcase.split('-')[0]
                 @seen_types[etype.to_sym] = true
-
               end
             end
           end
         end
       end
     end
-
   end
 end
