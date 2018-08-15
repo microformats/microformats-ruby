@@ -18,11 +18,14 @@ module Microformats
 
       parse_node(element.children)
 
+      #check properties for any missing h-* so we know not to imply anything
+      check_for_h_properties
+
       ##### Implied Properties ######
       # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
       # can optimize this later
       unless @mode_backcompat
-        if @properties['name'].nil? && !@seen_types[:e] && !@seen_types[:p] && @children.empty?
+        if @properties['name'].nil? && !@seen_types[:e] && !@seen_types[:p] && !@seen_types[:h] && @children.empty?
           if element.name == 'img' && !element.attribute('alt').nil?
             @properties['name'] = [element.attribute('alt').value.strip]
           elsif element.name == 'area' && !element.attribute('alt').nil?
@@ -144,7 +147,7 @@ module Microformats
           end
         end
 
-        if @properties['url'].nil? && !@seen_types[:u] && @children.empty?
+        if @properties['url'].nil? && !@seen_types[:u] && !@seen_types[:h] && @children.empty?
           if element.name == 'a' && !element.attribute('href').nil?
             @properties['url'] = [element.attribute('href').value]
           elsif element.name == 'area' && !element.attribute('href').nil?
@@ -279,6 +282,15 @@ module Microformats
       bc_classes_found = false
       fmt_classes = format_classes(element)
 
+      prop_classes.each do |p_class|
+        element_type = p_class.downcase.split('-')[0]
+        @seen_types[element_type.to_sym] = true
+      end
+      fmt_classes.each do |p_class|
+        element_type = p_class.downcase.split('-')[0]
+        @seen_types[element_type.to_sym] = true
+      end
+
       if fmt_classes.empty?
         fmt_classes = backcompat_format_classes(element)
         bc_classes_found = true unless fmt_classes.empty?
@@ -291,6 +303,7 @@ module Microformats
             property_name = element_class.downcase.split('-')[1..-1].join('-')
 
             parsed_format = FormatParser.new.parse(element, base: @base, element_type: element_type, format_class_array: fmt_classes, backcompat: bc_classes_found)
+
 
             if @value.nil?
               if @format_property_type == 'p' && property_name == 'name'
@@ -311,7 +324,6 @@ module Microformats
             property_name = element_class.downcase.split('-')[1..-1].join('-')
 
             parsed_property = PropertyParser.new.parse(element, base: @base, element_type: element_type, backcompat: @mode_backcompat)
-            @seen_types[element_type.to_sym] = true
 
             unless parsed_property.nil?
               @properties[property_name] = [] if @properties[property_name].nil?
@@ -327,5 +339,23 @@ module Microformats
         parse_nodeset(element.children)
       end
     end
+
+
+    def check_for_h_properties
+      @properties.each do |label, prop|
+        prop.each do |prop_entry|
+          if prop_entry.respond_to?(:keys) && prop_entry.keys.include?('type')
+            unless prop_entry['type'].nil? 
+              prop_entry['type'].each do |type|
+                etype = type.downcase.split('-')[0]
+                @seen_types[etype.to_sym] = true
+
+              end
+            end
+          end
+        end
+      end
+    end
+
   end
 end
