@@ -101,7 +101,7 @@
         "type": ["h-card"],
         "properties": {
             "name": ["John Doe Jr."],
-            "photo": ["/photo.jpg"]
+            "photo": ["http://example.com/photo.jpg"]
         }
     }],
     "rels": {},

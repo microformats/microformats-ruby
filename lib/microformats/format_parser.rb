@@ -63,14 +63,14 @@ module Microformats
                   elsif node.name == 'abbr' && !node.attribute('title').nil? && !node.attribute('title').value.empty?
                     @properties['name'] = [node.attribute('title').value.strip]
                   else
-                    @properties['name'] = [element.text.strip]
+                    @properties['name'] = [render_text(element)]
                   end
                 else
-                  @properties['name'] = [element.text.strip]
+                  @properties['name'] = [render_text(element)]
                 end
               end
             else
-              @properties['name'] = [element.text.strip]
+              @properties['name'] = [render_text(element)]
             end
           end
         end
@@ -267,8 +267,8 @@ module Microformats
       h_object['children'] = @children unless @children.empty?
 
       if @format_property_type == 'e'
-        h_object['value'] = element.text.strip
-        h_object['html'] = element.inner_html
+        h_object['value'] = render_text(element)
+        h_object['html'] = element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
       end
 
       # TODO: fall back to p- dt- u- parsing if value still not set?

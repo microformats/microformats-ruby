@@ -134,8 +134,7 @@ describe Microformats::Parser do
               pending 'Known whitespace issue'
 
             elsif json_file.match?(%r{/h-card/impliedname})
-              pending 'Need to filter style tag contents out'
-
+              pending 'Need to get alt tag when rendering text'
 
             elsif json_file.match?(%r{/h-card/impliedurlempty})
               pending 'trailing slash on url, need to look at this more'

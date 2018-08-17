@@ -347,5 +347,34 @@ module Microformats
         html_class =~ VALUE_TITLE_CLASS_REG_EXP
       end
     end
+
+    def render_and_strip(data)
+      new_doc = Nokogiri::HTML(data)
+      new_doc.xpath('//script').remove
+      new_doc.xpath('//style').remove
+      new_doc.text.strip
+    end
+
+    def render_text(node, base: nil)
+      render_and_strip(node.inner_html)
+    end
+
+    def render_text_and_replace_images(node, base: nil)
+      new_doc = Nokogiri::HTML(node.inner_html)
+      new_doc.xpath('//script').remove
+      new_doc.xpath('//style').remove
+
+      new_doc.traverse do |node|
+        if node.name == 'img' && !node.attribute('alt').nil?
+          node.replace(' ' + node.attribute('alt').value.to_s + ' ')
+        elsif node.name == 'img' && !node.attribute('src').nil?
+          absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
+
+          node.replace(' ' + absolute_url + ' ')
+        end
+      end
+
+      new_doc.text.strip
+    end
   end
 end
