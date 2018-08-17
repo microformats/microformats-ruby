@@ -1,4 +1,4 @@
-{  
+{
    "items": [{
         "type": ["h-card"],
         "properties": {
@@ -61,9 +61,7 @@
     },
     {
         "type": ["h-card"],
-        "properties": {
-            "name": ["Name"]
-        },
+        "properties": {},
         "children": [{
             "type": ["h-card"],
             "properties": {
@@ -74,9 +72,7 @@
     },
     {
         "type": ["h-card"],
-        "properties": {
-            "name": ["Name"]
-        },
+        "properties": {},
         "children": [{
             "type": ["h-card"],
             "properties": {
@@ -84,6 +80,29 @@
                 "photo": ["http://example.com/john.html"]
             }
         }]
+    },
+    {
+        "type": ["h-card"],
+        "properties": {},
+        "children": [{
+            "type": ["h-card"],
+            "properties": {
+                "name": ["John Doe"]
+            }
+        }]
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "org": ["Mozilla"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["John Doe Jr."],
+            "photo": ["/photo.jpg"]
+        }
     }],
     "rels": {},
     "rel-urls": {}

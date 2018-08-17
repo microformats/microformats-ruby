@@ -3,7 +3,7 @@
   "name": "microformat-tests",
   "description": "A microformat 2 testsuite",
   "version": "0.1.26",
-  "license": "Public Domain",
+  "license": "CC0-1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/microformats/tests.git"
@@ -20,8 +20,8 @@
     "boom": "2.7.x",
     "good": "6.1.x",
     "good-console": "5.0.x",
-    "handlebars": "3.0.x",
-    "hapi": "8.4.x",
+    "handlebars": "4.0.x",
+    "hapi": "11.1.x",
     "joi": "6.4.x"
   }
 }

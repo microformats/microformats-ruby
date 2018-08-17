@@ -43,9 +43,18 @@
     },
     {
         "type": ["h-card"],
-        "properties": {
-            "name": ["Jane Doe"]
-        },
+        "properties": {},
+        "children": [{
+            "type": ["h-card"],
+            "properties": {
+                "name": ["Jane Doe"],
+                "photo": ["http://example.com/jane.jpeg"]
+            }
+        }]
+    },
+    {
+        "type": ["h-card"],
+        "properties": {},
         "children": [{
             "type": ["h-card"],
             "properties": {
@@ -57,15 +66,16 @@
     {
         "type": ["h-card"],
         "properties": {
-            "name": ["Jane Doe"]
-        },
-        "children": [{
-            "type": ["h-card"],
-            "properties": {
-                "name": ["Jane Doe"],
-                "photo": ["http://example.com/jane.jpeg"]
-            }
-        }]
+            "name": ["John Doe"],
+            "url": ["https://example.com"]
+        }
+    },
+    {
+        "type": ["h-card"],
+        "properties": {
+            "name": ["John Doe"],
+            "url": ["https://example.com"]
+        }
     }],
     "rels": {},
     "rel-urls": {}

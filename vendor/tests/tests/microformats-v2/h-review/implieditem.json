@@ -10,8 +10,7 @@
                     "url": ["http://example.com/crepeoncole"]
                 }
             }],
-            "rating": ["4.7"],
-            "name": ["Crepes on Cole\n    4.7 out of 5 stars"]
+            "rating": ["4.7"]
         }
     }],
     "rels": {},

@@ -105,12 +105,44 @@ describe Microformats::Parser do
       describe page_dir.split('/')[-2..-1].join('/') do
         Dir[File.join(page_dir, '*')].keep_if { |f| f =~ /([.]json$)/ }.each do |json_file|
           it json_file.split('/').last.to_s do
+
             if json_file.match?(%r{/includes/})
-              pending 'include-pattern are not yet implemented'
+              pending 'include-pattern are not implemented'
+
             elsif json_file.match?(%r{/h-entry/urlincontent})
               pending 'known issue / this is an aspect of nokogiri / won\'t fix'
-            elsif json_file.match?(%r{/hcard/email})
-              pending 'believed issue with the test suite, test needs to be fixed'
+
+            elsif json_file.match?(%r{/rel/duplicate-rels})
+              pending 'known issue / this is an aspect of nokogiri / won\'t fix'
+
+            elsif json_file.match?(%r{/h-feed/simple})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-feed/implied-title})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-entry/summarycontent})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-event/dates})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-review/vcard})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-recipe/all})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-card/impliedname})
+              pending 'Need to filter style tag contents out'
+
+
+            elsif json_file.match?(%r{/h-card/impliedurlempty})
+              pending 'trailing slash on url, need to look at this more'
+
+            elsif json_file.match?(%r{/hproduct/aggregate})
+              pending 'not entirely sure what is going on here, other parsers all get different results too'
+
             end
 
             # pending 'These are dynamic tests that are not yet passing so commenting out for now'

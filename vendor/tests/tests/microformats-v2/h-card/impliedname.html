@@ -11,5 +11,15 @@
 <div class="h-card"><span><area href="jane.html" alt="Jane Doe"></area></span></div>
 <div class="h-card"><span><abbr title="Jane Doe">JD</abbr></span></div>
 
+<!-- don't imply name when there's a nested microformat -->
 <div class="h-card"><img class="h-card" src="john.html" alt="John Doe"/>Name</div>
 <div class="h-card"><span class="h-card"><img src="john.html" alt="John Doe"/>Name</span></div>
+<div class="h-card"><span class="h-card"><abbr title="John Doe">JD</abbr></span></div>
+
+<!-- don't imply p-name when there's a p-* -->
+<div class="h-card"> John Doe, <span class="p-org">Mozilla</span> </div>
+
+<!-- drop nested <script> and <style>, replace <img> with alt -->
+<p class="h-card"><style>p{font-color: red;}</style> <span>John</span> <span>Doe</span><script src="https://example.com/script.js"></script> <img src="/photo.jpg" alt="Jr."> </p>
+
+<!-- additional implied p-name tests in h-entry/impliedname.html -->

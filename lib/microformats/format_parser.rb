@@ -7,6 +7,7 @@ module Microformats
 
       @properties = {}
       @children = []
+      @found_prefixes = {}
 
       @format_property_type = element_type
       @value = nil
@@ -17,11 +18,14 @@ module Microformats
 
       parse_node(element.children)
 
+      # check properties for any missing h-* so we know not to imply anything
+      check_for_h_properties
+
       ##### Implied Properties ######
       # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
       # can optimize this later
       unless @mode_backcompat
-        if @properties['name'].nil?
+        if @properties['name'].nil? && !@found_prefixes[:e] && !@found_prefixes[:p] && !@found_prefixes[:h] && @children.empty?
           if element.name == 'img' && !element.attribute('alt').nil?
             @properties['name'] = [element.attribute('alt').value.strip]
           elsif element.name == 'area' && !element.attribute('alt').nil?
@@ -69,7 +73,8 @@ module Microformats
               @properties['name'] = [element.text.strip]
             end
           end
-        end # end implied name
+        end
+        # end implied name
 
         if @properties['photo'].nil?
           if element.name == 'img' && !element.attribute('src').nil?
@@ -122,7 +127,7 @@ module Microformats
               end
 
               if @properties['photo'].nil?
-                #else if .h-x>:only-child:not[.h-*]>object[data]:only-of-type:not[.h-*], then use that object's data for photo
+                # else if .h-x>:only-child:not[.h-*]>object[data]:only-of-type:not[.h-*], then use that object's data for photo
                 child_object_tags_with_data = child_elements.first.children.select do |child|
                   child.is_a?(Nokogiri::XML::Element) && child.name == 'object' && !child.attribute('data').nil?
                 end
@@ -143,7 +148,7 @@ module Microformats
           end
         end
 
-        if @properties['url'].nil?
+        if @properties['url'].nil? && !@found_prefixes[:u] && !@found_prefixes[:h] && @children.empty?
           if element.name == 'a' && !element.attribute('href').nil?
             @properties['url'] = [element.attribute('href').value]
           elsif element.name == 'area' && !element.attribute('href').nil?
@@ -232,9 +237,9 @@ module Microformats
 
         unless start_date.nil?
           @properties['end'].map! do |end_val|
-            if end_val =~ /^\d{4}-[01]\d-[0-3]\d/
+            if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
               end_val
-            elsif end_val =~ /^\d{4}-[0-3]\d\d/
+            elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
               end_val
             else
               start_date + ' ' + end_val
@@ -278,6 +283,15 @@ module Microformats
       bc_classes_found = false
       fmt_classes = format_classes(element)
 
+      prop_classes.each do |p_class|
+        element_type = p_class.downcase.split('-')[0]
+        @found_prefixes[element_type.to_sym] = true
+      end
+      fmt_classes.each do |p_class|
+        element_type = p_class.downcase.split('-')[0]
+        @found_prefixes[element_type.to_sym] = true
+      end
+
       if fmt_classes.empty?
         fmt_classes = backcompat_format_classes(element)
         bc_classes_found = true unless fmt_classes.empty?
@@ -295,7 +309,7 @@ module Microformats
               if @format_property_type == 'p' && property_name == 'name'
                 @value = parsed_format['value']
               # elsif @format_property_type == 'dt' and property_name == '???'
-                # @value = parsed_format['value']
+              #   @value = parsed_format['value']
               elsif @format_property_type == 'u' && property_name == 'url'
                 @value = parsed_format['value']
               end
@@ -323,6 +337,19 @@ module Microformats
         @children << FormatParser.new.parse(element, base: @base, format_class_array: fmt_classes, backcompat: bc_classes_found)
       else
         parse_nodeset(element.children)
+      end
+    end
+
+    def check_for_h_properties
+      @properties.each do |_, prop|
+        prop.each do |prop_entry|
+          next unless prop_entry.respond_to?(:key) && prop_entry.key?('type')
+          next if prop_entry['type'].nil?
+
+          prop_entry['type'].each do |type|
+            @found_prefixes[type.downcase.split('-').first.to_sym] = true
+          end
+        end
       end
     end
   end

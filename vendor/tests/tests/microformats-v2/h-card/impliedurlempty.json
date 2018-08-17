@@ -3,28 +3,28 @@
         "type": ["h-card"],
         "properties": {
             "name": ["Jane Doe"],
-            "url": ["http://example.com/jane.html"]
+            "url": ["http://example.com/"]
         }
     },
     {
         "type": ["h-card"],
         "properties": {
             "name": ["Jane Doe"],
-            "url": ["http://example.com/jane.html"]
+            "url": ["http://example.com/"]
         }
     },
     {
         "type": ["h-card"],
         "properties": {
             "name": ["Jane Doe"],
-            "url": ["http://example.com/jane.html"]
+            "url": ["http://example.com/"]
         }
     },
     {
         "type": ["h-card"],
         "properties": {
             "name": ["Jane Doe"],
-            "url": ["http://example.com/jane.html"]
+            "url": ["http://example.com/"]
         }
     },
     {
@@ -34,7 +34,7 @@
             "type": ["h-card"],
             "properties": {
                 "name": ["Jane Doe"],
-                "url": ["http://example.com/jane.html"]
+                "url": ["http://example.com/"]
             }
         }]
     }],
