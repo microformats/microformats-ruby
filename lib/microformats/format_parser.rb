@@ -7,7 +7,7 @@ module Microformats
 
       @properties = {}
       @children = []
-      @found_prefixes = {}
+      @found_prefixes = Set.new
 
       @format_property_type = element_type
       @value = nil
@@ -25,201 +25,9 @@ module Microformats
       # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
       # can optimize this later
       unless @mode_backcompat
-        if @properties['name'].nil? && !@found_prefixes[:e] && !@found_prefixes[:p] && !@found_prefixes[:h] && @children.empty?
-          if element.name == 'img' && !element.attribute('alt').nil?
-            @properties['name'] = [element.attribute('alt').value.strip]
-          elsif element.name == 'area' && !element.attribute('alt').nil?
-            @properties['name'] = [element.attribute('alt').value.strip]
-          elsif element.name == 'abbr' && !element.attribute('title').nil?
-            @properties['name'] = [element.attribute('title').value.strip]
-          else
-            child_nodes = element.children.reject { |n| n.is_a?(Nokogiri::XML::Text) }
-
-            if child_nodes.count == 1 && child_nodes.first.is_a?(Nokogiri::XML::Element) && format_classes(child_nodes.first).empty?
-              node = child_nodes.first
-
-              # else if .h-x>img:only-child[alt]:not([alt=""]):not[.h-*] then use that img's alt for name
-              if node.name == 'img' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
-                @properties['name'] = [node.attribute('alt').value.strip]
-              # else if .h-x>area:only-child[alt]:not([alt=""]):not[.h-*] then use that area's alt for name
-              elsif node.name == 'area' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
-                @properties['name'] = [node.attribute('alt').value.strip]
-              # else if .h-x>abbr:only-child[title]:not([title=""]):not[.h-*] then use that abbr title for name
-              elsif node.name == 'abbr' && !node.attribute('title').nil? && !node.attribute('title').value.empty?
-                @properties['name'] = [node.attribute('title').value.strip]
-              else
-                child_nodes = node.children.reject { |n| n.is_a?(Nokogiri::XML::Text) }
-
-                if child_nodes.count == 1 && child_nodes.first.is_a?(Nokogiri::XML::Element) && format_classes(child_nodes.first).empty?
-                  node = child_nodes.first
-
-                  # else if .h-x>:only-child:not[.h-*]>img:only-child[alt]:not([alt=""]):not[.h-*] then use that img's alt for name
-                  if node.name == 'img' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
-                    @properties['name'] = [node.attribute('alt').value.strip]
-                  # else if .h-x>:only-child:not[.h-*]>area:only-child[alt]:not([alt=""]):not[.h-*] then use that area's alt for name
-                  elsif node.name == 'area' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
-                    @properties['name'] = [node.attribute('alt').value.strip]
-                  # else if .h-x>:only-child:not[.h-*]>abbr:only-child[title]:not([title=""]):not[.h-*] use that abbr's title for name
-                  elsif node.name == 'abbr' && !node.attribute('title').nil? && !node.attribute('title').value.empty?
-                    @properties['name'] = [node.attribute('title').value.strip]
-                  else
-                    @properties['name'] = [render_text(element)]
-                  end
-                else
-                  @properties['name'] = [render_text(element)]
-                end
-              end
-            else
-              @properties['name'] = [render_text(element)]
-            end
-          end
-        end
-        # end implied name
-
-        if @properties['photo'].nil?
-          if element.name == 'img' && !element.attribute('src').nil?
-            @properties['photo'] = [element.attribute('src').value]
-          elsif element.name == 'object' && !element.attribute('data').nil?
-            @properties['photo'] = [element.attribute('data').value]
-          else
-            # else if .h-x>img[src]:only-of-type:not[.h-*] then use that img src for photo
-            child_img_tags_with_src = element.children.select do |child|
-              child.is_a?(Nokogiri::XML::Element) && child.name == 'img' && !child.attribute('src').nil?
-            end
-
-            if child_img_tags_with_src.count == 1
-              node = child_img_tags_with_src.first
-
-              if format_classes(node).empty?
-                @properties['photo'] = [node.attribute('src').value.strip]
-              end
-            end
-
-            if @properties['photo'].nil?
-              # else if .h-x>object[data]:only-of-type:not[.h-*] then use that object's data for photo
-              child_object_tags_with_data = element.children.select do |child|
-                child.is_a?(Nokogiri::XML::Element) && child.name == 'object' && !child.attribute('data').nil?
-              end
-
-              if child_object_tags_with_data.count == 1
-                node = child_object_tags_with_data.first
-
-                if format_classes(node).empty?
-                  @properties['photo'] = [node.attribute('data').value.strip]
-                end
-              end
-            end
-
-            child_elements = element.children.reject { |child| child.is_a?(Nokogiri::XML::Text) }
-
-            if @properties['photo'].nil? && child_elements.count == 1 && format_classes(child_elements.first).empty?
-              # else if .h-x>:only-child:not[.h-*]>img[src]:only-of-type:not[.h-*], then use that img's src for photo
-              child_img_tags_with_src = child_elements.first.children.select do |child|
-                child.is_a?(Nokogiri::XML::Element) && child.name == 'img' && !child.attribute('src').nil?
-              end
-
-              if child_img_tags_with_src.count == 1
-                node = child_img_tags_with_src.first
-
-                if format_classes(node).empty?
-                  @properties['photo'] = [node.attribute('src').value.strip]
-                end
-              end
-
-              if @properties['photo'].nil?
-                # else if .h-x>:only-child:not[.h-*]>object[data]:only-of-type:not[.h-*], then use that object's data for photo
-                child_object_tags_with_data = child_elements.first.children.select do |child|
-                  child.is_a?(Nokogiri::XML::Element) && child.name == 'object' && !child.attribute('data').nil?
-                end
-
-                if child_object_tags_with_data.count == 1
-                  node = child_object_tags_with_data.first
-
-                  if format_classes(node).empty?
-                    @properties['photo'] = [node.attribute('data').value.strip]
-                  end
-                end
-              end
-            end
-          end
-
-          unless @properties['photo'].nil?
-            @properties['photo'] = [Microformats::AbsoluteUri.new(@properties['photo'].first, base: @base).absolutize]
-          end
-        end
-
-        if @properties['url'].nil? && !@found_prefixes[:u] && !@found_prefixes[:h] && @children.empty?
-          if element.name == 'a' && !element.attribute('href').nil?
-            @properties['url'] = [element.attribute('href').value]
-          elsif element.name == 'area' && !element.attribute('href').nil?
-            @properties['url'] = [element.attribute('href').value]
-          else
-            # else if .h-x>a[href]:only-of-type:not[.h-*], then use that [href] for url
-            child_a_tags_with_href = element.children.select do |child|
-              child.is_a?(Nokogiri::XML::Element) && child.name == 'a' && !child.attribute('href').nil?
-            end
-
-            if child_a_tags_with_href.count == 1
-              node = child_a_tags_with_href.first
-
-              if format_classes(node).empty?
-                @properties['url'] = [node.attribute('href').value.strip]
-              end
-            end
-
-            if @properties['url'].nil?
-              # else if .h-x>area[href]:only-of-type:not[.h-*], then use that [href] for url
-              child_area_tags_with_href = element.children.select do |child|
-                child.is_a?(Nokogiri::XML::Element) && child.name == 'area' && !child.attribute('href').nil?
-              end
-
-              if child_area_tags_with_href.count == 1
-                node = child_area_tags_with_href.first
-
-                if format_classes(node).empty?
-                  @properties['url'] = [node.attribute('href').value.strip]
-                end
-              end
-            end
-
-            child_elements = element.children.reject { |child| child.is_a?(Nokogiri::XML::Text) }
-
-            if @properties['url'].nil? && child_elements.count == 1 && format_classes(child_elements.first).empty?
-              child_element = child_elements.first
-              # else if .h-x>:only-child:not[.h-*]>a[href]:only-of-type:not[.h-*], then use that [href] for url
-              child_a_tags_with_href = child_element.children.select do |child|
-                child.is_a?(Nokogiri::XML::Element) && child.name == 'a' && !child.attribute('href').nil?
-              end
-
-              if child_a_tags_with_href.count == 1
-                node = child_a_tags_with_href.first
-
-                if format_classes(node).empty?
-                  @properties['url'] = [node.attribute('href').value.strip]
-                end
-              end
-
-              if @properties['url'].nil?
-                # else if .h-x>:only-child:not[.h-*]>area[href]:only-of-type:not[.h-*], then use that [href] for url
-                child_area_tags_with_href = child_element.children.select do |child|
-                  child.is_a?(Nokogiri::XML::Element) && child.name == 'area' && !child.attribute('href').nil?
-                end
-
-                if child_area_tags_with_href.count == 1
-                  node = child_area_tags_with_href.first
-
-                  if format_classes(node).empty?
-                    @properties['url'] = [node.attribute('href').value.strip]
-                  end
-                end
-              end
-            end
-          end
-
-          unless @properties['url'].nil?
-            @properties['url'] = [Microformats::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize]
-          end
-        end
+        imply_name(element)
+        imply_photo(element)
+        imply_url(element)
       end
       ##### END Implied Properties when not in backcompat mode######
 
@@ -284,12 +92,12 @@ module Microformats
       fmt_classes = format_classes(element)
 
       prop_classes.each do |p_class|
-        element_type = p_class.downcase.split('-')[0]
-        @found_prefixes[element_type.to_sym] = true
+        element_type = prefix_from_class(p_class)
+        @found_prefixes.add(element_type.to_sym)
       end
       fmt_classes.each do |p_class|
-        element_type = p_class.downcase.split('-')[0]
-        @found_prefixes[element_type.to_sym] = true
+        element_type = prefix_from_class(p_class)
+        @found_prefixes.add(element_type.to_sym)
       end
 
       if fmt_classes.empty?
@@ -300,8 +108,8 @@ module Microformats
       if prop_classes.length >= 1
         if fmt_classes.length >= 1
           prop_classes.each do |element_class|
-            element_type = element_class.downcase.split('-')[0]
-            property_name = element_class.downcase.split('-')[1..-1].join('-')
+            element_type = prefix_from_class(element_class)
+            property_name = property_from_class(element_class)
 
             parsed_format = FormatParser.new.parse(element, base: @base, element_type: element_type, format_class_array: fmt_classes, backcompat: bc_classes_found)
 
@@ -320,8 +128,8 @@ module Microformats
           end
         else
           prop_classes.each do |element_class|
-            element_type = element_class.downcase.split('-')[0]
-            property_name = element_class.downcase.split('-')[1..-1].join('-')
+            element_type = prefix_from_class(element_class)
+            property_name = property_from_class(element_class)
 
             parsed_property = PropertyParser.new.parse(element, base: @base, element_type: element_type, backcompat: @mode_backcompat)
 
@@ -347,10 +155,220 @@ module Microformats
           next if prop_entry['type'].nil?
 
           prop_entry['type'].each do |type|
-            @found_prefixes[type.downcase.split('-').first.to_sym] = true
+            @found_prefixes.add(prefix_from_class(type).to_sym)
           end
         end
       end
     end
+
+    def imply_name(element)
+      if @properties['name'].nil? && !@found_prefixes.include?(:e) && !@found_prefixes.include?(:p) && !@found_prefixes.include?(:h) && @children.empty?
+        if element.name == 'img' && !element.attribute('alt').nil?
+          @properties['name'] = [element.attribute('alt').value.strip]
+        elsif element.name == 'area' && !element.attribute('alt').nil?
+          @properties['name'] = [element.attribute('alt').value.strip]
+        elsif element.name == 'abbr' && !element.attribute('title').nil?
+          @properties['name'] = [element.attribute('title').value.strip]
+        else
+          child_nodes = element.children.reject { |n| n.is_a?(Nokogiri::XML::Text) }
+
+          if child_nodes.count == 1 && child_nodes.first.is_a?(Nokogiri::XML::Element) && format_classes(child_nodes.first).empty?
+            node = child_nodes.first
+
+            # else if .h-x>img:only-child[alt]:not([alt=""]):not[.h-*] then use that img's alt for name
+            if node.name == 'img' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
+              @properties['name'] = [node.attribute('alt').value.strip]
+            # else if .h-x>area:only-child[alt]:not([alt=""]):not[.h-*] then use that area's alt for name
+            elsif node.name == 'area' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
+              @properties['name'] = [node.attribute('alt').value.strip]
+            # else if .h-x>abbr:only-child[title]:not([title=""]):not[.h-*] then use that abbr title for name
+            elsif node.name == 'abbr' && !node.attribute('title').nil? && !node.attribute('title').value.empty?
+              @properties['name'] = [node.attribute('title').value.strip]
+            else
+              child_nodes = node.children.reject { |n| n.is_a?(Nokogiri::XML::Text) }
+
+              if child_nodes.count == 1 && child_nodes.first.is_a?(Nokogiri::XML::Element) && format_classes(child_nodes.first).empty?
+                node = child_nodes.first
+
+                # else if .h-x>:only-child:not[.h-*]>img:only-child[alt]:not([alt=""]):not[.h-*] then use that img's alt for name
+                if node.name == 'img' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
+                  @properties['name'] = [node.attribute('alt').value.strip]
+                # else if .h-x>:only-child:not[.h-*]>area:only-child[alt]:not([alt=""]):not[.h-*] then use that area's alt for name
+                elsif node.name == 'area' && !node.attribute('alt').nil? && !node.attribute('alt').value.empty?
+                  @properties['name'] = [node.attribute('alt').value.strip]
+                # else if .h-x>:only-child:not[.h-*]>abbr:only-child[title]:not([title=""]):not[.h-*] use that abbr's title for name
+                elsif node.name == 'abbr' && !node.attribute('title').nil? && !node.attribute('title').value.empty?
+                  @properties['name'] = [node.attribute('title').value.strip]
+                else
+                  @properties['name'] = [render_text(element)]
+                end
+              else
+                @properties['name'] = [render_text(element)]
+              end
+            end
+          else
+            @properties['name'] = [render_text(element)]
+          end
+        end
+      end
+    end
+
+    def imply_photo(element)
+      if @properties['photo'].nil?
+        if element.name == 'img' && !element.attribute('src').nil?
+          @properties['photo'] = [element.attribute('src').value]
+        elsif element.name == 'object' && !element.attribute('data').nil?
+          @properties['photo'] = [element.attribute('data').value]
+        else
+          # else if .h-x>img[src]:only-of-type:not[.h-*] then use that img src for photo
+          child_img_tags_with_src = element.children.select do |child|
+            child.is_a?(Nokogiri::XML::Element) && child.name == 'img' && !child.attribute('src').nil?
+          end
+
+          if child_img_tags_with_src.count == 1
+            node = child_img_tags_with_src.first
+
+            if format_classes(node).empty?
+              @properties['photo'] = [node.attribute('src').value.strip]
+            end
+          end
+
+          if @properties['photo'].nil?
+            # else if .h-x>object[data]:only-of-type:not[.h-*] then use that object's data for photo
+            child_object_tags_with_data = element.children.select do |child|
+              child.is_a?(Nokogiri::XML::Element) && child.name == 'object' && !child.attribute('data').nil?
+            end
+
+            if child_object_tags_with_data.count == 1
+              node = child_object_tags_with_data.first
+
+              if format_classes(node).empty?
+                @properties['photo'] = [node.attribute('data').value.strip]
+              end
+            end
+          end
+
+          child_elements = element.children.reject { |child| child.is_a?(Nokogiri::XML::Text) }
+
+          if @properties['photo'].nil? && child_elements.count == 1 && format_classes(child_elements.first).empty?
+            # else if .h-x>:only-child:not[.h-*]>img[src]:only-of-type:not[.h-*], then use that img's src for photo
+            child_img_tags_with_src = child_elements.first.children.select do |child|
+              child.is_a?(Nokogiri::XML::Element) && child.name == 'img' && !child.attribute('src').nil?
+            end
+
+            if child_img_tags_with_src.count == 1
+              node = child_img_tags_with_src.first
+
+              if format_classes(node).empty?
+                @properties['photo'] = [node.attribute('src').value.strip]
+              end
+            end
+
+            if @properties['photo'].nil?
+              # else if .h-x>:only-child:not[.h-*]>object[data]:only-of-type:not[.h-*], then use that object's data for photo
+              child_object_tags_with_data = child_elements.first.children.select do |child|
+                child.is_a?(Nokogiri::XML::Element) && child.name == 'object' && !child.attribute('data').nil?
+              end
+
+              if child_object_tags_with_data.count == 1
+                node = child_object_tags_with_data.first
+
+                if format_classes(node).empty?
+                  @properties['photo'] = [node.attribute('data').value.strip]
+                end
+              end
+            end
+          end
+        end
+
+        unless @properties['photo'].nil?
+          @properties['photo'] = [Microformats::AbsoluteUri.new(@properties['photo'].first, base: @base).absolutize]
+        end
+      end
+    end
+
+    def imply_url(element)
+      if @properties['url'].nil? && !@found_prefixes.include?(:u) && !@found_prefixes.include?(:h) && @children.empty?
+        if element.name == 'a' && !element.attribute('href').nil?
+          @properties['url'] = [element.attribute('href').value]
+        elsif element.name == 'area' && !element.attribute('href').nil?
+          @properties['url'] = [element.attribute('href').value]
+        else
+          # else if .h-x>a[href]:only-of-type:not[.h-*], then use that [href] for url
+          child_a_tags_with_href = element.children.select do |child|
+            child.is_a?(Nokogiri::XML::Element) && child.name == 'a' && !child.attribute('href').nil?
+          end
+
+          if child_a_tags_with_href.count == 1
+            node = child_a_tags_with_href.first
+
+            if format_classes(node).empty?
+              @properties['url'] = [node.attribute('href').value.strip]
+            end
+          end
+
+          if @properties['url'].nil?
+            # else if .h-x>area[href]:only-of-type:not[.h-*], then use that [href] for url
+            child_area_tags_with_href = element.children.select do |child|
+              child.is_a?(Nokogiri::XML::Element) && child.name == 'area' && !child.attribute('href').nil?
+            end
+
+            if child_area_tags_with_href.count == 1
+              node = child_area_tags_with_href.first
+
+              if format_classes(node).empty?
+                @properties['url'] = [node.attribute('href').value.strip]
+              end
+            end
+          end
+
+          child_elements = element.children.reject { |child| child.is_a?(Nokogiri::XML::Text) }
+
+          if @properties['url'].nil? && child_elements.count == 1 && format_classes(child_elements.first).empty?
+            child_element = child_elements.first
+            # else if .h-x>:only-child:not[.h-*]>a[href]:only-of-type:not[.h-*], then use that [href] for url
+            child_a_tags_with_href = child_element.children.select do |child|
+              child.is_a?(Nokogiri::XML::Element) && child.name == 'a' && !child.attribute('href').nil?
+            end
+
+            if child_a_tags_with_href.count == 1
+              node = child_a_tags_with_href.first
+
+              if format_classes(node).empty?
+                @properties['url'] = [node.attribute('href').value.strip]
+              end
+            end
+
+            if @properties['url'].nil?
+              # else if .h-x>:only-child:not[.h-*]>area[href]:only-of-type:not[.h-*], then use that [href] for url
+              child_area_tags_with_href = child_element.children.select do |child|
+                child.is_a?(Nokogiri::XML::Element) && child.name == 'area' && !child.attribute('href').nil?
+              end
+
+              if child_area_tags_with_href.count == 1
+                node = child_area_tags_with_href.first
+
+                if format_classes(node).empty?
+                  @properties['url'] = [node.attribute('href').value.strip]
+                end
+              end
+            end
+          end
+        end
+
+        unless @properties['url'].nil?
+          @properties['url'] = [Microformats::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize]
+        end
+      end
+    end
+
+    def prefix_from_class(class_name)
+        class_name.downcase.split('-')[0]
+    end
+
+    def property_from_class(class_name)
+        class_name.downcase.split('-')[1..-1].join('-')
+    end
+
   end
 end

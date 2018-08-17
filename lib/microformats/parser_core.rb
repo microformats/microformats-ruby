@@ -356,7 +356,7 @@ module Microformats
     end
 
     def render_text(node, base: nil)
-      render_and_strip(node.inner_html)
+      render_text_and_replace_images(node)
     end
 
     def render_text_and_replace_images(node, base: nil)
@@ -366,7 +366,7 @@ module Microformats
 
       new_doc.traverse do |node|
         if node.name == 'img' && !node.attribute('alt').nil?
-          node.replace(' ' + node.attribute('alt').value.to_s + ' ')
+          node.replace(node.attribute('alt').value.to_s)
         elsif node.name == 'img' && !node.attribute('src').nil?
           absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
 
