@@ -7,7 +7,6 @@
                 "properties": {
                     "name": ["Example Post"],
                     "url": ["http://example.com/post"],
-
                     "author": [{
                         "type": ["h-card"],
                         "properties": {

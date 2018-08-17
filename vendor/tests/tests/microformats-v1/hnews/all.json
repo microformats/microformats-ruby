@@ -42,9 +42,7 @@
       "geo": [{
         "value": "37.774921;-122.445202",
         "type": ["h-geo"],
-        "properties": {
-          "name": ["37.774921;-122.445202"]
-        }
+        "properties": {}
       }],
       "source-org": [{
         "value": "microformats.org",

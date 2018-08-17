@@ -1,0 +1,35 @@
+{
+    "items": [{
+        "type": ["h-entry"],
+        "properties": {
+            "name": ["This should imply a p-name"]
+        }
+    }, {
+        "type": ["h-entry"],
+        "properties": {
+            "content": ["This should not imply a p-name since it has an p-* property."]
+        }
+    }, {
+        "type": ["h-entry"],
+        "properties": {
+            "content": [{
+                "value": "This should not imply a p-name since it has an e-* property.",
+                "html": "<p>This should not imply a p-name since it has an e-* property.</p>"
+            }]
+        }
+    }, {
+        "type": ["h-entry"],
+        "properties": {
+            "like-of": [{
+                "value": "http://microformats.org/",
+                "type": ["h-cite"],
+                "properties": {
+                    "name": ["Microformats"],
+                    "url": ["http://microformats.org/"]
+                }
+            }]
+        }
+    }],
+    "rels": {},
+    "rel-urls": {}
+}

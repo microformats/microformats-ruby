@@ -10,9 +10,7 @@
             "geo": [{
                 "value": "30.267991;-97.739568",
                 "type": ["h-geo"],
-                "properties": {
-                    "name": ["30.267991;-97.739568"]
-                }
+                "properties": {}
             }],
             "tz": ["-05:00"],
             "uid": ["http://example.com/profiles/johndoe"],

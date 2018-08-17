@@ -115,56 +115,33 @@ describe Microformats::Parser do
             elsif json_file.match?(%r{/rel/duplicate-rels})
               pending 'known issue / this is an aspect of nokogiri / won\'t fix'
 
-
             elsif json_file.match?(%r{/h-feed/simple})
-              pending 'Known timeformatting issue'
+              pending 'Known whitespace issue'
 
             elsif json_file.match?(%r{/h-feed/implied-title})
-              pending 'Known timeformatting issue'
+              pending 'Known whitespace issue'
 
             elsif json_file.match?(%r{/h-entry/summarycontent})
-              pending 'Known timeformatting issue'
+              pending 'Known whitespace issue'
 
             elsif json_file.match?(%r{/h-event/dates})
-              pending 'Known timeformatting issue'
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-review/vcard})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-recipe/all})
+              pending 'Known whitespace issue'
+
+            elsif json_file.match?(%r{/h-card/impliedname})
+              pending 'Need to filter style tag contents out'
 
 
             elsif json_file.match?(%r{/h-card/impliedurlempty})
               pending 'trailing slash on url, need to look at this more'
 
-            #elsif json_file.match?(%r{/h-product/aggregate})
-              #pending 'not entirely sure what is going on here, other parsers all get different results too'
-
             elsif json_file.match?(%r{/hproduct/aggregate})
               pending 'not entirely sure what is going on here, other parsers all get different results too'
-              
-
-            elsif json_file.match?(%r{/hnews/all})
-              pending 'test suite issue'
-
-            elsif json_file.match?(%r{/h-resume/mixedroots})
-              pending 'Test set not updated yet, implied name'
-
-            elsif json_file.match?(%r{/h-recipe/all})
-              pending 'Test set not updated yet, implied url'
-
-            elsif json_file.match?(%r{/h-resume/affiliation})
-              pending 'Test set not updated yet, implied url'
-
-            elsif json_file.match?(%r{/h-adr/geourl})
-              pending 'Test set not updated yet, implied url'
-
-
-            elsif json_file.match?(%r{/hcard/email})
-              pending 'believed issue with the test suite, test needs to be fixed'
-
-            elsif json_file.match?(%r{/h-resume/misedroots})
-              pending 'believed issue with the test suite, test needs to be fixed'
-
-            elsif json_file.match?(%r{/hcard/single})
-              pending 'test suite is wrong, but "correct" result seems odd, discussion ongoing'
-
-
 
             end
 
