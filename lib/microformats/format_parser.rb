@@ -7,7 +7,7 @@ module Microformats
 
       @properties = {}
       @children = []
-      @seen_types = {}
+      @found_prefixes = {}
 
       @format_property_type = element_type
       @value = nil
@@ -25,7 +25,7 @@ module Microformats
       # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
       # can optimize this later
       unless @mode_backcompat
-        if @properties['name'].nil? && !@seen_types[:e] && !@seen_types[:p] && !@seen_types[:h] && @children.empty?
+        if @properties['name'].nil? && !@found_prefixes[:e] && !@found_prefixes[:p] && !@found_prefixes[:h] && @children.empty?
           if element.name == 'img' && !element.attribute('alt').nil?
             @properties['name'] = [element.attribute('alt').value.strip]
           elsif element.name == 'area' && !element.attribute('alt').nil?
@@ -148,7 +148,7 @@ module Microformats
           end
         end
 
-        if @properties['url'].nil? && !@seen_types[:u] && !@seen_types[:h] && @children.empty?
+        if @properties['url'].nil? && !@found_prefixes[:u] && !@found_prefixes[:h] && @children.empty?
           if element.name == 'a' && !element.attribute('href').nil?
             @properties['url'] = [element.attribute('href').value]
           elsif element.name == 'area' && !element.attribute('href').nil?
@@ -285,11 +285,11 @@ module Microformats
 
       prop_classes.each do |p_class|
         element_type = p_class.downcase.split('-')[0]
-        @seen_types[element_type.to_sym] = true
+        @found_prefixes[element_type.to_sym] = true
       end
       fmt_classes.each do |p_class|
         element_type = p_class.downcase.split('-')[0]
-        @seen_types[element_type.to_sym] = true
+        @found_prefixes[element_type.to_sym] = true
       end
 
       if fmt_classes.empty?
@@ -347,7 +347,7 @@ module Microformats
           next if prop_entry['type'].nil?
 
           prop_entry['type'].each do |type|
-            @seen_types[type.downcase.split('-').first.to_sym] = true
+            @found_prefixes[type.downcase.split('-').first.to_sym] = true
           end
         end
       end
