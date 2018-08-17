@@ -27,7 +27,7 @@ module Microformats
         end
       elsif element_type == 'e'
         @value = {
-          value: render_text(element, base: @base), # TODO: the spec doesn't say to remove script and style tags, assuming this to be in error
+          value: render_text(element, base: @base),
           html: element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
         }
       elsif element_type == 'u'
@@ -95,6 +95,5 @@ module Microformats
         end
       end
     end
-
   end
 end
