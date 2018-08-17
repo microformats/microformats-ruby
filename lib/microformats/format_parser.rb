@@ -237,9 +237,9 @@ module Microformats
 
         unless start_date.nil?
           @properties['end'].map! do |end_val|
-            if end_val =~ /^\d{4}-[01]\d-[0-3]\d/
+            if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
               end_val
-            elsif end_val =~ /^\d{4}-[0-3]\d\d/
+            elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
               end_val
             else
               start_date + ' ' + end_val
@@ -341,15 +341,13 @@ module Microformats
     end
 
     def check_for_h_properties
-      @properties.each do |label, prop|
+      @properties.each do |_, prop|
         prop.each do |prop_entry|
-          if prop_entry.respond_to?(:keys) && prop_entry.keys.include?('type')
-            unless prop_entry['type'].nil?
-              prop_entry['type'].each do |type|
-                etype = type.downcase.split('-')[0]
-                @seen_types[etype.to_sym] = true
-              end
-            end
+          next unless prop_entry.respond_to?(:key) && prop_entry.key?('type')
+          next if prop_entry['type'].nil?
+
+          prop_entry['type'].each do |type|
+            @seen_types[type.downcase.split('-').first.to_sym] = true
           end
         end
       end
