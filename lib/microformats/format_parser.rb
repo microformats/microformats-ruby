@@ -363,12 +363,11 @@ module Microformats
     end
 
     def prefix_from_class(class_name)
-        class_name.downcase.split('-')[0]
+      class_name.downcase.split('-')[0]
     end
 
     def property_from_class(class_name)
-        class_name.downcase.split('-')[1..-1].join('-')
+      class_name.downcase.split('-')[1..-1].join('-')
     end
-
   end
 end

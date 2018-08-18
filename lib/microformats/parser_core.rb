@@ -356,7 +356,7 @@ module Microformats
     end
 
     def render_text(node, base: nil)
-      render_text_and_replace_images(node)
+      render_text_and_replace_images(node, base:base)
     end
 
     def render_text_and_replace_images(node, base: nil)
