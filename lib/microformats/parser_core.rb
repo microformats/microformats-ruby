@@ -356,11 +356,11 @@ module Microformats
     end
 
     def render_text(node, base: nil)
-      render_text_and_replace_images(node, base:base)
+      render_text_and_replace_images(node, base: base)
     end
 
-    def render_text_and_replace_images(node, base: nil)
-      new_doc = Nokogiri::HTML(node.inner_html)
+    def render_text_and_replace_images(in_node, base: nil)
+      new_doc = Nokogiri::HTML(in_node.inner_html)
       new_doc.xpath('//script').remove
       new_doc.xpath('//style').remove
 
@@ -368,7 +368,7 @@ module Microformats
         if node.name == 'img' && !node.attribute('alt').nil?
           node.replace(node.attribute('alt').value.to_s)
         elsif node.name == 'img' && !node.attribute('src').nil?
-          absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
+          absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: base).absolutize
 
           node.replace(' ' + absolute_url + ' ')
         end
