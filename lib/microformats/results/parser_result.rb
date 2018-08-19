@@ -1,30 +1,9 @@
 module Microformats
   # stub to get around the tests for now
-  class ParserResult
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def to_h
-      @hash
-    end
-
-    def to_hash
-      @hash
-    end
-
-    def to_json
-      to_hash.to_json
-    end
-
+  class ParserResult < ResultCore
     def to_s
       return @hash['value'] if @hash['value']
-
       @hash.to_s
-    end
-
-    def [](key)
-      @hash[key]
     end
 
     def value
@@ -35,8 +14,8 @@ module Microformats
       PropertySet.new(@hash['properties'])
     end
 
-    def respond_to?(sym, include_private = false)
-      key?(sym) || property?(sym) || super(sym, include_private)
+    def respond_to_missing?(method, *)
+      key?(method) || property?(method) || super
     end
 
     def method_missing(sym, *args, &block)
@@ -79,13 +58,6 @@ module Microformats
     end
 
     private
-
-    def key?(name)
-      name = name.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
-
-      !@hash[name].nil? || !@hash[name_dash].nil?
-    end
 
     def property?(name)
       name = name.to_s

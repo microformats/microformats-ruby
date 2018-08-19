@@ -1,30 +1,6 @@
 module Microformats
   # stub to get around the tests for now
-  class Collection
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def to_h
-      @hash
-    end
-
-    def to_hash
-      @hash
-    end
-
-    def to_json
-      to_hash.to_json
-    end
-
-    def to_s
-      @hash.to_s
-    end
-
-    def [](key)
-      @hash[key]
-    end
-
+  class Collection < ResultCore
     def items
       @hash['items'].map do |item|
         ParserResult.new(item)
@@ -39,64 +15,67 @@ module Microformats
       @hash['rel-urls']
     end
 
-    def respond_to?(sym, include_private = false)
-      item?(sym) || super(sym, include_private)
+    def respond_to_missing?(method, *)
+      item?(method) || super
     end
 
     def method_missing(sym, *args, &block)
-      name = sym.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
+      result = search_for_items(sym.to_s)
 
-      unless @hash['items'].nil?
-        result_hash = @hash['items'].select do |x|
-          x['type'].include?('h-' + name)
-        end
-
-        if result_hash.empty? && !name_dash.nil?
-          result_hash = @hash['items'].select do |x|
-            x['type'].include?('h-' + name_dash)
-          end
-        end
+      if !result.empty?
+        convert_to_parser_result(result, args[0])
+      else
+        super
       end
-
-      super(sym, *args, &block) if result_hash.empty?
-
-      if result_hash.is_a?(Array)
-        if args[0].nil?
-          result_hash = result_hash[0] # will return nil for an empty array
-        elsif args[0] == :all
-          return result_hash.map do |x|
-            ParserResult.new(x)
-          end
-        elsif args[0].to_i < result_hash.count
-          result_hash = result_hash[args[0].to_i]
-        else
-          result_hash = result_hash[0] # will return nil for an empty array
-        end
-      end
-
-      ParserResult.new(result_hash)
     end
 
     private
 
+    # does the $hash['items'] array contain any items with an h-<name> class?
     def item?(name)
-      name = name.to_s
+      return false if @hash['items'].nil?
+
+      result = search_for_items(name)
+
+      !result.empty?
+    end
+
+    # select all items which have h-<name> types
+    #  for example, if you want to filter to only h-cards
+    def select_h_items(search_val)
+      @hash['items'].select do |x|
+        x['type'].include?('h-' + search_val)
+      end
+    end
+
+    # given a name, find all h-* entries for it
+    #  this also allows for underscores to be used in place of dashes
+    def search_for_items(search_val)
+      name = search_val.to_s
       name_dash = name.tr('_', '-') if name.include?('_')
 
-      unless @hash['items'].nil?
-        result_hash = @hash['items'].select do |x|
-          x['type'].include?('h-' + name)
-        end
+      result = select_h_items(name)
+      result = select_h_items(name_dash) if result.empty? && !name_dash.nil?
 
-        if result_hash.empty? && !name_dash.nil?
-          result_hash = @hash['items'].select do |x|
-            x['type'].include?('h-' + name_dash)
-          end
+      result
+    end
+
+    # given a set of args and some selector within that, return a ParserResult object
+    # or possibly a set of ParserResult Objects.
+    # This is how previous versions of the parser returned objects and as such we are trying to
+    # keep full support
+    def convert_to_parser_result(input_array, selector)
+      return ParserResult.new(input_array) unless input_array.is_a?(Array)
+
+      if selector == :all
+        return input_array.map do |x|
+          ParserResult.new(x)
         end
       end
 
-      !result_hash.empty?
+      return ParserResult.new(input_array[selector.to_i]) if selector.to_i < input_array.count
+
+      ParserResult.new(input_array[0])
     end
   end
 end
