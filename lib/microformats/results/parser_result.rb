@@ -14,58 +14,24 @@ module Microformats
       PropertySet.new(@hash['properties'])
     end
 
-    def respond_to_missing?(method, *)
-      key?(method) || property?(method) || super
-    end
-
-    def method_missing(sym, *args, &block)
-      name = sym.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
-
-      if !@hash[name].nil?
-        result_hash = @hash[name]
-      elsif !@hash['properties'].nil? && !@hash['properties'][name].nil?
-        result_hash = @hash['properties'][name]
-      elsif !name_dash.nil? && !@hash[name_dash].nil?
-        result_hash = @hash[name_dash]
-      elsif !name_dash.nil? && !@hash['properties'].nil? && !@hash['properties'][name_dash].nil?
-        result_hash = @hash['properties'][name_dash]
-      else
-        super(sym, *args, &block)
-      end
-
-      if result_hash.is_a?(Array)
-        if args[0].nil?
-          result_hash = result_hash[0] # will return nil for an empty array
-        elsif args[0] == :all
-          return result_hash.map do |x|
-            ParserResult.new(x)
-          end
-        elsif args[0].to_i < result_hash.count
-          result_hash = result_hash[args[0].to_i]
-        else
-          result_hash = result_hash[0] # will return nil for an empty array
-        end
-      end
-
-      if result_hash.nil? || result_hash.empty?
-        result_hash
-      elsif result_hash.is_a?(Hash)
-        ParserResult.new(result_hash)
-      else
-        result_hash
-      end
-    end
-
     private
 
-    def property?(name)
-      name = name.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
+    def convert_to_parser_result(input_array, selector)
+      if input_array.is_a?(Array)
+        super.convert_to_parser_result(input_array, selector)
+      end
 
-      return false if @hash['properties'].nil?
+      if result.nil? || result.empty?
+        result
+      elsif result.is_a?(Hash)
+        ParserResult.new(result)
+      else
+        result
+      end
+    end
 
-      !@hash['properties'][name].nil? || !@hash['properties'][name_dash].nil?
+    def find_items(search_val)
+      @hash['properties'][search_val]
     end
   end
 end
