@@ -359,11 +359,15 @@ module Microformats
 
       doc.xpath('//script|//style').remove
 
-	  doc.css('img').each do |img|
-        if  !img.attribute('alt').nil?
-          img.replace(img.attribute('alt').value.to_s)
-        elsif !img.attribute('src').nil?
-		  img.replace(" #{AbsoluteUri.new(src_attribute, base: base).absolutize} ") unless src_attribute.nil?
+
+      # cannot use doc.css('img').each as it makes a copy of them, it does not modify the original
+      doc.traverse do |node|
+        next unless node.name == 'img'
+
+        if !node.attribute('alt').nil?
+          node.replace(node.attribute('alt').value.to_s)
+        elsif !node.attribute('src').nil?
+          node.replace(Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize)
         end
       end
 
