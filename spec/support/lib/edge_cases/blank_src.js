@@ -7,7 +7,7 @@
       "bday": ["1990-10-15"],
       "content": [{
         "value": "Vegan. Cat lover. Coder.",
-        "html": "\n      <p>Vegan. Cat lover. Coder.</p>\n"
+        "html": "<p>Vegan. Cat lover. Coder.</p>"
       }]
     }
   }],

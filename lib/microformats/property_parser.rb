@@ -28,7 +28,7 @@ module Microformats
       elsif element_type == 'e'
         @value = {
           value: render_text(element, base: @base),
-          html: element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
+          html: element.inner_html.strip
         }
       elsif element_type == 'u'
         if %w[a area link].include?(element.name) && !element.attribute('href').nil?

@@ -43,7 +43,7 @@ module Microformats
 
       if @format_property_type == 'e'
         h_object['value'] = render_text(element)
-        h_object['html'] = element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
+        h_object['html'] = element.inner_html.strip
       end
 
       # TODO: fall back to p- dt- u- parsing if value still not set?
