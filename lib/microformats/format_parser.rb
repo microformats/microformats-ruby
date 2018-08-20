@@ -21,40 +21,7 @@ module Microformats
       # check properties for any missing h-* so we know not to imply anything
       check_for_h_properties
 
-      ##### Implied Properties ######
-      # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
-      # can optimize this later
-      unless @mode_backcompat
-        imply_name(element)
-        imply_photo(element)
-        imply_url(element)
-      end
-      ##### END Implied Properties when not in backcompat mode######
-
-      ### imply date for dt-end if dt-start is defined with a date ###
-      if !@properties['end'].nil? && !@properties['start'].nil?
-        start_date = nil
-
-        @properties['start'].each do |start_val|
-          if start_val =~ /^(\d{4}-[01]\d-[0-3]\d)/
-            start_date = Regexp.last_match(1) if start_date.nil?
-          elsif start_val =~ /^(\d{4}-[0-3]\d\d)/
-            start_date = Regexp.last_match(1) if start_date.nil?
-          end
-        end
-
-        unless start_date.nil?
-          @properties['end'].map! do |end_val|
-            if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
-              end_val
-            elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
-              end_val
-            else
-              start_date + ' ' + end_val
-            end
-          end
-        end
-      end
+      imply_properties(element)
 
       if @value.nil? || @value.empty?
         if element_type == 'p' && !@properties['name'].nil? && !@properties['name'].empty?
@@ -216,9 +183,8 @@ module Microformats
     end
 
     def imply_photo(element)
-      unless @properties['photo'].nil?
-        return nil
-      end
+      return unless @properties['photo'].nil?
+
       if element.name == 'img' && !element.attribute('src').nil?
         @properties['photo'] = [element.attribute('src').value]
       elsif element.name == 'object' && !element.attribute('data').nil?
@@ -232,9 +198,7 @@ module Microformats
         if child_img_tags_with_src.count == 1
           node = child_img_tags_with_src.first
 
-          if format_classes(node).empty?
-            @properties['photo'] = [node.attribute('src').value.strip]
-          end
+          @properties['photo'] = [node.attribute('src').value.strip] if format_classes(node).empty?
         end
 
         if @properties['photo'].nil?
@@ -373,6 +337,47 @@ module Microformats
 
     def property_from_class(class_name)
       class_name.downcase.split('-')[1..-1].join('-')
+    end
+
+    def imply_dates(element)
+      ### imply date for dt-end if dt-start is defined with a date ###
+      if !@properties['end'].nil? && !@properties['start'].nil?
+        start_date = nil
+
+        @properties['start'].each do |start_val|
+          if start_val =~ /^(\d{4}-[01]\d-[0-3]\d)/
+            start_date = Regexp.last_match(1) if start_date.nil?
+          elsif start_val =~ /^(\d{4}-[0-3]\d\d)/
+            start_date = Regexp.last_match(1) if start_date.nil?
+          end
+        end
+
+        unless start_date.nil?
+          @properties['end'].map! do |end_val|
+            if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
+              end_val
+            elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
+              end_val
+            else
+              start_date + ' ' + end_val
+            end
+          end
+        end
+      end
+    end
+
+    def imply_properties(element)
+      ##### Implied Properties ######
+      # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
+      # can optimize this later
+      unless @mode_backcompat
+        imply_name(element)
+        imply_photo(element)
+        imply_url(element)
+      end
+      ##### END Implied Properties when not in backcompat mode######
+      
+      imply_dates(element)
     end
   end
 end

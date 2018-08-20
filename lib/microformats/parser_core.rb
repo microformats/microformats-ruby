@@ -350,31 +350,24 @@ module Microformats
 
     def render_and_strip(data)
       new_doc = Nokogiri::HTML(data)
-      new_doc.xpath('//script').remove
-      new_doc.xpath('//style').remove
+      new_doc.xpath('//script|//style').remove
       new_doc.text.strip
     end
 
-    def render_text(node, base: nil)
-      render_text_and_replace_images(node, base: base)
-    end
+    def render_text(in_node, base: nil)
+      doc = Nokogiri::HTML(in_node.inner_html)
 
-    def render_text_and_replace_images(in_node, base: nil)
-      new_doc = Nokogiri::HTML(in_node.inner_html)
-      new_doc.xpath('//script').remove
-      new_doc.xpath('//style').remove
+      doc.xpath('//script|//style').remove
 
-      new_doc.traverse do |node|
-        if node.name == 'img' && !node.attribute('alt').nil?
-          node.replace(node.attribute('alt').value.to_s)
-        elsif node.name == 'img' && !node.attribute('src').nil?
-          absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: base).absolutize
-
-          node.replace(' ' + absolute_url + ' ')
+	  doc.css('img').each do |img|
+        if  !img.attribute('alt').nil?
+          img.replace(img.attribute('alt').value.to_s)
+        elsif !img.attribute('src').nil?
+		  img.replace(" #{AbsoluteUri.new(src_attribute, base: base).absolutize} ") unless src_attribute.nil?
         end
       end
 
-      new_doc.text.strip
+      doc.text.strip
     end
   end
 end
