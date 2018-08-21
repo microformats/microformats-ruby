@@ -359,7 +359,6 @@ module Microformats
 
       doc.xpath('//script|//style').remove
 
-
       # cannot use doc.css('img').each as it makes a copy of them, it does not modify the original
       doc.traverse do |node|
         next unless node.name == 'img'

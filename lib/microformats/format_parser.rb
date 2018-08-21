@@ -129,9 +129,7 @@ module Microformats
     end
 
     def imply_name(element)
-      unless @properties['name'].nil? && !@found_prefixes.include?(:e) && !@found_prefixes.include?(:p) && !@found_prefixes.include?(:h) && @children.empty?
-        return nil
-      end
+      return unless @properties['name'].nil? && !@found_prefixes.include?(:e) && !@found_prefixes.include?(:p) && !@found_prefixes.include?(:h) && @children.empty?
 
       if element.name == 'img' && !element.attribute('alt').nil?
         @properties['name'] = [element.attribute('alt').value.strip]
@@ -249,15 +247,11 @@ module Microformats
         end
       end
 
-      unless @properties['photo'].nil?
-        @properties['photo'] = [Microformats::AbsoluteUri.new(@properties['photo'].first, base: @base).absolutize]
-      end
+      @properties['photo'] = [Microformats::AbsoluteUri.new(@properties['photo'].first, base: @base).absolutize] unless @properties['photo'].nil?
     end
 
     def imply_url(element)
-      unless @properties['url'].nil? && !@found_prefixes.include?(:u) && !@found_prefixes.include?(:h) && @children.empty?
-        return nil
-      end
+      return unless @properties['url'].nil? && !@found_prefixes.include?(:u) && !@found_prefixes.include?(:h) && @children.empty?
 
       if element.name == 'a' && !element.attribute('href').nil?
         @properties['url'] = [element.attribute('href').value]
@@ -271,10 +265,7 @@ module Microformats
 
         if child_a_tags_with_href.count == 1
           node = child_a_tags_with_href.first
-
-          if format_classes(node).empty?
-            @properties['url'] = [node.attribute('href').value.strip]
-          end
+          @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
         end
 
         if @properties['url'].nil?
@@ -285,10 +276,7 @@ module Microformats
 
           if child_area_tags_with_href.count == 1
             node = child_area_tags_with_href.first
-
-            if format_classes(node).empty?
-              @properties['url'] = [node.attribute('href').value.strip]
-            end
+            @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
           end
         end
 
@@ -303,10 +291,7 @@ module Microformats
 
           if child_a_tags_with_href.count == 1
             node = child_a_tags_with_href.first
-
-            if format_classes(node).empty?
-              @properties['url'] = [node.attribute('href').value.strip]
-            end
+            @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
           end
 
           if @properties['url'].nil?
@@ -317,18 +302,13 @@ module Microformats
 
             if child_area_tags_with_href.count == 1
               node = child_area_tags_with_href.first
-
-              if format_classes(node).empty?
-                @properties['url'] = [node.attribute('href').value.strip]
-              end
+              @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
             end
           end
         end
       end
 
-      unless @properties['url'].nil?
-        @properties['url'] = [Microformats::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize]
-      end
+      @properties['url'] = [Microformats::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize] unless @properties['url'].nil?
     end
 
     def prefix_from_class(class_name)
@@ -339,28 +319,28 @@ module Microformats
       class_name.downcase.split('-')[1..-1].join('-')
     end
 
-    def imply_dates(element)
-      ### imply date for dt-end if dt-start is defined with a date ###
-      if !@properties['end'].nil? && !@properties['start'].nil?
-        start_date = nil
+    # imply date for dt-end if dt-start is defined with a date ###
+    def imply_dates
+      return unless !@properties['end'].nil? && !@properties['start'].nil?
 
-        @properties['start'].each do |start_val|
-          if start_val =~ /^(\d{4}-[01]\d-[0-3]\d)/
-            start_date = Regexp.last_match(1) if start_date.nil?
-          elsif start_val =~ /^(\d{4}-[0-3]\d\d)/
-            start_date = Regexp.last_match(1) if start_date.nil?
-          end
+      start_date = nil
+
+      @properties['start'].each do |start_val|
+        if start_val =~ /^(\d{4}-[01]\d-[0-3]\d)/
+          start_date = Regexp.last_match(1) if start_date.nil?
+        elsif start_val =~ /^(\d{4}-[0-3]\d\d)/
+          start_date = Regexp.last_match(1) if start_date.nil?
         end
+      end
 
-        unless start_date.nil?
-          @properties['end'].map! do |end_val|
-            if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
-              end_val
-            elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
-              end_val
-            else
-              start_date + ' ' + end_val
-            end
+      unless start_date.nil?
+        @properties['end'].map! do |end_val|
+          if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
+            end_val
+          elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
+            end_val
+          else
+            start_date + ' ' + end_val
           end
         end
       end
@@ -376,8 +356,8 @@ module Microformats
         imply_url(element)
       end
       ##### END Implied Properties when not in backcompat mode######
-      
-      imply_dates(element)
+
+      imply_dates
     end
   end
 end
