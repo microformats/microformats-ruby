@@ -42,7 +42,7 @@ module Microformats
       h_object['children'] = @children unless @children.empty?
 
       if @format_property_type == 'e'
-        h_object['value'] = render_text(element)
+        h_object['value'] = render_text(element, base: base)
         h_object['html'] = element.inner_html.strip
       end
 
@@ -168,14 +168,14 @@ module Microformats
               elsif node.name == 'abbr' && !node.attribute('title').nil? && !node.attribute('title').value.empty?
                 @properties['name'] = [node.attribute('title').value.strip]
               else
-                @properties['name'] = [render_text(element)]
+                @properties['name'] = [render_text(element, base: @base)]
               end
             else
-              @properties['name'] = [render_text(element)]
+              @properties['name'] = [render_text(element, base: @base)]
             end
           end
         else
-          @properties['name'] = [render_text(element)]
+          @properties['name'] = [render_text(element, base: @base)]
         end
       end
     end
@@ -251,64 +251,40 @@ module Microformats
     end
 
     def imply_url(element)
-      return unless @properties['url'].nil? && !@found_prefixes.include?(:u) && !@found_prefixes.include?(:h) && @children.empty?
-
       if element.name == 'a' && !element.attribute('href').nil?
-        @properties['url'] = [element.attribute('href').value]
+        new_url = [element.attribute('href').value]
       elsif element.name == 'area' && !element.attribute('href').nil?
-        @properties['url'] = [element.attribute('href').value]
+        new_url = [element.attribute('href').value]
       else
-        # else if .h-x>a[href]:only-of-type:not[.h-*], then use that [href] for url
-        child_a_tags_with_href = element.children.select do |child|
-          child.is_a?(Nokogiri::XML::Element) && child.name == 'a' && !child.attribute('href').nil?
-        end
-
-        if child_a_tags_with_href.count == 1
-          node = child_a_tags_with_href.first
-          @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
-        end
-
-        if @properties['url'].nil?
-          # else if .h-x>area[href]:only-of-type:not[.h-*], then use that [href] for url
-          child_area_tags_with_href = element.children.select do |child|
-            child.is_a?(Nokogiri::XML::Element) && child.name == 'area' && !child.attribute('href').nil?
-          end
-
-          if child_area_tags_with_href.count == 1
-            node = child_area_tags_with_href.first
-            @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
-          end
-        end
+        result = find_url_from_href(element)
+        new_url = result unless result.nil?
 
         child_elements = element.children.reject { |child| child.is_a?(Nokogiri::XML::Text) }
 
-        if @properties['url'].nil? && child_elements.count == 1 && format_classes(child_elements.first).empty?
-          child_element = child_elements.first
-          # else if .h-x>:only-child:not[.h-*]>a[href]:only-of-type:not[.h-*], then use that [href] for url
-          child_a_tags_with_href = child_element.children.select do |child|
-            child.is_a?(Nokogiri::XML::Element) && child.name == 'a' && !child.attribute('href').nil?
-          end
-
-          if child_a_tags_with_href.count == 1
-            node = child_a_tags_with_href.first
-            @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
-          end
-
-          if @properties['url'].nil?
-            # else if .h-x>:only-child:not[.h-*]>area[href]:only-of-type:not[.h-*], then use that [href] for url
-            child_area_tags_with_href = child_element.children.select do |child|
-              child.is_a?(Nokogiri::XML::Element) && child.name == 'area' && !child.attribute('href').nil?
-            end
-
-            if child_area_tags_with_href.count == 1
-              node = child_area_tags_with_href.first
-              @properties['url'] = [node.attribute('href').value.strip] if format_classes(node).empty?
-            end
-          end
-        end
+        result = find_url_from_href(child_elements.first) if new_url.nil? && child_elements.count == 1 && format_classes(child_elements.first).empty?
+        new_url = result unless result.nil?
       end
 
-      @properties['url'] = [Microformats::AbsoluteUri.new(@properties['url'].first, base: @base).absolutize] unless @properties['url'].nil?
+      return [Microformats::AbsoluteUri.new(new_url.first, base: @base).absolutize] unless new_url.nil?
+    end
+
+    def find_url_from_href(element)
+      child_a_tags_with_href = element.css('a[href]:only-of-type')
+
+      if child_a_tags_with_href.count == 1
+        node = child_a_tags_with_href.first
+        result = [node.attribute('href').value.strip] if format_classes(node).empty?
+      end
+
+      if result.nil?
+        child_area_tags_with_href = element.css('area[href]:only-of-type')
+
+        if child_area_tags_with_href.count == 1
+          node = child_area_tags_with_href.first
+          result = [node.attribute('href').value.strip] if format_classes(node).empty?
+        end
+      end
+      result
     end
 
     def prefix_from_class(class_name)
@@ -321,28 +297,39 @@ module Microformats
 
     # imply date for dt-end if dt-start is defined with a date ###
     def imply_dates
-      return unless !@properties['end'].nil? && !@properties['start'].nil?
+      return if @properties['end'].nil? || @properties['start'].nil?
 
       start_date = nil
 
       @properties['start'].each do |start_val|
-        if start_val =~ /^(\d{4}-[01]\d-[0-3]\d)/
-          start_date = Regexp.last_match(1) if start_date.nil?
-        elsif start_val =~ /^(\d{4}-[0-3]\d\d)/
-          start_date = Regexp.last_match(1) if start_date.nil?
+        found_date = match_date(start_val)
+        if found_date
+          start_date = found_date
+          break
         end
       end
 
-      unless start_date.nil?
-        @properties['end'].map! do |end_val|
-          if end_val.match?(/^\d{4}-[01]\d-[0-3]\d/)
-            end_val
-          elsif end_val.match?(/^\d{4}-[0-3]\d\d/)
-            end_val
-          else
-            start_date + ' ' + end_val
-          end
+      return if start_date.nil?
+
+      @properties['end'] = map_end_dates(@properties['end'], start_date)
+    end
+
+    def map_end_dates(end_dates, start_date)
+      end_dates.map! do |end_val|
+        found_date = match_date(end_val)
+        if found_date
+          end_val
+        else
+          start_date + ' ' + end_val
         end
+      end
+    end
+
+    def match_date(search_space)
+      if search_space =~ /^(\d{4}-[01]\d-[0-3]\d)/
+        Regexp.last_match(1)
+      elsif search_space =~ /^(\d{4}-[0-3]\d\d)/
+        Regexp.last_match(1)
       end
     end
 
@@ -350,14 +337,16 @@ module Microformats
       ##### Implied Properties ######
       # NOTE: much of this code may be simplified by using element.css, not sure yet, but coding to have passing tests first
       # can optimize this later
-      unless @mode_backcompat
-        imply_name(element)
-        imply_photo(element)
-        imply_url(element)
-      end
+      imply_dates
+
+      return if @mode_backcompat
+
+      imply_name(element)
+      imply_photo(element)
+      found_url = imply_url(element) if @properties['url'].nil? && !@found_prefixes.include?(:u) && !@found_prefixes.include?(:h) && @children.empty?
+      @properties['url'] = found_url unless found_url.nil?
       ##### END Implied Properties when not in backcompat mode######
 
-      imply_dates
     end
   end
 end
