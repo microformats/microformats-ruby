@@ -32,7 +32,7 @@ module Microformats
     def method_missing(sym, *args, &block)
       result = search_for_items(sym.to_s)
 
-      if !result.empty?
+      if !result.nil? && !result.empty?
         convert_to_parser_result(result, args[0])
       else
         super
@@ -73,13 +73,16 @@ module Microformats
         end
       end
 
-      return ParserResult.new(input_array[selector.to_i]) if selector.to_i < input_array.count
-
-      ParserResult.new(input_array[0])
+      ParserResult.new(input_array[selector_or_zero(selector, input_array.count)])
     end
 
     def find_items(_search_val)
       raise NotImplementedError, 'You must implement the find_items private method'
+    end
+
+    def selector_or_zero(selector, max)
+      return selector.to_i if selector.to_i < max
+      0
     end
   end
 end

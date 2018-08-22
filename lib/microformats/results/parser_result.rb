@@ -11,29 +11,52 @@ module Microformats
     end
 
     def properties
-      return if @hash['properties'].nil?
       PropertySet.new(@hash['properties'])
+    end
+
+    def respond_to_missing?(method, *)
+      key?(method) || super
+    end
+
+    def method_missing(sym, *args, &block)
+      name = sym.to_s
+      name_dash = name.tr('_', '-') if name.include?('_')
+
+      result = find_one_item(name)
+      result = find_one_item(name_dash) if result.nil?
+
+      if !result.nil?
+        convert_to_parser_result(result, args[0])
+      else
+        super
+      end
     end
 
     private
 
-    def convert_to_parser_result(input_array, selector)
-      if input_array.is_a?(Array)
-        super.convert_to_parser_result(input_array, selector)
-      end
-
-      if result.nil? || result.empty?
-        result
-      elsif result.is_a?(Hash)
-        ParserResult.new(result)
-      else
-        result
-      end
+    def find_one_item(search_val)
+      return @hash[search_val] unless @hash[search_val].nil?
+      return @hash['properties'][search_val] unless @hash['properties'].nil?
     end
 
     def find_items(search_val)
       return if @hash['properties'].nil?
       @hash['properties'][search_val]
+    end
+
+    def convert_to_parser_result(input_array, selector)
+      return ParserResult.new(input_array) unless input_array.is_a?(Array)
+
+      if selector == :all
+        return input_array.map do |x|
+          ParserResult.new(x)
+        end
+      end
+
+      result_array = input_array[selector_or_zero(selector, input_array.count)]
+
+      return ParserResult.new(result_array) if result_array.is_a?(Hash) && !result_array.empty?
+      result_array
     end
   end
 end

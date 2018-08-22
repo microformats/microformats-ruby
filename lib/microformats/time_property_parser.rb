@@ -1,11 +1,15 @@
 module Microformats
   class TimePropertyParser < ParserCore
-    def parse(element, base: nil, element_type:, format_class_array: [], backcompat: nil)
-      @base = base
+    def initialize()
       @duration_value = nil
       @date_value = nil
       @time_value = nil
       @tz_value = nil
+      super
+    end
+
+    def parse(element, base: nil, element_type:, format_class_array: [], backcompat: nil)
+      @base = base
 
       @property_type = element_type
 
@@ -15,25 +19,14 @@ module Microformats
       parse_value_class_pattern(element)
 
       if @duration_value.nil? && @time_value.nil? && @date_value.nil? && @tz_value.nil?
-        value =
-          if %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
-            element.attribute('datetime').value.strip
-          elsif element.name == 'abbr' && !element.attribute('title').nil?
-            element.attribute('title').value.strip
-          elsif (element.name == 'data' || element.name == 'input') && !element.attribute('value').nil?
-            element.attribute('value').value.strip
-          else
-            element.text.strip
-          end
-
+        value = get_datetime_value(element)
         parse_dt(value)
       end
 
       if !@duration_value.nil?
         @duration_value
       else
-        result = nil
-        result = result.to_s + @date_value unless @date_value.nil?
+        result = @date_value unless @date_value.nil?
 
         unless @time_value.nil?
           result = result.to_s + ' ' unless result.nil?
@@ -54,18 +47,7 @@ module Microformats
         if value_title_classes(element).length >= 1
           value = element.attribute('title').value.strip
         elsif value_classes(element).length >= 1
-          value =
-            if element.name == 'img' || element.name == 'area' && !element.attribute('alt').nil?
-              element.attribute('alt').value.strip
-            elsif element.name == 'data' && !element.attribute('value').nil?
-              element.attribute('value').value.strip
-            elsif element.name == 'abbr' && !element.attribute('title').nil?
-              element.attribute('title').value.strip
-            elsif %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
-              element.attribute('datetime').value.strip
-            else
-              element.text.strip
-            end
+          value = get_duration_value(element)
         end
 
         parse_dt(value, normalize: true)
@@ -182,6 +164,34 @@ module Microformats
       end
     rescue
       nil
+    end
+
+    private
+
+    def get_datetime_value(element)
+      if %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
+        element.attribute('datetime').value.strip
+      elsif element.name == 'abbr' && !element.attribute('title').nil?
+        element.attribute('title').value.strip
+      elsif (element.name == 'data' || element.name == 'input') && !element.attribute('value').nil?
+        element.attribute('value').value.strip
+      else
+        element.text.strip
+      end
+    end
+
+    def get_duration_value(element)
+      if element.name == 'img' || element.name == 'area' && !element.attribute('alt').nil?
+        element.attribute('alt').value.strip
+      elsif element.name == 'data' && !element.attribute('value').nil?
+        element.attribute('value').value.strip
+      elsif element.name == 'abbr' && !element.attribute('title').nil?
+        element.attribute('title').value.strip
+      elsif %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
+        element.attribute('datetime').value.strip
+      else
+        element.text.strip
+      end
     end
   end
 end
