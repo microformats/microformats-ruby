@@ -11,6 +11,7 @@ module Microformats
     end
 
     def properties
+      return if @hash['properties'].nil?
       PropertySet.new(@hash['properties'])
     end
 
@@ -31,6 +32,7 @@ module Microformats
     end
 
     def find_items(search_val)
+      return if @hash['properties'].nil?
       @hash['properties'][search_val]
     end
   end
