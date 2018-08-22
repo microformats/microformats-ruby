@@ -22,13 +22,13 @@ module Microformats
             elsif (element.name == 'img' || element.name == 'area') && !element.attribute('alt').nil?
               element.attribute('alt').value.strip
             else
-              render_text_and_replace_images(element, base: @base)
+              render_text(element, base: @base)
             end
         end
       elsif element_type == 'e'
         @value = {
-          value: render_text(element, base: @base), # TODO: the spec doesn't say to remove script and style tags, assuming this to be in error
-          html: element.inner_html.gsub(/\A +/, '').gsub(/ +\Z/, '')
+          value: render_text(element, base: @base),
+          html: element.inner_html.strip
         }
       elsif element_type == 'u'
         if %w[a area link].include?(element.name) && !element.attribute('href').nil?
@@ -84,7 +84,7 @@ module Microformats
           elsif element.name == 'abbr' && !element.attribute('title').nil?
             element.attribute('title').value.strip
           else
-            element.text.strip
+            render_and_strip(element.text.strip)
           end
       else
         p_classes = property_classes(element)
@@ -94,31 +94,6 @@ module Microformats
           parse_node(element.children)
         end
       end
-    end
-
-    def render_text_and_replace_images(node, base: nil)
-      new_doc = Nokogiri::HTML(node.inner_html)
-      new_doc.xpath('//script').remove
-      new_doc.xpath('//style').remove
-
-      new_doc.traverse do |node|
-        if node.name == 'img' && !node.attribute('alt').nil?
-          node.replace(' ' + node.attribute('alt').value.to_s + ' ')
-        elsif node.name == 'img' && !node.attribute('src').nil?
-          absolute_url = Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize
-
-          node.replace(' ' + absolute_url + ' ')
-        end
-      end
-
-      new_doc.text.strip
-    end
-
-    def render_text(node, base: nil)
-      new_doc = Nokogiri::HTML(node.inner_html)
-      new_doc.xpath('//script').remove
-      new_doc.xpath('//style').remove
-      new_doc.text.strip
     end
   end
 end
