@@ -116,7 +116,7 @@ describe Microformats::Parser do
               pending 'known issue / this is an aspect of nokogiri / won\'t fix'
 
             #these tests are failing due to timestamp output not being correct
-            elsif json_file.match?(%r{/h-feed/simple})
+            elsif json_file.match?(%r{/hcard/single})
               pending 'timestamp issue, Test Set wrong?'
 
             #these tests are failing due to whitespace in the test suite not being correct, currently an open PR to fix this
