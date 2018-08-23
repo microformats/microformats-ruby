@@ -13,7 +13,7 @@
             "summary": ["Invented the World Wide Web."],
             "education": [{
                 "value": "The Queen's College, Oxford University",
-                "type": ["h-event", "h-card"],
+                "type": ["h-card", "h-event"],
                 "properties": {
                     "name": ["The Queen's College, Oxford University"],
                     "org": ["The Queen's College, Oxford University"],

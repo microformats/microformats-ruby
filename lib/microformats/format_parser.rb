@@ -36,7 +36,7 @@ module Microformats
       h_object = {}
 
       h_object['value'] = @value unless @value.nil?
-      h_object['type'] = format_class_array
+      h_object['type'] = format_class_array.sort
       h_object['properties'] = @properties
 
       h_object['children'] = @children unless @children.empty?

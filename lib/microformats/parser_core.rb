@@ -127,7 +127,7 @@ module Microformats
         end
       end
 
-      result_set.uniq
+      result_set.sort.uniq
     end
 
     def property_classes(element)
