@@ -5,6 +5,7 @@ module Microformats
       @date_value = nil
       @time_value = nil
       @tz_value = nil
+      @joiner = ' '
       super
     end
 
@@ -29,7 +30,7 @@ module Microformats
         result = @date_value unless @date_value.nil?
 
         unless @time_value.nil?
-          result = result.to_s + ' ' unless result.nil?
+          result = result.to_s + @joiner unless result.nil?
           result = result.to_s + @time_value
         end
 
@@ -73,34 +74,38 @@ module Microformats
       when /^P(\d+Y)?(\d+M)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?$/
         @duration_value = data if @duration_value.nil?
 
-      when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
+      when /^(\d{4}-[01]\d-[0-3]\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
-        @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
+        @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
 
-      when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
+      when /^(\d{4}-[01]\d-[0-3]\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
 
         if normalize
-          @tz_value = Regexp.last_match(4).tr('z', 'Z').delete(':') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z').delete(':') if @tz_value.nil?
         else
-          @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
         end
 
-      when /^(\d{4}-[0-3]\d\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
+      when /^(\d{4}-[0-3]\d\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
-        @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
+        @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
 
-      when /^(\d{4}-[0-3]\d\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
+      when /^(\d{4}-[0-3]\d\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
 
         if normalize
-          @tz_value = Regexp.last_match(4).tr('z', 'Z').delete(':') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z').delete(':') if @tz_value.nil?
         else
-          @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
         end
 
       when /^(\d{4})-([01]?\d)-([0-3]?\d)$/

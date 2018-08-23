@@ -117,16 +117,7 @@ describe Microformats::Parser do
 
             #these tests are failing due to timestamp output not being correct
             elsif json_file.match?(%r{/h-feed/simple})
-              pending 'Known timestamp issue'
-
-            elsif json_file.match?(%r{/h-feed/implied-title})
-              pending 'Known timestamp issue'
-
-            elsif json_file.match?(%r{/h-entry/summarycontent})
-              pending 'Known timestamp issue'
-
-            elsif json_file.match?(%r{/h-event/dates})
-              pending 'Known timestamp issue'
+              pending 'timestamp issue, Test Set wrong?'
 
             #these tests are failing due to whitespace in the test suite not being correct, currently an open PR to fix this
             elsif json_file.match?(%r{/h-entry/mixedroots})
