@@ -5,7 +5,7 @@
             "name": ["John Doe"],
             "given-name": ["John"],
             "sort-string": ["John"],
-            "bday": ["2000-01-01 00:00:00-08:00"],
+            "bday": ["2000-01-01T00:00:00-08:00"],
             "role": ["Designer"],
             "geo": [{
                 "value": "30.267991;-97.739568",
@@ -15,7 +15,7 @@
             "tz": ["-05:00"],
             "uid": ["http://example.com/profiles/johndoe"],
             "class": ["Public"],
-            "rev": ["2008-01-01 13:45:00"]
+            "rev": ["2008-01-01T13:45:00"]
         }
     }],
     "rels": {},

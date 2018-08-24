@@ -127,7 +127,7 @@ module Microformats
         end
       end
 
-      result_set.uniq
+      result_set.sort.uniq
     end
 
     def property_classes(element)
@@ -366,7 +366,7 @@ module Microformats
         if !node.attribute('alt').nil?
           node.replace(node.attribute('alt').value.to_s)
         elsif !node.attribute('src').nil?
-          node.replace(Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: @base).absolutize)
+          node.replace(Microformats::AbsoluteUri.new(node.attribute('src').value.to_s, base: base).absolutize)
         end
       end
 

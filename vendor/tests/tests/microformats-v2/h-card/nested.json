@@ -6,7 +6,7 @@
             "url": ["http://blog.lizardwrangler.com/"]
         },
         "children": [{
-            "type": ["h-org", "h-card"],
+            "type": ["h-card", "h-org"],
             "properties": {
                 "name": ["Mozilla Foundation"],
                 "url": ["http://mozilla.org/"]

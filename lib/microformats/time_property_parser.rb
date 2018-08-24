@@ -1,11 +1,16 @@
 module Microformats
   class TimePropertyParser < ParserCore
-    def parse(element, base: nil, element_type:, format_class_array: [], backcompat: nil)
-      @base = base
+    def initialize()
       @duration_value = nil
       @date_value = nil
       @time_value = nil
       @tz_value = nil
+      @joiner = ' '
+      super
+    end
+
+    def parse(element, base: nil, element_type:, format_class_array: [], backcompat: nil)
+      @base = base
 
       @property_type = element_type
 
@@ -15,28 +20,17 @@ module Microformats
       parse_value_class_pattern(element)
 
       if @duration_value.nil? && @time_value.nil? && @date_value.nil? && @tz_value.nil?
-        value =
-          if %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
-            element.attribute('datetime').value.strip
-          elsif element.name == 'abbr' && !element.attribute('title').nil?
-            element.attribute('title').value.strip
-          elsif (element.name == 'data' || element.name == 'input') && !element.attribute('value').nil?
-            element.attribute('value').value.strip
-          else
-            element.text.strip
-          end
-
+        value = get_datetime_value(element)
         parse_dt(value)
       end
 
       if !@duration_value.nil?
         @duration_value
       else
-        result = nil
-        result = result.to_s + @date_value unless @date_value.nil?
+        result = @date_value unless @date_value.nil?
 
         unless @time_value.nil?
-          result = result.to_s + ' ' unless result.nil?
+          result = result.to_s + @joiner unless result.nil?
           result = result.to_s + @time_value
         end
 
@@ -54,18 +48,7 @@ module Microformats
         if value_title_classes(element).length >= 1
           value = element.attribute('title').value.strip
         elsif value_classes(element).length >= 1
-          value =
-            if element.name == 'img' || element.name == 'area' && !element.attribute('alt').nil?
-              element.attribute('alt').value.strip
-            elsif element.name == 'data' && !element.attribute('value').nil?
-              element.attribute('value').value.strip
-            elsif element.name == 'abbr' && !element.attribute('title').nil?
-              element.attribute('title').value.strip
-            elsif %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
-              element.attribute('datetime').value.strip
-            else
-              element.text.strip
-            end
+          value = get_duration_value(element)
         end
 
         parse_dt(value, normalize: true)
@@ -91,34 +74,38 @@ module Microformats
       when /^P(\d+Y)?(\d+M)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?$/
         @duration_value = data if @duration_value.nil?
 
-      when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
+      when /^(\d{4}-[01]\d-[0-3]\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
-        @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
+        @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
 
-      when /^(\d{4}-[01]\d-[0-3]\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
+      when /^(\d{4}-[01]\d-[0-3]\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
 
         if normalize
-          @tz_value = Regexp.last_match(4).tr('z', 'Z').delete(':') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z').delete(':') if @tz_value.nil?
         else
-          @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
         end
 
-      when /^(\d{4}-[0-3]\d\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
+      when /^(\d{4}-[0-3]\d\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)?([zZ]|[-+][01]?\d:?[0-5]\d)?$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
-        @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
+        @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
 
-      when /^(\d{4}-[0-3]\d\d)[tT ]([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
+      when /^(\d{4}-[0-3]\d\d)([tT ])([0-2]\d:[0-5]\d(:[0-5]\d)?)( ?[-+]\d\d:?(\d\d)?)$/
         @date_value = Regexp.last_match(1) if @date_value.nil?
-        @time_value = Regexp.last_match(2) if @time_value.nil?
+        @joiner = Regexp.last_match(2)
+        @time_value = Regexp.last_match(3) if @time_value.nil?
 
         if normalize
-          @tz_value = Regexp.last_match(4).tr('z', 'Z').delete(':') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z').delete(':') if @tz_value.nil?
         else
-          @tz_value = Regexp.last_match(4).tr('z', 'Z') if @tz_value.nil?
+          @tz_value = Regexp.last_match(5).tr('z', 'Z') if @tz_value.nil?
         end
 
       when /^(\d{4})-([01]?\d)-([0-3]?\d)$/
@@ -182,6 +169,34 @@ module Microformats
       end
     rescue
       nil
+    end
+
+    private
+
+    def get_datetime_value(element)
+      if %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
+        element.attribute('datetime').value.strip
+      elsif element.name == 'abbr' && !element.attribute('title').nil?
+        element.attribute('title').value.strip
+      elsif (element.name == 'data' || element.name == 'input') && !element.attribute('value').nil?
+        element.attribute('value').value.strip
+      else
+        element.text.strip
+      end
+    end
+
+    def get_duration_value(element)
+      if element.name == 'img' || element.name == 'area' && !element.attribute('alt').nil?
+        element.attribute('alt').value.strip
+      elsif element.name == 'data' && !element.attribute('value').nil?
+        element.attribute('value').value.strip
+      elsif element.name == 'abbr' && !element.attribute('title').nil?
+        element.attribute('title').value.strip
+      elsif %w[time ins del].include?(element.name) && !element.attribute('datetime').nil?
+        element.attribute('datetime').value.strip
+      else
+        element.text.strip
+      end
     end
   end
 end

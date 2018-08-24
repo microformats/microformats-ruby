@@ -1,30 +1,6 @@
 module Microformats
   # stub to get around the tests for now
-  class Collection
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def to_h
-      @hash
-    end
-
-    def to_hash
-      @hash
-    end
-
-    def to_json
-      to_hash.to_json
-    end
-
-    def to_s
-      @hash.to_s
-    end
-
-    def [](key)
-      @hash[key]
-    end
-
+  class Collection < ResultCore
     def items
       @hash['items'].map do |item|
         ParserResult.new(item)
@@ -39,64 +15,27 @@ module Microformats
       @hash['rel-urls']
     end
 
-    def respond_to?(sym, include_private = false)
-      item?(sym) || super(sym, include_private)
-    end
-
-    def method_missing(sym, *args, &block)
-      name = sym.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
-
-      unless @hash['items'].nil?
-        result_hash = @hash['items'].select do |x|
-          x['type'].include?('h-' + name)
-        end
-
-        if result_hash.empty? && !name_dash.nil?
-          result_hash = @hash['items'].select do |x|
-            x['type'].include?('h-' + name_dash)
-          end
-        end
-      end
-
-      super(sym, *args, &block) if result_hash.empty?
-
-      if result_hash.is_a?(Array)
-        if args[0].nil?
-          result_hash = result_hash[0] # will return nil for an empty array
-        elsif args[0] == :all
-          return result_hash.map do |x|
-            ParserResult.new(x)
-          end
-        elsif args[0].to_i < result_hash.count
-          result_hash = result_hash[args[0].to_i]
-        else
-          result_hash = result_hash[0] # will return nil for an empty array
-        end
-      end
-
-      ParserResult.new(result_hash)
+    def respond_to_missing?(method, *)
+      values?(method) || super
     end
 
     private
 
-    def item?(name)
-      name = name.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
+    # does the $hash['items'] array contain any items with an h-<name> class?
+    def values?(name)
+      return false if @hash['items'].nil?
 
-      unless @hash['items'].nil?
-        result_hash = @hash['items'].select do |x|
-          x['type'].include?('h-' + name)
-        end
+      result = search_for_items(name)
 
-        if result_hash.empty? && !name_dash.nil?
-          result_hash = @hash['items'].select do |x|
-            x['type'].include?('h-' + name_dash)
-          end
-        end
+      !result.empty?
+    end
+
+    # select all items which have h-<name> types
+    #  for example, if you want to filter to only h-cards
+    def find_items(search_val)
+      @hash['items'].select do |x|
+        x['type'].include?('h-' + search_val)
       end
-
-      !result_hash.empty?
     end
   end
 end

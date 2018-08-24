@@ -13,7 +13,7 @@
             "summary": ["Invented the World Wide Web."],
             "experience": [{
                 "value": "World Wide Web Foundation",
-                "type": ["h-event", "h-card"],
+                "type": ["h-card", "h-event"],
                 "properties": {
                     "job-title": ["Director"],
                     "name": ["World Wide Web Foundation"],

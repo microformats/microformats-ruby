@@ -17,6 +17,7 @@ module Microformats
       @alternates = []
 
       @base = base
+      @base = URI.parse(base).normalize.to_s unless base.nil?
 
       html = read_html(html, headers: headers)
       document = Nokogiri::HTML(html)

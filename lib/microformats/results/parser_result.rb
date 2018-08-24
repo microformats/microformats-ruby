@@ -1,30 +1,9 @@
 module Microformats
   # stub to get around the tests for now
-  class ParserResult
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def to_h
-      @hash
-    end
-
-    def to_hash
-      @hash
-    end
-
-    def to_json
-      to_hash.to_json
-    end
-
+  class ParserResult < ResultCore
     def to_s
       return @hash['value'] if @hash['value']
-
       @hash.to_s
-    end
-
-    def [](key)
-      @hash[key]
     end
 
     def value
@@ -35,65 +14,49 @@ module Microformats
       PropertySet.new(@hash['properties'])
     end
 
-    def respond_to?(sym, include_private = false)
-      key?(sym) || property?(sym) || super(sym, include_private)
+    def respond_to_missing?(method, *)
+      key?(method) || super
     end
 
     def method_missing(sym, *args, &block)
       name = sym.to_s
       name_dash = name.tr('_', '-') if name.include?('_')
 
-      if !@hash[name].nil?
-        result_hash = @hash[name]
-      elsif !@hash['properties'].nil? && !@hash['properties'][name].nil?
-        result_hash = @hash['properties'][name]
-      elsif !name_dash.nil? && !@hash[name_dash].nil?
-        result_hash = @hash[name_dash]
-      elsif !name_dash.nil? && !@hash['properties'].nil? && !@hash['properties'][name_dash].nil?
-        result_hash = @hash['properties'][name_dash]
-      else
-        super(sym, *args, &block)
-      end
+      result = find_one_item(name)
+      result = find_one_item(name_dash) if result.nil?
 
-      if result_hash.is_a?(Array)
-        if args[0].nil?
-          result_hash = result_hash[0] # will return nil for an empty array
-        elsif args[0] == :all
-          return result_hash.map do |x|
-            ParserResult.new(x)
-          end
-        elsif args[0].to_i < result_hash.count
-          result_hash = result_hash[args[0].to_i]
-        else
-          result_hash = result_hash[0] # will return nil for an empty array
-        end
-      end
-
-      if result_hash.nil? || result_hash.empty?
-        result_hash
-      elsif result_hash.is_a?(Hash)
-        ParserResult.new(result_hash)
+      if !result.nil?
+        convert_to_parser_result(result, args[0])
       else
-        result_hash
+        super
       end
     end
 
     private
 
-    def key?(name)
-      name = name.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
-
-      !@hash[name].nil? || !@hash[name_dash].nil?
+    def find_one_item(search_val)
+      return @hash[search_val] unless @hash[search_val].nil?
+      return @hash['properties'][search_val] unless @hash['properties'].nil?
     end
 
-    def property?(name)
-      name = name.to_s
-      name_dash = name.tr('_', '-') if name.include?('_')
+    def find_items(search_val)
+      return if @hash['properties'].nil?
+      @hash['properties'][search_val]
+    end
 
-      return false if @hash['properties'].nil?
+    def convert_to_parser_result(input_array, selector)
+      return ParserResult.new(input_array) unless input_array.is_a?(Array)
 
-      !@hash['properties'][name].nil? || !@hash['properties'][name_dash].nil?
+      if selector == :all
+        return input_array.map do |x|
+          ParserResult.new(x)
+        end
+      end
+
+      result_array = input_array[selector_or_zero(selector, input_array.count)]
+
+      return ParserResult.new(result_array) if result_array.is_a?(Hash) && !result_array.empty?
+      result_array
     end
   end
 end
