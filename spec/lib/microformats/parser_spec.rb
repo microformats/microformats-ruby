@@ -115,9 +115,6 @@ describe Microformats::Parser do
             elsif json_file.match?(%r{/rel/duplicate-rels})
               pending 'known issue / this is an aspect of nokogiri / won\'t fix'
 
-            elsif json_file.match?(%r{/h-card/impliedurlempty})
-              pending 'trailing slash on url, need to look at this more'
-
             elsif json_file.match?(%r{/hproduct/aggregate})
               pending 'not entirely sure what is going on here, other parsers all get different results too'
 
