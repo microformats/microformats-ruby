@@ -26,7 +26,7 @@ If you're using [Bundler](https://bundler.io) to manage gem dependencies, add mi
 ```ruby
 source 'https://rubygems.org'
 
-gem 'microformats', '~> 4.0', '>= 4.0.7'
+gem 'microformats', '~> 4.0', '>= 4.0.8'
 ```
 
 …and then run:
