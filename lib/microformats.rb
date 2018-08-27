@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 require 'json'
+require 'set'
 
 require 'microformats/version'
 require 'microformats/absolute_uri'
