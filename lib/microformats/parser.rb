@@ -43,7 +43,7 @@ module Microformats
     def read_html(html, headers: {})
       stripped_html = html.strip
 
-      open(stripped_html, headers) do |response|
+      (URI.respond_to?(:open) ? URI : Kernel).open(stripped_html, **headers) do |response|
         @http_headers = response.meta if response.respond_to?(:meta)
         @http_body = response.read
       end
