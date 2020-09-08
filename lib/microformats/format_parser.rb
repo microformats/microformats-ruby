@@ -184,7 +184,14 @@ module Microformats
       return unless @properties['photo'].nil?
 
       if element.name == 'img' && !element.attribute('src').nil?
-        @properties['photo'] = [element.attribute('src').value]
+          if(!element.attribute('alt').nil?
+            @properties['photo'] = [{
+              value: element.attribute('src').value.strip
+              alt: element.attribute('alt').value.strip
+            }]
+          else
+            @properties['photo'] = [element.attribute('src').value]
+          end
       elsif element.name == 'object' && !element.attribute('data').nil?
         @properties['photo'] = [element.attribute('data').value]
       else
@@ -196,7 +203,16 @@ module Microformats
         if child_img_tags_with_src.count == 1
           node = child_img_tags_with_src.first
 
-          @properties['photo'] = [node.attribute('src').value.strip] if format_classes(node).empty?
+          if format_classes(node).empty?
+              if(!node.attribute('alt').nil?
+                @properties['photo'] = [{
+                  value: node.attribute('src').value.strip
+                  alt: node.attribute('alt').value.strip
+                }]
+              else
+                  @properties['photo'] = [node.attribute('src').value.strip]
+              end
+          end
         end
 
         if @properties['photo'].nil?
@@ -226,7 +242,14 @@ module Microformats
             node = child_img_tags_with_src.first
 
             if format_classes(node).empty?
-              @properties['photo'] = [node.attribute('src').value.strip]
+              if(!node.attribute('alt').nil?
+                @properties['photo'] = [{
+                  value: node.attribute('src').value.strip
+                  alt: node.attribute('alt').value.strip
+                }]
+              else
+                  @properties['photo'] = [node.attribute('src').value.strip]
+              end
             end
           end
 

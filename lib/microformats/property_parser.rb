@@ -33,7 +33,17 @@ module Microformats
       elsif element_type == 'u'
         if %w[a area link].include?(element.name) && !element.attribute('href').nil?
           @value = element.attribute('href').value.strip
-        elsif %w[img audio video source].include?(element.name) && !element.attribute('src').nil?
+        elsif element.name == 'img' && !element.attribute('src').nil?
+          if(!element.attribute('alt').nil?
+            @value = {
+              value: element.attribute('src').value.strip
+              alt: element.attribute('alt').value.strip
+            }
+          else
+              @value = element.attribute('src').value.strip
+          end
+          @value = element.attribute('src').value.strip
+        elsif %w[iframe audio video source].include?(element.name) && !element.attribute('src').nil?
           @value = element.attribute('src').value.strip
         elsif element.name == 'video' && !element.attribute('poster').nil?
           @value = element.attribute('poster').value.strip
