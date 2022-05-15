@@ -15,7 +15,7 @@
 
 ## Getting Started
 
-Before installing and using microformats-ruby, you'll want to have Ruby 2.4.10 (or newer) installed. It's recommended that you use a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm).
+Before installing and using microformats-ruby, you'll want to have Ruby 2.4.10 (or newer) installed. It's recommended that you use a Ruby version management tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm).
 
 microformats-ruby is developed using Ruby 2.7.1 and is additionally tested against versions 2.4.10, 2.5.8, and 2.6.6 using [Travis CI](https://travis-ci.org/microformats/microformats-ruby).
 
