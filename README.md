@@ -4,7 +4,7 @@
 
 [![Gem](https://img.shields.io/gem/v/microformats.svg?style=for-the-badge)](https://rubygems.org/gems/microformats)
 [![Downloads](https://img.shields.io/gem/dt/microformats.svg?style=for-the-badge)](https://rubygems.org/gems/microformats)
-[![Build](https://img.shields.io/travis/microformats/microformats-ruby/master.svg?style=for-the-badge)](https://travis-ci.org/microformats/microformats-ruby)
+[![Build](https://img.shields.io/github/workflow/status/microformats/microformats-ruby/CI?logo=github&style=for-the-badge)](https://github.com/microformats/microformats-ruby/actions/workflows/ci.yml)
 [![Maintainability](https://img.shields.io/codeclimate/maintainability/microformats/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/microformats/microformats-ruby)
 [![Coverage](https://img.shields.io/codeclimate/c/microformats/microformats-ruby.svg?style=for-the-badge)](https://codeclimate.com/github/microformats/microformats-ruby/code)
 
@@ -17,7 +17,7 @@
 
 Before installing and using microformats-ruby, you'll want to have Ruby 2.4.10 (or newer) installed. It's recommended that you use a Ruby version management tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm).
 
-microformats-ruby is developed using Ruby 2.7.1 and is additionally tested against versions 2.4.10, 2.5.8, and 2.6.6 using [Travis CI](https://travis-ci.org/microformats/microformats-ruby).
+microformats-ruby is developed using Ruby 2.7.1 and is additionally tested against versions 2.4, 2.5, 2.6, 2.7, 3.0, and 3.1 using [github Actions](https://github.com/microformats/microformats-ruby/actions).
 
 ## Installation
 
