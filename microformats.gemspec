@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.74.0'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.35'
   spec.add_development_dependency 'simplecov', '~> 0.17.0'
-  spec.add_development_dependency 'simplecov-console', '~> 0.5.0'
+  spec.add_development_dependency 'simplecov-console', '~> 0.9.1'
   spec.add_development_dependency 'webmock', '~> 3.6'
 
   spec.add_runtime_dependency 'json', '~> 2.2'
