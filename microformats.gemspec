@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '>= 1.16.2', '< 2.4'
   spec.add_development_dependency 'guard-rspec', '~> 4.7'
   spec.add_development_dependency 'rake', '~> 12.3'
-  spec.add_development_dependency 'rb-fsevent', '~> 0.10.3'
+  spec.add_development_dependency 'rb-fsevent', '~> 0.11.1'
   spec.add_development_dependency 'rspec', '~> 3.8'
   spec.add_development_dependency 'rubocop', '~> 0.74.0'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.35'
