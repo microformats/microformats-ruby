@@ -47,7 +47,7 @@ bundle console
 First, check out the latest code from GitHub:
 
 ```sh
-git pull origin master
+git pull origin main
 ```
 
 Following the [Semantic Versioning](https://semver.org) conventions, update the gem version throughout the project (but most importantly in `lib/microformats/version.rb`).

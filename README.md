@@ -1,4 +1,4 @@
-# ![Microformats Logo](https://raw.githubusercontent.com/microformats/microformats-ruby/master/logo.svg?sanitize=true) Microformats Ruby
+# ![Microformats Logo](https://raw.githubusercontent.com/microformats/microformats-ruby/main/logo.svg?sanitize=true) Microformats Ruby
 
 **A Ruby gem for parsing HTML documents containing microformats.**
 
@@ -148,7 +148,7 @@ curl http://tantek.com | microformats
 
 Have questions about using microformats-ruby? Found a bug? Have ideas for new or improved features? Want to pitch in and write some code?
 
-Check out [CONTRIBUTING.md](https://github.com/microformats/microformats-ruby/blob/master/CONTRIBUTING.md) for more on how you can help!
+Check out [CONTRIBUTING.md](https://github.com/microformats/microformats-ruby/blob/main/CONTRIBUTING.md) for more on how you can help!
 
 ## Acknowledgments
 
@@ -180,4 +180,4 @@ microformats-ruby is dedicated to the public domain using the [Creative Commons 
 
 The authors waive all of their rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law. You can copy, modify, and distribute the work, even for commercial purposes, all without asking permission.
 
-See [LICENSE](https://github.com/microformats/microformats-ruby/blob/master/LICENSE) for more details.
+See [LICENSE](https://github.com/microformats/microformats-ruby/blob/main/LICENSE) for more details.
