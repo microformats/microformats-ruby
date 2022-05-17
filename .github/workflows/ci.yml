@@ -29,5 +29,5 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
-      - run: bundle exec rspec --format RSpec::Github::Formatter
+      - run: bundle exec rspec
       - uses: paambaati/codeclimate-action@v3.0.0
