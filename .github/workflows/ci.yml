@@ -1,0 +1,33 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  analyze:
+    name: Analyze
+    permissions:
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: github/codeql-action/init@v2
+        with:
+          languages: ruby
+      - uses: github/codeql-action/analyze@v2
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # See: https://github.com/actions/runner/issues/849
+        ruby: [2.4, 2.5, 2.6, 2.7, "3.0", 3.1]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ${{ matrix.ruby }}
+      - run: bundle exec rspec --format RSpec::Github::Formatter
+      - uses: paambaati/codeclimate-action@v3.0.0
