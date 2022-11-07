@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 12.3'
   spec.add_development_dependency 'rb-fsevent', '~> 0.10.3'
   spec.add_development_dependency 'rspec', '~> 3.8'
-  spec.add_development_dependency 'rubocop', '~> 0.74.0'
+  spec.add_development_dependency 'rubocop', '~> 1.12.1'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.35'
   spec.add_development_dependency 'simplecov', '~> 0.17.0'
   spec.add_development_dependency 'simplecov-console', '~> 0.5.0'
