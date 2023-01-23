@@ -16,18 +16,15 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    env:
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     strategy:
       fail-fast: false
       matrix:
         # See: https://github.com/actions/runner/issues/849
-        ruby: [2.4, 2.5, 2.6, 2.7, "3.0", 3.1]
+        ruby: ["2.7", "3.0", "3.1", "3.2"]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
       - run: bundle exec rspec
-      - uses: paambaati/codeclimate-action@v3.0.0
