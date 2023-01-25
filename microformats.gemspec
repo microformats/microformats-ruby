@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'microformats/version'
 
 Gem::Specification.new do |spec|
-  spec.required_ruby_version = ['>= 2.4', '< 3.2']
+  spec.required_ruby_version = ['>= 2.7']
 
   spec.name          = 'microformats'
   spec.version       = Microformats::VERSION
@@ -23,17 +23,17 @@ Gem::Specification.new do |spec|
 
   spec.post_install_message = 'Prior to version 4.0.0, the microformats gem was named "microformats2."'
 
-  spec.add_development_dependency 'bundler', '>= 1.16.2', '< 2.4'
-  spec.add_development_dependency 'guard-rspec', '~> 4.7'
-  spec.add_development_dependency 'rake', '~> 12.3'
-  spec.add_development_dependency 'rb-fsevent', '~> 0.10.3'
-  spec.add_development_dependency 'rspec', '~> 3.8'
-  spec.add_development_dependency 'rubocop', '~> 0.74.0'
-  spec.add_development_dependency 'rubocop-rspec', '~> 1.35'
-  spec.add_development_dependency 'simplecov', '~> 0.17.0'
-  spec.add_development_dependency 'simplecov-console', '~> 0.5.0'
-  spec.add_development_dependency 'webmock', '~> 3.6'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'guard-rspec'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rb-fsevent'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'simplecov-console'
+  spec.add_development_dependency 'webmock'
 
-  spec.add_runtime_dependency 'json', '~> 2.2'
-  spec.add_runtime_dependency 'nokogiri', '~> 1.10'
+  spec.add_runtime_dependency 'json'
+  spec.add_runtime_dependency 'nokogiri'
 end
