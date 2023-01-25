@@ -8,7 +8,7 @@ There are a couple ways you can help improve microformats-ruby:
 
 ## Getting Started
 
-microformats-ruby is developed using Ruby 2.7.1 and is additionally tested against versions 2.4.10, 2.5.8, and 2.6.6 using [Travis CI](https://travis-ci.org/microformats/microformats-ruby).
+microformats-ruby is tested against Ruby 2.7 and later versions (https://github.com/microformats/microformats-ruby/actions)
 
 Before making changes to microformats-ruby, you'll want to install Ruby 2.7.1. It's recommended that you use a Ruby version managment tool like [rbenv](https://github.com/rbenv/rbenv), [chruby](https://github.com/postmodern/chruby), or [rvm](https://github.com/rvm/rvm). Once you've installed Ruby 2.7.1 using your method of choice, install the project's gems by running:
 
